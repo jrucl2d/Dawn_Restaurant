@@ -23,9 +23,22 @@ function StoreListComponent() {
       <div id="storeListComponent">
         <StoreRankGraphComponent />
         <div id="storeList">
-          {stores.map((store) => (
-            <StoreComponent key={store.storeId} store={store} />
-          ))}
+          <div className="container">
+            <h2>보유 점포</h2>
+            {stores.map((store) => (
+              <div className="card">
+                <StoreComponent key={store.storeId} store={store} />
+              </div>
+            ))}
+          </div>
+          <div className="buttons">
+            <button type="button" class="btn btn-primary">
+              점포 추가
+            </button>
+            <button type="button" class="btn btn-danger">
+              점포 삭제
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -16,5 +16,41 @@ header {
 }
 #storeListComponent {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  margin: 2rem;
+  margin-top: 5rem;
+}
+#storeList {
+  width: 500px;
+  height: 590px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 4rem;
+}
+.container {
+  height: 100%;
+  border: 1px solid rgb(27, 7, 212);
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+.buttons button {
+  background: none;
+  border-radius: 0.5rem;
+  height: 2.5rem;
+  width: 6rem;
+  margin-left: 1rem;
+  margin-top: 0rem;
+  color: white;
+}
+.buttons button:first-child {
+  background-color: steelblue;
+}
+.buttons button:last-child {
+  background-color: orangered;
+}
+.card {
+  margin: 1rem;
 }

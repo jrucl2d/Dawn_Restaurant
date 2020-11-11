@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function StoreComponent({ store }) {
   return (
-    <div>
-      <button>{store.storeName}</button>
-    </div>
+    <Link className="card-body">
+      <span>{store.storeName}</span>
+    </Link>
   );
 }
 
