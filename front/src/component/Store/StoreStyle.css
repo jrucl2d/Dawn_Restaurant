@@ -37,7 +37,6 @@ header {
   width: 100%;
 }
 .buttons button {
-  background: none;
   border-radius: 0.5rem;
   height: 2.5rem;
   width: 6rem;
@@ -45,12 +44,17 @@ header {
   margin-top: 0rem;
   color: white;
 }
-.buttons button:first-child {
-  background-color: steelblue;
+.buttons .notDeleting {
+  color: blue;
 }
-.buttons button:last-child {
-  background-color: orangered;
+.buttons .deleting {
+  color: white;
 }
-.card {
-  margin: 1rem;
+.deleteSelected {
+  background-color: red;
+  color: white;
+}
+#buttonInfo {
+  vertical-align: middle;
+  display: inline-block;
 }
