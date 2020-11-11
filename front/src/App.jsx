@@ -1,9 +1,10 @@
 import "./App.css";
+import IndexRouter from "./routes/IndexRouter";
 
 function App() {
   return (
     <div className="App">
-      <h1>Dawn Restaurant</h1>
+      <IndexRouter />
     </div>
   );
 }
