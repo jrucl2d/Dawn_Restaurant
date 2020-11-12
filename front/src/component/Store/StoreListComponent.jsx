@@ -21,6 +21,7 @@ function StoreListComponent() {
   const [deleteSelected, setDeleteSelected] = useState([]);
   const [showAddStore, setShowAddStore] = useState(false);
 
+  const addBtnRef = useRef(null);
   const deleteBtnRef = useRef(null);
 
   useEffect(() => {
@@ -35,8 +36,10 @@ function StoreListComponent() {
 
   const onClickDelete = () => {
     if (!deleteMode) {
+      addBtnRef.current.disabled = true;
       deleteBtnRef.current.className = "btn btn-danger deleting";
     } else {
+      addBtnRef.current.disabled = false;
       if (deleteSelected.length === 0) {
         setDeleteMode(!deleteMode);
         deleteBtnRef.current.className = "btn btn-warning notDeleting";
@@ -47,6 +50,7 @@ function StoreListComponent() {
         return;
       }
       setStores(
+        // eslint-disable-next-line array-callback-return
         stores.filter((store) => {
           if (deleteSelected.findIndex((v) => v === store.storeId) === -1) {
             return store;
@@ -87,6 +91,7 @@ function StoreListComponent() {
               type="button"
               className="btn btn-primary"
               onClick={onClickAdd}
+              ref={addBtnRef}
             >
               점포 추가
             </button>
@@ -103,6 +108,8 @@ function StoreListComponent() {
         <StoreAddModalComponent
           showAddStore={showAddStore}
           setShowAddStore={setShowAddStore}
+          setStores={setStores}
+          stores={stores}
         />
       </div>
     </div>

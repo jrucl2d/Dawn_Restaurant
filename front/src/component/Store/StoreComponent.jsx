@@ -29,7 +29,7 @@ function StoreComponent({
           ref={selectedRef}
           name={storeInfo.storeId}
         >
-          <span>{storeInfo.storeName}</span>
+          {storeInfo.storeName}
         </button>
       ) : (
         <Link to="#" className="card-body">
