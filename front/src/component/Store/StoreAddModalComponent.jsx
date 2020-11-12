@@ -1,0 +1,106 @@
+import React, { useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
+
+const noResize = { resize: "none" };
+
+function StoreAddModalComponent({ showAddStore, setShowAddStore }) {
+  const [imageURL, setImageURL] = useState(""); // base64 정보
+  const [storeImage, setStoreImage] = useState(""); // 단순 파일 정보
+  const [storeInfo, setStoreInfo] = useState({
+    storeName: "",
+    storeLocation: "",
+    storeTime: "",
+    storeIntroduce: "",
+  });
+
+  const onChangeFile = (e) => {
+    e.preventDefault();
+    let reader = new FileReader();
+    const file = e.target.files[0];
+    reader.onloadend = () => {
+      setStoreImage(file);
+      setImageURL(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const onChangeStoreInfo = (e) => {
+    setStoreInfo({
+      ...storeInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const onClickClose = () => setShowAddStore(false);
+
+  return (
+    <Modal show={showAddStore}>
+      <Modal.Header>
+        <Modal.Title>점포 추가</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          {imageURL === "" ? (
+            <div id="addStoreImage">사진 추가</div>
+          ) : (
+            <img src={imageURL} id="storeImage"></img>
+          )}
+
+          <Form.Group>
+            <Form.File onChange={onChangeFile} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
+              required
+              type="text"
+              placeholder="점포 상호명"
+              name="storeName"
+              onChange={onChangeStoreInfo}
+              value={storeInfo.storeName}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
+              required
+              type="text"
+              placeholder="점포 위치"
+              name="storeLocation"
+              onChange={onChangeStoreInfo}
+              value={storeInfo.storeLocation}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
+              required
+              type="text"
+              placeholder="영업 시간"
+              name="storeTime"
+              onChange={onChangeStoreInfo}
+              value={storeInfo.storeTime}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
+              placeholder="점포 소개"
+              as="textarea"
+              rows={3}
+              style={noResize}
+              name="storeIntroduce"
+              onChange={onChangeStoreInfo}
+              value={storeInfo.storeIntroduce}
+            />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" onClick={onClickClose}>
+          저장
+        </Button>
+        <Button variant="secondary" onClick={onClickClose}>
+          닫기
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
+export default StoreAddModalComponent;

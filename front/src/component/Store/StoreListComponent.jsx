@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import StoreRankGraphComponent from "./StoreRankGraphComponent";
 import StoreComponent from "./StoreComponent";
+import StoreAddModalComponent from "./StoreAddModalComponent";
+
 import "./StoreStyle.css";
 
 function StoreListComponent() {
@@ -17,6 +19,7 @@ function StoreListComponent() {
   ]);
   const [deleteMode, setDeleteMode] = useState(false);
   const [deleteSelected, setDeleteSelected] = useState([]);
+  const [showAddStore, setShowAddStore] = useState(false);
 
   const deleteBtnRef = useRef(null);
 
@@ -28,8 +31,9 @@ function StoreListComponent() {
     }
   }, [stores]);
 
-  const onClickDelete = (e) => {
-    e.preventDefault();
+  const onClickAdd = () => setShowAddStore(true);
+
+  const onClickDelete = () => {
     if (!deleteMode) {
       deleteBtnRef.current.className = "btn btn-danger deleting";
     } else {
@@ -79,7 +83,11 @@ function StoreListComponent() {
             ))}
           </div>
           <div className="buttons">
-            <button type="button" className="btn btn-primary">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={onClickAdd}
+            >
               점포 추가
             </button>
             <button
@@ -92,6 +100,10 @@ function StoreListComponent() {
             </button>
           </div>
         </div>
+        <StoreAddModalComponent
+          showAddStore={showAddStore}
+          setShowAddStore={setShowAddStore}
+        />
       </div>
     </div>
   );

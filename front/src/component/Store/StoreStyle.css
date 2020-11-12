@@ -58,3 +58,20 @@ header {
   vertical-align: middle;
   display: inline-block;
 }
+#addStoreImage {
+  background-color: #efefef;
+  width: 400px;
+  height: 300px;
+  color: black;
+  margin: 0 auto;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  line-height: 300px;
+}
+#storeImage {
+  display: block;
+  width: 400px;
+  height: 300px;
+  margin: 0 auto;
+  margin-bottom: 0.5rem;
+}
