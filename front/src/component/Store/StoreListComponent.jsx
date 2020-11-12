@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import StoreRankGraphComponent from "./StoreRankGraphComponent";
 import StoreComponent from "./StoreComponent";
 import "./StoreStyle.css";
@@ -20,12 +20,28 @@ function StoreListComponent() {
 
   const deleteBtnRef = useRef(null);
 
+  useEffect(() => {
+    if (stores.length === 0) {
+      deleteBtnRef.current.disabled = true;
+    } else {
+      deleteBtnRef.current.disabled = false;
+    }
+  }, [stores]);
+
   const onClickDelete = (e) => {
     e.preventDefault();
     if (!deleteMode) {
       deleteBtnRef.current.className = "btn btn-danger deleting";
     } else {
-      alert("zzz");
+      if (deleteSelected.length === 0) {
+        setDeleteMode(!deleteMode);
+        deleteBtnRef.current.className = "btn btn-warning notDeleting";
+        return;
+      }
+      const answer = window.confirm("정말로 삭제하시겠습니까?");
+      if (!answer) {
+        return;
+      }
       setStores(
         stores.filter((store) => {
           if (deleteSelected.findIndex((v) => v === store.storeId) === -1) {
