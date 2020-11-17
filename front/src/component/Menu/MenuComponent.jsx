@@ -2,8 +2,8 @@ import React from "react";
 
 function MenuComponent() {
   return (
-    <div>
-      <h1>Menu component</h1>
+    <div id="menuGridItem">
+      <h4>menu</h4>
     </div>
   );
 }

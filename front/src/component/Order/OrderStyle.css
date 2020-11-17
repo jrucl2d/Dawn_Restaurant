@@ -1,0 +1,8 @@
+#orderList {
+  margin: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 80vh;
+  border: 1px solid black;
+  overflow-x: auto;
+}

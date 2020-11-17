@@ -1,11 +1,10 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import MenuComponent from "../Menu/MenuComponent";
-import OrderComponent from "../Order/OrderComponent";
+import MenuGridComponent from "../Menu/MenuGridComponent";
+import OrderListComponent from "../Order/OrderListComponent";
 import StaffListComponent from "../Staff/StaffListComponent";
 
 function StoreManageComponent({ location }) {
-  console.log(location);
   return (
     <div id="storeManage">
       <header>
@@ -18,14 +17,13 @@ function StoreManageComponent({ location }) {
             <Button>직원 추가</Button>
             <Button>매출 통계</Button>
           </div>
-
           <StaffListComponent />
         </div>
         <div id="storeMiddleSide">
-          <MenuComponent />
+          <MenuGridComponent />
         </div>
         <div id="storeRightSide">
-          <OrderComponent />
+          <OrderListComponent />
         </div>
       </main>
       <footer>
