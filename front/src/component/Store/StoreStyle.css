@@ -75,3 +75,19 @@ header {
   margin: 0 auto;
   margin-bottom: 0.5rem;
 }
+#storeManage {
+  height: 100%;
+}
+main {
+  height: 100%;
+}
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 30px 0;
+  text-align: center;
+  background-color: rgb(68, 84, 106);
+  color: white;
+}

@@ -32,7 +32,10 @@ function StoreComponent({
           {storeInfo.storeName}
         </button>
       ) : (
-        <Link to="#" className="card-body">
+        <Link
+          to={`/store/${storeInfo.storeId}?name=${storeInfo.storeName}`}
+          className="card-body"
+        >
           <span>{storeInfo.storeName}</span>
         </Link>
       )}
