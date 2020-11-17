@@ -86,7 +86,7 @@ function StoreListComponent() {
               </div>
             ))}
           </div>
-          <div className="buttons">
+          <div className="storeButtons">
             <button
               type="button"
               className="btn btn-primary"
