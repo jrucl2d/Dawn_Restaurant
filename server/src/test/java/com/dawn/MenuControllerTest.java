@@ -74,4 +74,9 @@ public class MenuControllerTest {
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.getContentAsString()).isNotNull();
     }
+
+    @Test
+    public void addMenus() {
+
+    }
 }

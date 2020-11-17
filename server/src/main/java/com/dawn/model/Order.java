@@ -33,6 +33,13 @@ public class Order {
     @ManyToOne
     private Store store;
 
+    public Order(int orderId, int totalPrice, Store store) {
+        this.orderId = orderId;
+        this.totalPrice = totalPrice;
+        this.store = store;
+
+    }
+
     public Order(int totalPrice, Store store) {
         this.totalPrice = totalPrice;
         this.store = store;
