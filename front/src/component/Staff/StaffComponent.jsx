@@ -2,8 +2,8 @@ import React from "react";
 
 function StaffComponent() {
   return (
-    <div>
-      <h1>Staff component</h1>
+    <div id="staffComponent">
+      <div>sdflkajf</div>
     </div>
   );
 }
