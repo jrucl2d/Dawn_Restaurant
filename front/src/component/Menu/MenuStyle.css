@@ -9,7 +9,7 @@
 #menuGrid {
   display: grid;
   padding: 2em;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   row-gap: 1em;
   column-gap: 1em;
   height: 70vh;
@@ -17,5 +17,5 @@
 }
 #menuGridItem {
   border: 1px solid black;
-  height: 20vh;
+  height: 30vh;
 }

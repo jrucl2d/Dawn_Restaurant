@@ -13,7 +13,7 @@ function MenuGridComponent() {
         <MenuComponent />
         <MenuComponent />
         <MenuComponent />
-        <MenuComponent /> <MenuComponent />
+        <MenuComponent />
         <MenuComponent />
         <MenuComponent />
         <MenuComponent />
