@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import StaffComponent from "./StaffComponent";
 
-function StaffListComponent({ staffs }) {
+function StaffListComponent({ staffs, storeId }) {
   return (
     <div className="staffContainer">
       {staffs.map((staff) => (
-        <StaffComponent key={staff.staffId} staffInfo={staff} />
+        <StaffComponent
+          key={staff.staffId}
+          staffInfo={staff}
+          storeId={storeId}
+        />
       ))}
     </div>
   );

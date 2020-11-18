@@ -3,23 +3,24 @@ import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import "./StaffStyle.css";
 import { v4 as uuid } from "uuid";
 
-function StaffAddModalComponent({
+function StaffModifyModalComponent({
   showModal,
   setShowModal,
-  staffs,
-  staffId,
-  setStaffs,
+  staff,
+  setStaff,
 }) {
   const [imageURL, setImageURL] = useState(""); // base64 정보
   const [staffImage, setStaffImage] = useState(""); // 단순 파일 정보
   const [staffInfo, setStaffInfo] = useState({
-    staffName: "",
-    staffBirth: "",
-    staffPosition: "",
-    staffPay: "",
+    staffName: staff.staffName,
+    staffBirth: staff.staffBirth,
+    staffPosition: staff.staffPosition,
+    staffPay: +staff.staffPay.split("원")[0],
   });
-  const [payRadio, setPayRadio] = useState("hour");
-  const [sexRadio, setSexRadio] = useState("male");
+  const [payRadio, setPayRadio] = useState(
+    staff.staffPay.split("/")[1] === "월" ? "month" : "hour"
+  );
+  const [sexRadio, setSexRadio] = useState(staff.staffSex);
 
   const onChangeFile = (e) => {
     e.preventDefault();
@@ -76,7 +77,7 @@ function StaffAddModalComponent({
       alert("오류가 발생했습니다. 다시 시도해주세요.");
       return;
     }
-    setStaffs([...staffs, sendingData]);
+    setStaff(sendingData);
 
     setStaffInfo({
       staffName: "",
@@ -159,7 +160,7 @@ function StaffAddModalComponent({
               &nbsp; &nbsp;
               <Form.Check
                 inline
-                defaultChecked
+                defaultChecked={payRadio === "hour" ? true : false}
                 label="시급"
                 value="hour"
                 type="radio"
@@ -168,6 +169,7 @@ function StaffAddModalComponent({
               />
               <Form.Check
                 inline
+                defaultChecked={payRadio === "month" ? true : false}
                 label="월급"
                 value="month"
                 type="radio"
@@ -183,8 +185,8 @@ function StaffAddModalComponent({
             &nbsp; &nbsp; 성별 &nbsp; &nbsp;
             <Form.Check
               inline
-              defaultChecked
               label="남"
+              defaultChecked={sexRadio === "male" ? true : false}
               value="male"
               type="radio"
               name="staffSexRadio"
@@ -192,6 +194,7 @@ function StaffAddModalComponent({
             />
             <Form.Check
               inline
+              defaultChecked={sexRadio === "female" ? true : false}
               label="여"
               value="female"
               type="radio"
@@ -213,4 +216,4 @@ function StaffAddModalComponent({
   );
 }
 
-export default StaffAddModalComponent;
+export default StaffModifyModalComponent;

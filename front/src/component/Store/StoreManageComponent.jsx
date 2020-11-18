@@ -32,27 +32,29 @@ function StoreManageComponent({ location }) {
     {
       staffId: "lwkejglkwjgoiweweoieg",
       staffName: "박아무개",
-      staffBirth: "2020-15-32",
+      staffBirth: "2020-01-13",
       staffPosition: "사장",
-      staffPay: "2400원/월",
+      staffPay: "2400원/시",
+      staffSex: "male",
       staffImage: "",
     },
     {
       staffId: "lwkejglkwjgo23iweweoieg",
       staffName: "정아무개",
-      staffBirth: "2020-11-32",
+      staffBirth: "2020-11-02",
       staffPosition: "매니저",
       staffPay: "1200원/월",
+      staffSex: "female",
       staffImage: "",
     },
   ]);
 
-  useEffect(() => {
-    console.log(menus);
-  }, [menus]);
-  useEffect(() => {
-    console.log(staffs);
-  }, [staffs]);
+  // useEffect(() => {
+  //   console.log(menus);
+  // }, [menus]);
+  // useEffect(() => {
+  //   console.log(staffs);
+  // }, [staffs]);
 
   const onClickAddMenu = () => {
     setShowAddMenu(true);
@@ -73,7 +75,7 @@ function StoreManageComponent({ location }) {
             <Button onClick={onClickAddStaff}>직원 추가</Button>
             <Button>매출 통계</Button>
           </div>
-          <StaffListComponent staffs={staffs} />
+          <StaffListComponent staffs={staffs} storeId={storeId.current} />
         </div>
         <div id="storeMiddleSide">
           <MenuGridComponent menus={menus} />
