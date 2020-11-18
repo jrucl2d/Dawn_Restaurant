@@ -24,7 +24,7 @@ function MenuComponent({
       className="menuGridItem"
       onClick={onClickMenu}
       ref={menuRef}
-      disabled={editMode && selectedMenu === menu.menuId}
+      disabled={editMode}
     >
       {editMode && menu.menuId === selectedMenu && (
         <div>

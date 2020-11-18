@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Form, InputGroup, FormControl } from "react-bootstrap";
 import "./MenuStyle.css";
-import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { deleteMenu, updateMenu } from "../../modules/menuReducer";
 
 function MenuModifyComponent({ deMenuEditMode, menu, storeId }) {
-  console.log(menu);
   const dispatch = useDispatch();
   const [imageURL, setImageURL] = useState(""); // base64 정보
   const [menuImage, setMenuImage] = useState(""); // 단순 파일 정보
@@ -69,7 +67,10 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId }) {
     deMenuEditMode();
   };
   const onClickDelete = () => {
-    dispatch(deleteMenu(menu.menuId));
+    if (window.confirm("정말 해당 메뉴를 삭제하시겠습니까?")) {
+      dispatch(deleteMenu(menu.menuId));
+      deMenuEditMode();
+    }
   };
 
   return (
