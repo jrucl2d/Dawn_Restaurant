@@ -2,23 +2,14 @@ import React from "react";
 import "./MenuStyle.css";
 import MenuComponent from "./MenuComponent";
 
-function MenuGridComponent() {
+function MenuGridComponent({ menus }) {
   return (
     <div id="menuList">
       <h2>메뉴 목록</h2>
       <div id="menuGrid">
-        <MenuComponent />
-        <MenuComponent />
-        <MenuComponent />
-        <MenuComponent />
-        <MenuComponent />
-        <MenuComponent />
-        <MenuComponent />
-        <MenuComponent />
-        <MenuComponent />
-        <MenuComponent />
-        <MenuComponent />
-        <MenuComponent />
+        {menus.map((menu) => (
+          <MenuComponent key={menu.menuId} menu={menu} />
+        ))}
       </div>
     </div>
   );

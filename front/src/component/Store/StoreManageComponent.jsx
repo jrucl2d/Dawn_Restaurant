@@ -18,6 +18,14 @@ function StoreManageComponent({ location }) {
       menuIntroduce: "엄청나게 맛난 음식",
       menuImage: "",
     },
+    {
+      menuId: "we;glkwgkgwgkw;;wegwgkwjlkwjg",
+      menuName: "안 엄청난 음식",
+      menuPrice: 12023400,
+      menuOrigin: "북한산",
+      menuIntroduce: "엄청나게 맛 없는 음식",
+      menuImage: "",
+    },
   ]);
 
   useEffect(() => {
@@ -46,7 +54,7 @@ function StoreManageComponent({ location }) {
           <StaffListComponent />
         </div>
         <div id="storeMiddleSide">
-          <MenuGridComponent />
+          <MenuGridComponent menus={menus} />
         </div>
         <div id="storeRightSide">
           <OrderListComponent />
