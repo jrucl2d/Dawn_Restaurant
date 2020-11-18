@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import "./StaffStyle.css";
 
-const noResize = { resize: "none" };
-
 function StaffAddModalComponent({ showModal, setShowModal }) {
   const [imageURL, setImageURL] = useState(""); // base64 정보
   const [staffImage, setStaffImage] = useState(""); // 단순 파일 정보
@@ -95,15 +93,19 @@ function StaffAddModalComponent({ showModal, setShowModal }) {
             />
           </Form.Group>
           <Form.Group>
-            <InputGroup.Text>생년월일</InputGroup.Text>
-            <Form.Control
-              required
-              type="date"
-              placeholder="생년월일"
-              name="staffBirth"
-              onChange={onChangeStaffInfo}
-              value={staffInfo.staffBirth}
-            />
+            <InputGroup>
+              <InputGroup.Text>생년월일</InputGroup.Text>
+              <InputGroup.Append id="staffBirthInputAppend">
+                <Form.Control
+                  required
+                  type="date"
+                  placeholder="생년월일"
+                  name="staffBirth"
+                  onChange={onChangeStaffInfo}
+                  value={staffInfo.staffBirth}
+                />
+              </InputGroup.Append>
+            </InputGroup>
           </Form.Group>
           <Form.Group>
             <Form.Control

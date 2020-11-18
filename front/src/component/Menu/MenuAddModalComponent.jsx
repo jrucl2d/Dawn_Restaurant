@@ -5,7 +5,13 @@ import { v4 as uuid } from "uuid";
 
 const noResize = { resize: "none" };
 
-function MenuAddModalComponent({ showModal, setShowModal, menus, setMenus }) {
+function MenuAddModalComponent({
+  showModal,
+  setShowModal,
+  storeId,
+  menus,
+  setMenus,
+}) {
   const [imageURL, setImageURL] = useState(""); // base64 정보
   const [menuImage, setMenuImage] = useState(""); // 단순 파일 정보
   const [menuInfo, setMenuInfo] = useState({
@@ -40,6 +46,8 @@ function MenuAddModalComponent({ showModal, setShowModal, menus, setMenus }) {
     }
     // 데이터베이스에 저장하는 과정 필요
     // try catch, const result = await axios.post..... 해서
+    // 사용자 정보와 가게 정보 보내야 할 수도
+    console.log(storeId);
     const sendingData = {
       menuId: uuid(),
       menuName: menuInfo.menuName,

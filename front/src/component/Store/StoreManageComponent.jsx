@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "react-bootstrap";
 import MenuGridComponent from "../Menu/MenuGridComponent";
 import OrderListComponent from "../Order/OrderListComponent";
@@ -7,6 +7,7 @@ import MenuAddModalComponent from "../Menu/MenuAddModalComponent";
 import StaffAddModalComponent from "../Staff/StaffAddModalComponent";
 
 function StoreManageComponent({ location }) {
+  const storeId = useRef(location.pathname.split("/")[2]);
   const [showAddMenu, setShowAddMenu] = useState(false);
   const [showAddStaff, setShowAddStaff] = useState(false);
   const [menus, setMenus] = useState([
@@ -62,6 +63,7 @@ function StoreManageComponent({ location }) {
         <MenuAddModalComponent
           showModal={showAddMenu}
           setShowModal={setShowAddMenu}
+          storeId={storeId.current}
           menus={menus}
           setMenus={setMenus}
         />

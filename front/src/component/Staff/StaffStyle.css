@@ -11,6 +11,15 @@
   height: 100%;
   display: flex;
 }
+
+#staffBirthText {
+  width: 17.4%;
+}
+#staffBirthInputAppend {
+  width: 82.6%;
+}
+
+/* 직원 보이는 이미지 */
 #staffComponentContent > img {
   display: inline;
   width: 60px;
@@ -22,6 +31,8 @@
   width: 80%;
   margin: auto 0;
 }
+
+/* 직원 추가 시 이미지 */
 #addStaffImage {
   background-color: #efefef;
   width: 200px;
