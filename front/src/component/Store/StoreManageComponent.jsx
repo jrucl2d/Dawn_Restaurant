@@ -73,7 +73,7 @@ function StoreManageComponent({ location }) {
             <Button onClick={onClickAddStaff}>직원 추가</Button>
             <Button>매출 통계</Button>
           </div>
-          <StaffListComponent />
+          <StaffListComponent staffs={staffs} />
         </div>
         <div id="storeMiddleSide">
           <MenuGridComponent menus={menus} />

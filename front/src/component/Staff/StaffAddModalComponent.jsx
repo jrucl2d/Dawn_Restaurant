@@ -183,17 +183,19 @@ function StaffAddModalComponent({
             <Form.Check
               inline
               defaultChecked
+              label="남"
               value="male"
               type="radio"
               name="staffSexRadio"
-              id={`inline-radio-1`}
+              id={`inline-radio-3`}
             />
             <Form.Check
               inline
+              label="여"
               value="female"
               type="radio"
               name="staffSexRadio"
-              id={`inline-radio-2`}
+              id={`inline-radio-4`}
             />
           </InputGroup>
         </Form>
