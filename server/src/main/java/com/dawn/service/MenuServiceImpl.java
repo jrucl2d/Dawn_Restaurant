@@ -17,12 +17,15 @@ public class MenuServiceImpl implements MenuService {
     private final MenuRepository menuRepository;
 
     @Override
-    public void addMenus(List<MenuDTO.Create> menuDTOs) {
+    public List<Menu> addMenus(List<MenuDTO.Create> menuDTOs) {
+        final List<Menu> creationResults = new ArrayList<>();
         for (MenuDTO.Create menuDTO : menuDTOs) {
-            menuRepository.save(
-                    new Menu(menuDTO.getMenuTitle(), menuDTO.getMenuDescription(),
-                            menuDTO.getPrice(), "", new Store(menuDTO.getStoreId())));
+            Menu newMenu = new Menu(menuDTO.getMenuTitle(), menuDTO.getMenuDescription(),
+                    menuDTO.getPrice(), "", new Store(menuDTO.getStoreId()));
+            menuRepository.save(newMenu);
+            creationResults.add(newMenu);
         }
+        return creationResults;
     }
 
     @Override
@@ -37,6 +40,11 @@ public class MenuServiceImpl implements MenuService {
                             menu.getPrice(), menu.getImageURL()));
         }
         return result;
+    }
+
+    @Override
+    public MenuDTO.Get getMenuByMenuId(int menuId) {
+        return MenuDTO.Get.fromMenu(menuRepository.findByMenuId(menuId));
     }
 
     @Override

@@ -27,4 +27,5 @@ public class MenuRepositoryImpl extends QuerydslRepositorySupport implements Cus
         return queryFactory.selectFrom(qMenu)
                     .where(qMenu.store.storeId.eq(storeId)).fetch();
     }
+
 }

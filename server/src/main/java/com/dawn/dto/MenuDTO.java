@@ -1,5 +1,6 @@
 package com.dawn.dto;
 
+import com.dawn.model.Menu;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,13 @@ public class MenuDTO {
         private String menuDescription;
         private int price;
         private String imageURL;
+
+        public static MenuDTO.Get fromMenu(Menu menu) {
+            return new MenuDTO.Get(
+                    menu.getMenuId(), menu.getStore().getStoreId(),
+                    menu.getMenuTitle(), menu.getMenuDescription(),
+                    menu.getPrice(), menu.getImageURL());
+        }
     }
 
     @Getter
@@ -33,5 +41,15 @@ public class MenuDTO {
     @AllArgsConstructor
     public static class Remove {
         private int menuId;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class OrderListItem {
+        private int menuId;
+        private String menuTitle;
+        private int price;
+        private String imageURL;
     }
 }

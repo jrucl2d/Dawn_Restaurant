@@ -24,4 +24,9 @@ public class MenuOrder {
     @ManyToOne
     private Menu menu;
 
+    public MenuOrder(int quantity, Order order, Menu menu) {
+        this.quantity = quantity;
+        this.order = order;
+        this.menu = menu;
+    }
 }

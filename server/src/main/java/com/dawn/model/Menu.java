@@ -18,12 +18,16 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int menuId;
 
+    @Column
     private String menuTitle;
 
+    @Column
     private String menuDescription;
 
+    @Column
     private int price;
 
+    @Column
     private String imageURL;
 
     @ManyToOne
@@ -32,6 +36,9 @@ public class Menu {
     @OneToMany
     private List<MenuOrder> menuOrders = new ArrayList<>();
 
+    public Menu(int menuId) {
+        this.menuId = menuId;
+    }
 
     public Menu(String menuTitle, String menuDescription, int price, String imageURL, Store store) {
         this.menuTitle = menuTitle;
