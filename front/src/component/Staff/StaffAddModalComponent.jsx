@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import "./StaffStyle.css";
+import { v4 as uuid } from "uuid";
 
-function StaffAddModalComponent({ showModal, setShowModal }) {
+function StaffAddModalComponent({
+  showModal,
+  setShowModal,
+  staffs,
+  setStaffs,
+}) {
   const [imageURL, setImageURL] = useState(""); // base64 정보
   const [staffImage, setStaffImage] = useState(""); // 단순 파일 정보
   const [staffInfo, setStaffInfo] = useState({
@@ -46,12 +52,30 @@ function StaffAddModalComponent({ showModal, setShowModal }) {
     console.log(payRadio);
     console.log(sexRadio);
     console.log(staffImage);
+
+    const sendingData = {
+      staffId: uuid(),
+      staffName: staffInfo.staffName,
+      staffBirth: staffInfo.staffBirth,
+      staffPosition: staffInfo.staffPosition,
+      staffPay: staffInfo.staffPay + "원/" + payRadio === "hour" ? "시" : "월",
+      staffSex: sexRadio,
+      staffImage: staffImage
+        ? staffImage.name.split(".")[0] +
+          "_" +
+          Date.now() +
+          "." +
+          staffImage.name.split(".")[1]
+        : "",
+    };
+
     // try catch, const result = await axios.post..... 해서
     const result = true;
     if (!result) {
       alert("오류가 발생했습니다. 다시 시도해주세요.");
       return;
     }
+    setStaffs([...staffs, sendingData]);
 
     setStaffInfo({
       staffName: "",
@@ -94,7 +118,7 @@ function StaffAddModalComponent({ showModal, setShowModal }) {
           </Form.Group>
           <Form.Group>
             <InputGroup>
-              <InputGroup.Text>생년월일</InputGroup.Text>
+              <InputGroup.Text id="staffBirthText">생년월일</InputGroup.Text>
               <InputGroup.Append id="staffBirthInputAppend">
                 <Form.Control
                   required
@@ -126,7 +150,10 @@ function StaffAddModalComponent({ showModal, setShowModal }) {
               name="staffPay"
               value={staffInfo.staffPay}
             />
-            <InputGroup.Append onChange={(e) => setPayRadio(e.target.value)}>
+            <InputGroup.Append
+              name="staffPayRadio"
+              onChange={(e) => setPayRadio(e.target.value)}
+            >
               <InputGroup.Text>원</InputGroup.Text>
               &nbsp; &nbsp;
               <Form.Check
@@ -134,7 +161,7 @@ function StaffAddModalComponent({ showModal, setShowModal }) {
                 defaultChecked
                 label="시급"
                 value="hour"
-                type={"radio"}
+                type="radio"
                 name="staffPayRadio"
                 id={`inline-radio-1`}
               />
@@ -142,32 +169,33 @@ function StaffAddModalComponent({ showModal, setShowModal }) {
                 inline
                 label="월급"
                 value="month"
-                type={"radio"}
+                type="radio"
                 name="staffPayRadio"
                 id={`inline-radio-2`}
               />
             </InputGroup.Append>
           </InputGroup>
-          <InputGroup.Append onChange={(e) => setSexRadio(e.target.value)}>
+          <InputGroup
+            name="staffSexRadio"
+            onChange={(e) => setSexRadio(e.target.value)}
+          >
             &nbsp; &nbsp; 성별 &nbsp; &nbsp;
             <Form.Check
               inline
               defaultChecked
-              label="남"
               value="male"
-              type={"radio"}
+              type="radio"
               name="staffSexRadio"
               id={`inline-radio-1`}
             />
             <Form.Check
               inline
-              label="여"
               value="female"
-              type={"radio"}
+              type="radio"
               name="staffSexRadio"
               id={`inline-radio-2`}
             />
-          </InputGroup.Append>
+          </InputGroup>
         </Form>
       </Modal.Body>
       <Modal.Footer>

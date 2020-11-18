@@ -28,10 +28,31 @@ function StoreManageComponent({ location }) {
       menuImage: "",
     },
   ]);
+  const [staffs, setStaffs] = useState([
+    {
+      staffId: "lwkejglkwjgoiweweoieg",
+      staffName: "박아무개",
+      staffBirth: "2020-15-32",
+      staffPosition: "사장",
+      staffPay: "2400원/월",
+      staffImage: "",
+    },
+    {
+      staffId: "lwkejglkwjgo23iweweoieg",
+      staffName: "정아무개",
+      staffBirth: "2020-11-32",
+      staffPosition: "매니저",
+      staffPay: "1200원/월",
+      staffImage: "",
+    },
+  ]);
 
   useEffect(() => {
     console.log(menus);
   }, [menus]);
+  useEffect(() => {
+    console.log(staffs);
+  }, [staffs]);
 
   const onClickAddMenu = () => {
     setShowAddMenu(true);
@@ -70,6 +91,9 @@ function StoreManageComponent({ location }) {
         <StaffAddModalComponent
           showModal={showAddStaff}
           setShowModal={setShowAddStaff}
+          storeId={storeId.current}
+          staffs={staffs}
+          setStaffs={setStaffs}
         />
       </main>
       <footer>
