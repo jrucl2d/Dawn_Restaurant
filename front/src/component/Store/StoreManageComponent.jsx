@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import MenuGridComponent from "../Menu/MenuGridComponent";
 import OrderListComponent from "../Order/OrderListComponent";
 import StaffListComponent from "../Staff/StaffListComponent";
+import MenuAddModalComponent from "../Menu/MenuAddModalComponent";
 
 function StoreManageComponent({ location }) {
+  const [showAddMenu, setShowAddMenu] = useState(false);
+
+  const onClickAddMenu = () => {
+    setShowAddMenu(true);
+  };
+
   return (
     <div id="storeManage">
       <header>
@@ -13,7 +20,7 @@ function StoreManageComponent({ location }) {
       <main id="storeMain">
         <div id="storeLeftSide">
           <div id="mainButtons">
-            <Button>메뉴 추가</Button>
+            <Button onClick={onClickAddMenu}>메뉴 추가</Button>
             <Button>직원 추가</Button>
             <Button>매출 통계</Button>
           </div>
@@ -25,6 +32,10 @@ function StoreManageComponent({ location }) {
         <div id="storeRightSide">
           <OrderListComponent />
         </div>
+        <MenuAddModalComponent
+          showModal={showAddMenu}
+          setShowModal={setShowAddMenu}
+        />
       </main>
       <footer>
         <div>{decodeURIComponent(location.search.split("=")[1])}</div>

@@ -1,22 +1,17 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { v4 as uuid } from "uuid";
+import "./MenuStyle.css";
 
 const noResize = { resize: "none" };
 
-function StoreAddModalComponent({
-  showAddStore,
-  setShowAddStore,
-  stores,
-  setStores,
-}) {
+function MenuAddModalComponent({ showModal, setShowModal }) {
   const [imageURL, setImageURL] = useState(""); // base64 정보
-  const [storeImage, setStoreImage] = useState(""); // 단순 파일 정보
-  const [storeInfo, setStoreInfo] = useState({
-    storeName: "",
-    storeLocation: "",
-    storeTime: "",
-    storeIntroduce: "",
+  const [menuImage, setMenuImage] = useState(""); // 단순 파일 정보
+  const [menuInfo, setMenuInfo] = useState({
+    menuName: "",
+    menuPrice: "",
+    menuOrigin: "",
+    menuIntroduce: "",
   });
 
   const onChangeFile = (e) => {
@@ -24,108 +19,105 @@ function StoreAddModalComponent({
     let reader = new FileReader();
     const file = e.target.files[0];
     reader.onloadend = () => {
-      setStoreImage(file);
+      setMenuImage(file);
       setImageURL(reader.result);
     };
     reader.readAsDataURL(file);
   };
 
-  const onChangeStoreInfo = (e) => {
-    setStoreInfo({
-      ...storeInfo,
+  const onChangemenuInfo = (e) => {
+    setMenuInfo({
+      ...menuInfo,
       [e.target.name]: e.target.value,
     });
   };
-  const onClickClose = () => setShowAddStore(false);
+  const onClickClose = () => setShowModal(false);
   const onClickSave = () => {
-    if (storeInfo.storeName === "" || storeInfo.storeLocation === "") {
+    if (menuInfo.menuName === "" || menuInfo.storePrice === "") {
       alert("필요한 정보를 모두 입력해야 합니다.");
       return;
     }
     // 여기서 데이터베이스에 저장하는 과정 필요
-    console.log(storeInfo);
-    console.log(storeImage);
+    console.log(menuInfo);
+    console.log(menuImage);
     // try catch, const result = await axios.post..... 해서
     const result = true;
     if (!result) {
       alert("오류가 발생했습니다. 다시 시도해주세요.");
       return;
     }
-    setStores([
-      ...stores,
-      {
-        storeName: storeInfo.storeName,
-        storeId: uuid(),
-      },
-    ]);
 
-    setStoreInfo({
-      storeName: "",
-      storeLocation: "",
-      storeTime: "",
-      storeIntroduce: "",
+    setMenuInfo({
+      menuName: "",
+      menuPrice: "",
+      menuOrigin: "",
+      menuIntroduce: "",
     });
     setImageURL("");
-    setStoreImage("");
-    alert("새로운 점포를 생성했습니다.");
+    setMenuImage("");
+    alert("새로운 메뉴를 생성했습니다.");
     onClickClose();
   };
 
   return (
-    <Modal show={showAddStore} onHide={() => {}}>
+    <Modal show={showModal} onHide={() => {}}>
       <Modal.Header>
-        <Modal.Title>점포 추가</Modal.Title>
+        <Modal.Title>메뉴 추가</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           {imageURL === "" ? (
-            <div id="addStoreImage">사진 추가</div>
+            <div id="addMenuImage">사진 추가</div>
           ) : (
-            <img src={imageURL} id="storeImage" alt="매장 이미지"></img>
+            <img src={imageURL} id="menuImage" alt="메뉴 이미지"></img>
           )}
 
           <Form.Group>
-            <Form.File onChange={onChangeFile} accept=".jpeg, .jpg, .png" />
-          </Form.Group>
-          <Form.Group>
-            <Form.Control
-              required
-              type="text"
-              placeholder="점포 상호명"
-              name="storeName"
-              onChange={onChangeStoreInfo}
-              value={storeInfo.storeName}
+            <Form.File
+              onChange={onChangeFile}
+              id="addMenuInput"
+              accept=".jpeg, .jpg, .png"
             />
           </Form.Group>
           <Form.Group>
             <Form.Control
               required
               type="text"
-              placeholder="점포 위치"
-              name="storeLocation"
-              onChange={onChangeStoreInfo}
-              value={storeInfo.storeLocation}
+              placeholder="메뉴 이름"
+              name="menuName"
+              onChange={onChangemenuInfo}
+              value={menuInfo.menuName}
             />
           </Form.Group>
           <Form.Group>
             <Form.Control
               required
               type="text"
-              placeholder="영업 시간"
-              name="storeTime"
-              onChange={onChangeStoreInfo}
-              value={storeInfo.storeTime}
+              placeholder="메뉴 가격"
+              name="menuPrice"
+              onChange={onChangemenuInfo}
+              value={menuInfo.storePrice}
             />
           </Form.Group>
           <Form.Group>
             <Form.Control
-              placeholder="점포 소개"
+              required
+              type="text"
+              placeholder="원산지 정보"
+              name="menuOrigin"
+              onChange={onChangemenuInfo}
+              value={menuInfo.storeOrigin}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Control
+              placeholder="메뉴 소개"
               as="textarea"
               rows={3}
               style={noResize}
-              name="storeIntroduce"
-              onChange={onChangeStoreInfo}
-              value={storeInfo.storeIntroduce}
+              name="menuIntroduce"
+              onChange={onChangemenuInfo}
+              value={menuInfo.storeIntroduce}
             />
           </Form.Group>
         </Form>
@@ -142,4 +134,4 @@ function StoreAddModalComponent({
   );
 }
 
-export default StoreAddModalComponent;
+export default MenuAddModalComponent;
