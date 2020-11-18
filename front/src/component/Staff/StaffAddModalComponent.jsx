@@ -52,6 +52,7 @@ function StaffAddModalComponent({ showModal, setShowModal, storeId }) {
     console.log(staffImage);
 
     const sendingData = {
+      storeId,
       staffId: uuid(),
       staffName: staffInfo.staffName,
       staffBirth: staffInfo.staffBirth,

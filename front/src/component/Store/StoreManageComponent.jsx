@@ -10,24 +10,6 @@ function StoreManageComponent({ location }) {
   const storeId = useRef(location.pathname.split("/")[2]);
   const [showAddMenu, setShowAddMenu] = useState(false);
   const [showAddStaff, setShowAddStaff] = useState(false);
-  const [menus, setMenus] = useState([
-    {
-      menuId: "lfjwelfewjfklewjglkjwe",
-      menuName: "엄청난 음식",
-      menuPrice: 12000,
-      menuOrigin: "한국산",
-      menuIntroduce: "엄청나게 맛난 음식",
-      menuImage: "",
-    },
-    {
-      menuId: "we;glkwgkgwgkw;;wegwgkwjlkwjg",
-      menuName: "안 엄청난 음식",
-      menuPrice: 12023400,
-      menuOrigin: "북한산",
-      menuIntroduce: "엄청나게 맛 없는 음식",
-      menuImage: "",
-    },
-  ]);
 
   const onClickAddMenu = () => {
     setShowAddMenu(true);
@@ -51,7 +33,7 @@ function StoreManageComponent({ location }) {
           <StaffListComponent storeId={storeId.current} />
         </div>
         <div id="storeMiddleSide">
-          <MenuGridComponent menus={menus} />
+          <MenuGridComponent />
         </div>
         <div id="storeRightSide">
           <OrderListComponent />
@@ -60,8 +42,6 @@ function StoreManageComponent({ location }) {
           showModal={showAddMenu}
           setShowModal={setShowAddMenu}
           storeId={storeId.current}
-          menus={menus}
-          setMenus={setMenus}
         />
         <StaffAddModalComponent
           showModal={showAddStaff}

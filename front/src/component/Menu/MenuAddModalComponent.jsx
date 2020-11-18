@@ -2,16 +2,13 @@ import React, { useState } from "react";
 import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import "./MenuStyle.css";
 import { v4 as uuid } from "uuid";
+import { useDispatch } from "react-redux";
+import { addMenu } from "../../modules/menuReducer";
 
 const noResize = { resize: "none" };
 
-function MenuAddModalComponent({
-  showModal,
-  setShowModal,
-  storeId,
-  menus,
-  setMenus,
-}) {
+function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
+  const dispatch = useDispatch();
   const [imageURL, setImageURL] = useState(""); // base64 정보
   const [menuImage, setMenuImage] = useState(""); // 단순 파일 정보
   const [menuInfo, setMenuInfo] = useState({
@@ -47,8 +44,8 @@ function MenuAddModalComponent({
     // 데이터베이스에 저장하는 과정 필요
     // try catch, const result = await axios.post..... 해서
     // 사용자 정보와 가게 정보 보내야 할 수도
-    console.log(storeId);
     const sendingData = {
+      storeId,
       menuId: uuid(),
       menuName: menuInfo.menuName,
       menuPrice: menuInfo.menuPrice,
@@ -69,7 +66,7 @@ function MenuAddModalComponent({
       return;
     }
     // 데이터베이스 저장에 성공했을 때 받은 result 값으로 설정하는 코드로 변경 필요
-    setMenus([...menus, sendingData]);
+    dispatch(addMenu(sendingData));
 
     setMenuInfo({
       menuName: "",
