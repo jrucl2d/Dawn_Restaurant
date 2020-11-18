@@ -114,7 +114,7 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
                 type="number"
                 onChange={onChangeMenuInfo}
                 name="menuPrice"
-                value={menuInfo.storePrice}
+                value={menuInfo.menuPrice}
               />
               <InputGroup.Append>
                 <InputGroup.Text>원</InputGroup.Text>
@@ -128,7 +128,7 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
               placeholder="원산지 정보"
               name="menuOrigin"
               onChange={onChangeMenuInfo}
-              value={menuInfo.storeOrigin}
+              value={menuInfo.menuOrigin}
             />
           </Form.Group>
           <Form.Group>
@@ -139,7 +139,7 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
               style={noResize}
               name="menuIntroduce"
               onChange={onChangeMenuInfo}
-              value={menuInfo.storeIntroduce}
+              value={menuInfo.menuIntroduce}
             />
           </Form.Group>
         </Form>
