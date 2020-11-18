@@ -1,7 +1,9 @@
 import React from "react";
 import StaffComponent from "./StaffComponent";
+import { useSelector } from "react-redux";
 
-function StaffListComponent({ staffs, storeId }) {
+function StaffListComponent({ storeId }) {
+  const staffs = useSelector((state) => state.staffReducer);
   return (
     <div className="staffContainer">
       {staffs.map((staff) => (

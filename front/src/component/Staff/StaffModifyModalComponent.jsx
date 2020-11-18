@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import "./StaffStyle.css";
-import { v4 as uuid } from "uuid";
+import { useDispatch } from "react-redux";
+import { updateStaff, deleteStaff } from "../../modules/staffReducer";
 
-function StaffModifyModalComponent({
-  showModal,
-  setShowModal,
-  staff,
-  setStaff,
-}) {
+function StaffModifyModalComponent({ showModal, setShowModal, staff }) {
+  const dispatch = useDispatch();
   const [imageURL, setImageURL] = useState(""); // base64 정보
   const [staffImage, setStaffImage] = useState(""); // 단순 파일 정보
   const [staffInfo, setStaffInfo] = useState({
@@ -50,13 +47,8 @@ function StaffModifyModalComponent({
       return;
     }
     // 여기서 데이터베이스에 저장하는 과정 필요
-    console.log(staffInfo);
-    console.log(payRadio);
-    console.log(sexRadio);
-    console.log(staffImage);
-
     const sendingData = {
-      staffId: uuid(),
+      staffId: staff.staffId,
       staffName: staffInfo.staffName,
       staffBirth: staffInfo.staffBirth,
       staffPosition: staffInfo.staffPosition,
@@ -77,19 +69,15 @@ function StaffModifyModalComponent({
       alert("오류가 발생했습니다. 다시 시도해주세요.");
       return;
     }
-    setStaff(sendingData);
-
-    setStaffInfo({
-      staffName: "",
-      staffBirth: "",
-      staffPosition: "",
-      staffPay: "",
-      staffSex: "",
-    });
-    setImageURL("");
-    setStaffImage("");
-    alert("새로운 직원 정보를 등록했습니다.");
+    dispatch(updateStaff(sendingData));
+    alert("직원 정보를 수정했습니다.");
     onClickClose();
+  };
+  const onClickDelete = () => {
+    if (window.confirm("정말 직원 정보를 삭제하시겠습니까?")) {
+      dispatch(deleteStaff(staff.staffId));
+      onClickClose();
+    }
   };
 
   return (
@@ -207,6 +195,9 @@ function StaffModifyModalComponent({
       <Modal.Footer>
         <Button variant="primary" onClick={onClickSave}>
           저장
+        </Button>
+        <Button variant="danger" onClick={onClickDelete}>
+          삭제
         </Button>
         <Button variant="secondary" onClick={onClickClose}>
           닫기

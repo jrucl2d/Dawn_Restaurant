@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "react-bootstrap";
 import MenuGridComponent from "../Menu/MenuGridComponent";
 import OrderListComponent from "../Order/OrderListComponent";
@@ -28,33 +28,6 @@ function StoreManageComponent({ location }) {
       menuImage: "",
     },
   ]);
-  const [staffs, setStaffs] = useState([
-    {
-      staffId: "lwkejglkwjgoiweweoieg",
-      staffName: "박아무개",
-      staffBirth: "2020-01-13",
-      staffPosition: "사장",
-      staffPay: "2400원/시",
-      staffSex: "male",
-      staffImage: "",
-    },
-    {
-      staffId: "lwkejglkwjgo23iweweoieg",
-      staffName: "정아무개",
-      staffBirth: "2020-11-02",
-      staffPosition: "매니저",
-      staffPay: "1200원/월",
-      staffSex: "female",
-      staffImage: "",
-    },
-  ]);
-
-  // useEffect(() => {
-  //   console.log(menus);
-  // }, [menus]);
-  // useEffect(() => {
-  //   console.log(staffs);
-  // }, [staffs]);
 
   const onClickAddMenu = () => {
     setShowAddMenu(true);
@@ -75,7 +48,7 @@ function StoreManageComponent({ location }) {
             <Button onClick={onClickAddStaff}>직원 추가</Button>
             <Button>매출 통계</Button>
           </div>
-          <StaffListComponent staffs={staffs} storeId={storeId.current} />
+          <StaffListComponent storeId={storeId.current} />
         </div>
         <div id="storeMiddleSide">
           <MenuGridComponent menus={menus} />
@@ -94,8 +67,6 @@ function StoreManageComponent({ location }) {
           showModal={showAddStaff}
           setShowModal={setShowAddStaff}
           storeId={storeId.current}
-          staffs={staffs}
-          setStaffs={setStaffs}
         />
       </main>
       <footer>

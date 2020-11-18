@@ -5,7 +5,6 @@ import StaffModifyModalComponent from "./StaffModifyModalComponent";
 
 function StaffComponent({ staffInfo, storeId }) {
   const [showModal, setShowModal] = useState(false);
-  const [staff, setStaff] = useState(staffInfo);
 
   const onClickStaff = () => {
     setShowModal(true);
@@ -26,8 +25,7 @@ function StaffComponent({ staffInfo, storeId }) {
         showModal={showModal}
         setShowModal={setShowModal}
         storeId={storeId}
-        staff={staff}
-        setStaff={setStaff}
+        staff={staffInfo}
       />
     </>
   );

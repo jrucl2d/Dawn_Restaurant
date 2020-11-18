@@ -2,21 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import StoreRankGraphComponent from "./StoreRankGraphComponent";
 import StoreComponent from "./StoreComponent";
 import StoreAddModalComponent from "./StoreAddModalComponent";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteStore } from "../../modules/storeReducer";
 
 import "./StoreStyle.css";
 
 function StoreListComponent() {
-  // useEffect로 처음에 점포 목록 axios로 가져오기
-  const [stores, setStores] = useState([
-    {
-      storeName: "바보 파스타 한국점",
-      storeId: "sdlkfjasdlkf",
-    },
-    {
-      storeName: "멍청이 피자 프랑스점",
-      storeId: "weoigjweogjwdljfw",
-    },
-  ]);
+  const dispatch = useDispatch();
+  const stores = useSelector((state) => state.storeReducer);
   const [deleteMode, setDeleteMode] = useState(false);
   const [deleteSelected, setDeleteSelected] = useState([]);
   const [showAddStore, setShowAddStore] = useState(false);
@@ -49,14 +42,8 @@ function StoreListComponent() {
       if (!answer) {
         return;
       }
-      setStores(
-        // eslint-disable-next-line array-callback-return
-        stores.filter((store) => {
-          if (deleteSelected.findIndex((v) => v === store.storeId) === -1) {
-            return store;
-          }
-        })
-      );
+      dispatch(deleteStore(deleteSelected));
+
       deleteBtnRef.current.className = "btn btn-warning notDeleting";
     }
     setDeleteMode(!deleteMode);
@@ -108,8 +95,6 @@ function StoreListComponent() {
         <StoreAddModalComponent
           showAddStore={showAddStore}
           setShowAddStore={setShowAddStore}
-          setStores={setStores}
-          stores={stores}
         />
       </div>
     </div>

@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import "./StaffStyle.css";
 import { v4 as uuid } from "uuid";
+import { useDispatch } from "react-redux";
+import { addStaff } from "../../modules/staffReducer";
 
-function StaffAddModalComponent({
-  showModal,
-  setShowModal,
-  staffs,
-  staffId,
-  setStaffs,
-}) {
+function StaffAddModalComponent({ showModal, setShowModal, storeId }) {
+  const dispatch = useDispatch();
   const [imageURL, setImageURL] = useState(""); // base64 정보
   const [staffImage, setStaffImage] = useState(""); // 단순 파일 정보
   const [staffInfo, setStaffInfo] = useState({
@@ -76,7 +73,7 @@ function StaffAddModalComponent({
       alert("오류가 발생했습니다. 다시 시도해주세요.");
       return;
     }
-    setStaffs([...staffs, sendingData]);
+    dispatch(addStaff(sendingData));
 
     setStaffInfo({
       staffName: "",
