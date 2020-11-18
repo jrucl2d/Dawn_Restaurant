@@ -25,7 +25,7 @@ function MenuAddModalComponent({ showModal, setShowModal }) {
     reader.readAsDataURL(file);
   };
 
-  const onChangemenuInfo = (e) => {
+  const onChangeMenuInfo = (e) => {
     setMenuInfo({
       ...menuInfo,
       [e.target.name]: e.target.value,
@@ -73,11 +73,7 @@ function MenuAddModalComponent({ showModal, setShowModal }) {
           )}
 
           <Form.Group>
-            <Form.File
-              onChange={onChangeFile}
-              id="addMenuInput"
-              accept=".jpeg, .jpg, .png"
-            />
+            <Form.File onChange={onChangeFile} accept=".jpeg, .jpg, .png" />
           </Form.Group>
           <Form.Group>
             <Form.Control
@@ -85,7 +81,7 @@ function MenuAddModalComponent({ showModal, setShowModal }) {
               type="text"
               placeholder="메뉴 이름"
               name="menuName"
-              onChange={onChangemenuInfo}
+              onChange={onChangeMenuInfo}
               value={menuInfo.menuName}
             />
           </Form.Group>
@@ -95,7 +91,7 @@ function MenuAddModalComponent({ showModal, setShowModal }) {
               type="text"
               placeholder="메뉴 가격"
               name="menuPrice"
-              onChange={onChangemenuInfo}
+              onChange={onChangeMenuInfo}
               value={menuInfo.storePrice}
             />
           </Form.Group>
@@ -105,7 +101,7 @@ function MenuAddModalComponent({ showModal, setShowModal }) {
               type="text"
               placeholder="원산지 정보"
               name="menuOrigin"
-              onChange={onChangemenuInfo}
+              onChange={onChangeMenuInfo}
               value={menuInfo.storeOrigin}
             />
           </Form.Group>
@@ -116,7 +112,7 @@ function MenuAddModalComponent({ showModal, setShowModal }) {
               rows={3}
               style={noResize}
               name="menuIntroduce"
-              onChange={onChangemenuInfo}
+              onChange={onChangeMenuInfo}
               value={menuInfo.storeIntroduce}
             />
           </Form.Group>

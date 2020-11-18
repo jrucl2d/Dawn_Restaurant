@@ -4,12 +4,17 @@ import MenuGridComponent from "../Menu/MenuGridComponent";
 import OrderListComponent from "../Order/OrderListComponent";
 import StaffListComponent from "../Staff/StaffListComponent";
 import MenuAddModalComponent from "../Menu/MenuAddModalComponent";
+import StaffAddModalComponent from "../Staff/StaffAddModalComponent";
 
 function StoreManageComponent({ location }) {
   const [showAddMenu, setShowAddMenu] = useState(false);
+  const [showAddStaff, setShowAddStaff] = useState(false);
 
   const onClickAddMenu = () => {
     setShowAddMenu(true);
+  };
+  const onClickAddStaff = () => {
+    setShowAddStaff(true);
   };
 
   return (
@@ -21,7 +26,7 @@ function StoreManageComponent({ location }) {
         <div id="storeLeftSide">
           <div id="mainButtons">
             <Button onClick={onClickAddMenu}>메뉴 추가</Button>
-            <Button>직원 추가</Button>
+            <Button onClick={onClickAddStaff}>직원 추가</Button>
             <Button>매출 통계</Button>
           </div>
           <StaffListComponent />
@@ -35,6 +40,10 @@ function StoreManageComponent({ location }) {
         <MenuAddModalComponent
           showModal={showAddMenu}
           setShowModal={setShowAddMenu}
+        />
+        <StaffAddModalComponent
+          showModal={showAddStaff}
+          setShowModal={setShowAddStaff}
         />
       </main>
       <footer>
