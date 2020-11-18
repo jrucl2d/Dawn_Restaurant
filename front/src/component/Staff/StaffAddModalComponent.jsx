@@ -95,6 +95,7 @@ function StaffAddModalComponent({ showModal, setShowModal }) {
             />
           </Form.Group>
           <Form.Group>
+            <InputGroup.Text>생년월일</InputGroup.Text>
             <Form.Control
               required
               type="date"

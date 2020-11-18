@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import "./MenuStyle.css";
+import { v4 as uuid } from "uuid";
 
 const noResize = { resize: "none" };
 
-function MenuAddModalComponent({ showModal, setShowModal }) {
+function MenuAddModalComponent({ showModal, setShowModal, menus, setMenus }) {
   const [imageURL, setImageURL] = useState(""); // base64 정보
   const [menuImage, setMenuImage] = useState(""); // 단순 파일 정보
   const [menuInfo, setMenuInfo] = useState({
     menuName: "",
-    menuPrice: "",
+    menuPrice: 0,
     menuOrigin: "",
     menuIntroduce: "",
   });
@@ -37,19 +38,34 @@ function MenuAddModalComponent({ showModal, setShowModal }) {
       alert("필요한 정보를 모두 입력해야 합니다.");
       return;
     }
-    // 여기서 데이터베이스에 저장하는 과정 필요
-    console.log(menuInfo);
-    console.log(menuImage);
+    // 데이터베이스에 저장하는 과정 필요
     // try catch, const result = await axios.post..... 해서
+    const sendingData = {
+      menuId: uuid(),
+      menuName: menuInfo.menuName,
+      menuPrice: menuInfo.menuPrice,
+      menuOrigin: menuInfo.menuOrigin,
+      menuIntroduce: menuInfo.menuIntroduce,
+      menuImage: menuImage
+        ? menuImage.name.split(".")[0] +
+          "_" +
+          Date.now() +
+          "." +
+          menuImage.name.split(".")[1]
+        : "",
+    };
+
     const result = true;
     if (!result) {
       alert("오류가 발생했습니다. 다시 시도해주세요.");
       return;
     }
+    // 데이터베이스 저장에 성공했을 때 받은 result 값으로 설정하는 코드로 변경 필요
+    setMenus([...menus, sendingData]);
 
     setMenuInfo({
       menuName: "",
-      menuPrice: "",
+      menuPrice: 0,
       menuOrigin: "",
       menuIntroduce: "",
     });
@@ -86,14 +102,19 @@ function MenuAddModalComponent({ showModal, setShowModal }) {
             />
           </Form.Group>
           <Form.Group>
-            <Form.Control
-              required
-              type="text"
-              placeholder="메뉴 가격"
-              name="menuPrice"
-              onChange={onChangeMenuInfo}
-              value={menuInfo.storePrice}
-            />
+            <InputGroup className="mb-3">
+              <FormControl
+                placeholder="메뉴 가격"
+                aria-label="원"
+                type="number"
+                onChange={onChangeMenuInfo}
+                name="menuPrice"
+                value={menuInfo.storePrice}
+              />
+              <InputGroup.Append>
+                <InputGroup.Text>원</InputGroup.Text>
+              </InputGroup.Append>
+            </InputGroup>
           </Form.Group>
           <Form.Group>
             <Form.Control
