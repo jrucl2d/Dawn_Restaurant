@@ -1,36 +1,53 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 
-function OrderComponent() {
-  const [foods, setFoods] = useState([
-    {
-      foodId: "!235132525325",
-      foodName: "음식1",
-      foodNum: 4,
-    },
-    {
-      foodId: "2351524twe",
-      foodName: "음식3",
-      foodNum: 2,
-    },
+const orderStatusList = ["새 주문", "조리 중", "조리 완료", "음식 수령"];
+const cssStatusList = ["danger", "success", "warning", "secondary"];
+
+function OrderComponent({ order }) {
+  const [showStatusList, setShowStatusList] = useState([
+    "조리 중",
+    "조리 완료",
+    "음식 수령",
   ]);
+  const [titleStatus, setTitleStatus] = useState(order.orderStatus);
+
+  useEffect(() => {
+    setShowStatusList(orderStatusList.filter((v) => v !== order.orderStatus));
+  }, [order]);
+
+  const onClickStatus = (e) => {
+    const selectedStatus = e.target.innerHTML;
+    setShowStatusList(orderStatusList.filter((v) => v !== selectedStatus));
+    setTitleStatus(selectedStatus);
+  };
+
   return (
     <div id="orderCard">
       <div id="foodInfo">
-        {foods.map((food) => (
-          <div key={food.foodId}>
-            {food.foodName} ({food.foodNum}개)
+        {order.menus.map((menu) => (
+          <div key={menu.menuId}>
+            {menu.menuName} ({menu.menuNum}개)
           </div>
         ))}
       </div>
       <DropdownButton
         id="dropdown-basic-button"
         className="my-auto mx-auto"
-        title="새주문"
+        variant={`${
+          cssStatusList[orderStatusList.findIndex((v) => v === titleStatus)]
+        }`}
+        title={titleStatus}
       >
-        <Dropdown.Item as="button">조리중</Dropdown.Item>
-        <Dropdown.Item as="button">조리 완료</Dropdown.Item>
-        <Dropdown.Item as="button">음식 수령</Dropdown.Item>
+        <Dropdown.Item as="button" onClick={onClickStatus}>
+          {showStatusList[0]}
+        </Dropdown.Item>
+        <Dropdown.Item as="button" onClick={onClickStatus}>
+          {showStatusList[1]}
+        </Dropdown.Item>
+        <Dropdown.Item as="button" onClick={onClickStatus}>
+          {showStatusList[2]}
+        </Dropdown.Item>
       </DropdownButton>
     </div>
   );

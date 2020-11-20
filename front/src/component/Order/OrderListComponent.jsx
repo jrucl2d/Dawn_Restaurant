@@ -1,17 +1,16 @@
 import React from "react";
 import OrderComponent from "./OrderComponent";
 import "./OrderStyle.css";
+import { useSelector } from "react-redux";
 
 function OrderListComponent() {
+  const orders = useSelector((state) => state.orderReducer);
   return (
     <div id="orderList">
       <h2>주문 현황</h2>
-      <OrderComponent />
-      <OrderComponent />
-      <OrderComponent />
-      <OrderComponent />
-      <OrderComponent />
-      <OrderComponent />
+      {orders.map((order) => (
+        <OrderComponent key={order.orderId} order={order} />
+      ))}
     </div>
   );
 }
