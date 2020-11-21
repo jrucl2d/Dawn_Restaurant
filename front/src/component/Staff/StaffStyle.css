@@ -1,0 +1,52 @@
+#staffComponentCard {
+  margin: 0 auto;
+  margin-top: 0.3rem;
+  margin-bottom: 0.2rem;
+  width: 85%;
+  height: 5em;
+  background-color: rgb(68, 84, 106);
+}
+#staffComponentContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+#staffBirthText {
+  width: 17.4%;
+}
+#staffBirthInputAppend {
+  width: 82.6%;
+}
+
+/* 직원 보이는 이미지 */
+#staffComponentContent > img {
+  display: inline;
+  width: 60px;
+  height: 100%;
+}
+#staffComponentInfo {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: auto 0;
+}
+
+/* 직원 추가 시 이미지 */
+#addStaffImage {
+  background-color: #efefef;
+  width: 200px;
+  height: 200px;
+  color: black;
+  margin: 0 auto;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  line-height: 300px;
+}
+#staffImage {
+  display: block;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  margin-bottom: 0.5rem;
+}

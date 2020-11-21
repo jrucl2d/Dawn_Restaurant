@@ -1,0 +1,26 @@
+#orderList {
+  margin: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 80vh;
+  border: 1px solid black;
+  overflow-x: auto;
+}
+#orderCard {
+  border: 1px solid black;
+  margin: 1rem;
+  margin-bottom: 2rem;
+  min-height: 10vh;
+  display: flex;
+}
+#foodInfo {
+  height: 90%;
+  margin: auto;
+  margin-left: 1rem;
+  width: 40%;
+  overflow-x: auto;
+  text-align: left;
+}
+.dropdown > button {
+  width: 9vw;
+}

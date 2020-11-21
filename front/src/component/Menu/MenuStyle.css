@@ -1,0 +1,139 @@
+#menuList {
+  min-height: 80vh;
+  border: 1px solid black;
+}
+#menuList > h2 {
+  display: inline-block;
+  border-bottom: 1px solid black;
+}
+.menuGrid {
+  display: grid;
+  padding: 2em;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 1em;
+  column-gap: 1em;
+  height: 70vh;
+  overflow-x: auto;
+}
+.gridEditMode {
+  display: grid;
+  padding: 2em;
+  grid-template-columns: 1fr;
+  column-gap: 1em;
+  overflow-x: auto;
+}
+.menuGridItem {
+  transition: all 0.3s ease-in-out;
+  border: 1px solid black;
+  height: 30vh;
+  background-color: white;
+}
+/* 화면에 보여지는 메뉴 이미지 */
+.menuGridItem > img {
+  background-color: #efefef;
+  display: inline-block;
+  width: 60%;
+  height: 20vh;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+.menuGridItem > #menuNoImage {
+  background-color: #efefef;
+  display: inline-block;
+  width: 60%;
+  height: 20vh;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+/* 메뉴 추가 창에서 */
+#addMenuImage {
+  background-color: #efefef;
+  width: 200px;
+  height: 200px;
+  color: black;
+  margin: 0 auto;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  line-height: 300px;
+}
+#menuImage {
+  display: block;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  margin-bottom: 0.5rem;
+}
+
+.menuEditMode {
+  transition: all 0.3s ease-in-out;
+  height: 550px;
+  width: 100%;
+}
+.menuEditMode > #menuImage {
+  width: 200px;
+  height: 200px;
+}
+.menuEditMode > #menuNoImage {
+  width: 200px;
+  height: 200px;
+}
+
+/* 메뉴 수정 */
+#modifyMenuImage {
+  background-color: #efefef;
+  width: 150px;
+  height: 150px;
+  color: black;
+  margin: 0 auto;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  line-height: 120px;
+}
+#modifyMenuShowImage {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  margin-bottom: 0.5rem;
+}
+
+#modifyMenuButtons {
+  display: flex;
+  justify-content: flex-end;
+}
+#modifyMenuSave,
+#modifyMenuDelete,
+#modifyMenuCancel {
+  display: inline-block;
+  padding: 6px 12px 6px 12px;
+  border-radius: 6px;
+  color: white;
+  margin-left: 5px;
+}
+#modifyMenuSave {
+  background-color: #007bff;
+  border: 1px solid #007bff;
+}
+#modifyMenuDelete {
+  background-color: #dc3545;
+  border: 1px solid #dc3545;
+}
+#modifyMenuCancel {
+  background-color: #6c757d;
+  border: 1px solid #6c757d;
+}
+#modifyMenuSave:hover {
+  background-color: #0068d9;
+  border: 1px solid #007bff;
+  cursor: pointer;
+}
+#modifyMenuDelete:hover {
+  background-color: #c82333;
+  border: 1px solid #dc3545;
+  cursor: pointer;
+}
+#modifyMenuCancel:hover {
+  background-color: #5a6268;
+  border: 1px solid #6c757d;
+  cursor: pointer;
+}
