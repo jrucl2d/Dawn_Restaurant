@@ -16,7 +16,6 @@ function MenuGridComponent() {
       gridRef.current.classList.remove("gridEditMode");
     }
     const theIndex = menus.findIndex((v) => v.menuId === selectedMenu);
-    console.log(theIndex);
     gridRef.current.scrollTop = ((theIndex * window.innerHeight) / 100) * 35;
     // eslint-disable-next-line
   }, [editMode]);

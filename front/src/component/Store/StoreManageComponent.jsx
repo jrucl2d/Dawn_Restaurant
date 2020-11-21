@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import MenuGridComponent from "../Menu/MenuGridComponent";
 import OrderListComponent from "../Order/OrderListComponent";
@@ -28,7 +29,9 @@ function StoreManageComponent({ location }) {
           <div id="mainButtons">
             <Button onClick={onClickAddMenu}>메뉴 추가</Button>
             <Button onClick={onClickAddStaff}>직원 추가</Button>
-            <Button>매출 통계</Button>
+            <Link to={`/store/${storeId.current}/statistics`}>
+              <Button>매출 통계</Button>
+            </Link>
           </div>
           <StaffListComponent storeId={storeId.current} />
         </div>

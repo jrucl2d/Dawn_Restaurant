@@ -121,7 +121,7 @@ main {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-#storeLeftSide > #mainButtons > button {
+#storeLeftSide > #mainButtons button {
   margin: 0 auto;
   margin-top: 1rem;
   width: 70%;
