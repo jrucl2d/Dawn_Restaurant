@@ -4,6 +4,7 @@ import com.dawn.dto.MenuDTO;
 import com.dawn.dto.MenuOrderDTO;
 import com.dawn.dto.OrderDTO;
 import com.dawn.dto.StoreDTO;
+import com.dawn.exception.DawnException;
 import com.dawn.model.*;
 import com.dawn.repository.menu.MenuRepository;
 import com.dawn.repository.menuorder.MenuOrderRepository;
@@ -13,6 +14,7 @@ import com.dawn.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +38,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public OrderDTO.Get submitNewOrder(OrderDTO.Create newOrder) {
+    @Transactional
+    public OrderDTO.Get submitNewOrder(OrderDTO.Create newOrder) throws DawnException {
         List<MenuOrder> menuOrders = new ArrayList<>();
         List<MenuOrderDTO.Get> menuOrderResult = new ArrayList<>();
         List<MenuOrderDTO.Create> newMenuOrders = newOrder.getMenusOrders();
@@ -45,7 +48,10 @@ public class StoreServiceImpl implements StoreService {
         int totalPrice = 0;
         for (MenuOrderDTO.Create menuOrder : newMenuOrders) {
             Menu menu = menuRepository.findByMenuId(menuOrder.getMenuId());
-            totalPrice += menu.getPrice();
+            if (menu == null) {
+                throw new DawnException("주문하려는 메뉴가 존재하지 않습니다", "causation: menuId = ["+menuOrder.getMenuId()+"]");
+            }
+            totalPrice += (menu.getPrice() * menuOrder.getQuantity());
             menuOrders.add(new MenuOrder(menuOrder.getQuantity(), order, menu));
         }
         menuOrders = menuOrderRepository.saveAll(menuOrders);

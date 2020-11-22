@@ -4,10 +4,8 @@ import com.dawn.dto.MenuDTO;
 import com.dawn.dto.MenuOrderDTO;
 import com.dawn.dto.OrderDTO;
 import com.dawn.dto.StoreDTO;
-import com.dawn.model.Menu;
-import com.dawn.model.Order;
-import com.dawn.model.Store;
-import com.dawn.model.User;
+import com.dawn.exception.DawnException;
+import com.dawn.model.*;
 import com.dawn.repository.menu.MenuRepository;
 import com.dawn.repository.menuorder.MenuOrderRepository;
 import com.dawn.repository.order.OrderRepository;
@@ -22,6 +20,8 @@ import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +35,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
+@DataJpaTest
 public class StoreServiceTest {
 
     @Mock
@@ -67,7 +68,7 @@ public class StoreServiceTest {
                 .willReturn(new User("loginId", "1234", "jun", true));
         when(storeRepository.save(any(Store.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
         StoreDTO.Create newStore = new StoreDTO.Create(
-            1, "새벽식당", "신공", "24시", "새벽에만 하는 식당"
+                1, "새벽식당", "신공", "24시", "새벽에만 하는 식당"
         );
         Store store = storeService.createStore(newStore);
         assertThat(store, is(notNullValue()));
@@ -83,7 +84,7 @@ public class StoreServiceTest {
     }
 
     @Test
-    public void PASS_submitNewOrder() {
+    public void PASS_submitNewOrder() throws DawnException {
         List<MenuOrderDTO.Create> menuOrders = new ArrayList<>();
         int orderId = 100;
         int storeId = 101;
@@ -91,14 +92,30 @@ public class StoreServiceTest {
         Order order = new Order(orderId, 0, mockStore);
         given(menuRepository.findByMenuId(1)).willReturn(new Menu("햄버거", "맛있는", 6000, "", new Store(1)));
         given(menuRepository.findByMenuId(2)).willReturn(new Menu("서브웨이", "샌드위치", 5000, "", new Store(1)));
-        when(menuOrderRepository.saveAll(any(List.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
+        when(menuOrderRepository.saveAll(any())).thenAnswer((Answer<List<MenuOrder>>) invocation -> {
+            Object[] args = invocation.getArguments();
+            return (List<MenuOrder>) args[0];
+        });
         when(orderRepository.save(any(Order.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
         MenuOrderDTO.Create menuOrder1 = new MenuOrderDTO.Create(1, 2);
         MenuOrderDTO.Create menuOrder2 = new MenuOrderDTO.Create(2, 5);
         menuOrders.addAll(Arrays.asList(menuOrder1, menuOrder2));
         OrderDTO.Create newOrder = new OrderDTO.Create(1, menuOrders);
         OrderDTO.Get result = storeService.submitNewOrder(newOrder);
-        assertThat(result.getTotalPrice(), is(2 * 6000 + 3 * 5000));
+        assertThat(result.getTotalPrice(), is(2 * 6000 + 5 * 5000));
+    }
+
+    @Test(expected = DawnException.class)
+    public void FAIL_존재하지않는_메뉴ID로_주문을_넣었을떄() throws DawnException {
+        List<MenuOrderDTO.Create> menuOrders = new ArrayList<>();
+        int orderId = 100;
+        int storeId = 101;
+        Store mockStore = new Store(storeId);
+        Order order = new Order(orderId, 0, mockStore);
+        final int INVALID_MENUID = -1;
+        MenuOrderDTO.Create menuOrder1 = new MenuOrderDTO.Create(INVALID_MENUID, 2);
+        menuOrders.addAll(Arrays.asList(menuOrder1));
+        OrderDTO.Create newOrder = new OrderDTO.Create(1, menuOrders);
+        OrderDTO.Get result = storeService.submitNewOrder(newOrder);
     }
 }
-

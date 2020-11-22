@@ -14,5 +14,10 @@ public class DawnException extends Exception {
         super();
         this.message = message;
         this.detail = detail;
+        /*
+        StringWriter sw = new StringWriter();
+        printStackTrace(new PrintWriter(sw));
+        this.stackTrace = sw.toString();
+        */
     }
 }
