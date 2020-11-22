@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { deleteOrder } from "../../modules/orderReducer";
+import { deleteOrder, changeOrderStatus } from "../../modules/orderReducer";
 
 const orderStatusList = ["새 주문", "조리 중", "조리 완료", "음식 수령"];
 const cssStatusList = ["danger", "success", "warning", "secondary"];
@@ -21,6 +21,9 @@ function OrderComponent({ order }) {
 
   const onClickStatus = (e) => {
     const selectedStatus = e.target.innerHTML;
+    dispatch(
+      changeOrderStatus({ orderId: order.orderId, orderStatus: selectedStatus })
+    );
     setShowStatusList(orderStatusList.filter((v) => v !== selectedStatus));
     setTitleStatus(selectedStatus);
   };

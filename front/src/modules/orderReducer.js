@@ -98,8 +98,10 @@ export default function orderReducer(state = initialState, action) {
           return {
             ...order,
             menus: [...order.menus],
-            orderstatus: action.orderStatus,
+            orderStatus: action.orderStatus,
           };
+        } else {
+          return order;
         }
       });
     default:
