@@ -5,6 +5,7 @@ function StoreStatisticsComponent() {
   return (
     <>
       <h1>매출 확인</h1>
+      <div></div>
       <StoreStatisticGraphComponent />
     </>
   );

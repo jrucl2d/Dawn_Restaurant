@@ -89,7 +89,7 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId }) {
           <Form.Control
             required
             type="text"
-            placeholder="메뉴 이름"
+            placeholder="메뉴 이름 *"
             name="menuName"
             onChange={onChangeMenuInfo}
             value={menuInfo.menuName}
@@ -98,7 +98,7 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId }) {
         <Form.Group>
           <InputGroup className="mb-3">
             <FormControl
-              placeholder="메뉴 가격"
+              placeholder="메뉴 가격 *"
               aria-label="원"
               type="number"
               onChange={onChangeMenuInfo}

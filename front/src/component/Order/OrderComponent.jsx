@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { deleteOrder } from "../../modules/orderReducer";
 
 const orderStatusList = ["새 주문", "조리 중", "조리 완료", "음식 수령"];
 const cssStatusList = ["danger", "success", "warning", "secondary"];
 
 function OrderComponent({ order }) {
+  const dispatch = useDispatch();
   const [showStatusList, setShowStatusList] = useState([
     "조리 중",
     "조리 완료",
@@ -22,8 +25,16 @@ function OrderComponent({ order }) {
     setTitleStatus(selectedStatus);
   };
 
+  const onClickDeleteOrder = () => {
+    dispatch(deleteOrder(order.orderId));
+  };
+
   return (
-    <div id="orderCard">
+    <div
+      className={
+        titleStatus === "새 주문" ? "orderCard highlightOrder" : "orderCard"
+      }
+    >
       <div id="foodInfo">
         {order.menus.map((menu) => (
           <div key={menu.menuId}>
@@ -49,6 +60,11 @@ function OrderComponent({ order }) {
           {showStatusList[2]}
         </Dropdown.Item>
       </DropdownButton>
+      {titleStatus === "음식 수령" ? (
+        <button className="deleteOrderBtn" onClick={onClickDeleteOrder}>
+          X
+        </button>
+      ) : null}
     </div>
   );
 }

@@ -100,7 +100,7 @@ function StaffModifyModalComponent({ showModal, setShowModal, staff }) {
             <Form.Control
               required
               type="text"
-              placeholder="직원 이름"
+              placeholder="직원 이름 *"
               name="staffName"
               onChange={onChangeStaffInfo}
               value={staffInfo.staffName}

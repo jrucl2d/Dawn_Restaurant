@@ -3,11 +3,13 @@
   margin-top: 0;
   margin-bottom: 0;
   height: 80vh;
-  border: 1px solid black;
+  border: 1px solid rgb(68, 84, 106);
+  border-radius: 6px;
   overflow-x: auto;
 }
-#orderCard {
-  border: 1px solid black;
+.orderCard {
+  border: 1px solid rgb(68, 84, 106);
+  border-radius: 6px;
   margin: 1rem;
   margin-bottom: 2rem;
   min-height: 10vh;
@@ -23,4 +25,16 @@
 }
 .dropdown > button {
   width: 9vw;
+}
+
+.highlightOrder {
+  border: 2px solid red;
+}
+.deleteOrderBtn {
+  background-color: rgb(248, 35, 35);
+  color: white;
+  border: none;
+  border-left: 0.5px solid black;
+  display: inline-block;
+  width: 2rem;
 }
