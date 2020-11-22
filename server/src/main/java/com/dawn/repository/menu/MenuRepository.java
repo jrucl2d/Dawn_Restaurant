@@ -8,5 +8,4 @@ import java.util.List;
 public interface MenuRepository extends JpaRepository<Menu, Integer>, CustomMenuRepository {
 
     public Menu findByMenuId(int menuId);
-    public List<Menu> findMenuByStoreId(int storeId);
 }

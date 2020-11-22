@@ -9,11 +9,29 @@ public class StoreDTO {
     @Getter
     @Setter
     @AllArgsConstructor
-    public static class Create {
+    public static class GetStore {
         private int ownerUserId;
         private String storeTitle;
         private String location;
         private String businessHour;
         private String description;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class CreateStore {
+        private int ownerUserId;
+        private String storeTitle;
+        private String location;
+        private String businessHour;
+        private String description;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class DeleteStore {
+        private int storeId;
     }
 }

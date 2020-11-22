@@ -29,7 +29,15 @@ public class StoreServiceImpl implements StoreService {
     private final MenuRepository menuRepository;
 
     @Override
-    public Store createStore(StoreDTO.Create newStore) {
+    public List<StoreDTO.GetStore> getAllStoreOfUserByUserId(int userId) {
+        List<Store> fetchResult = storeRepository.getAllStoreOfUserByUserId(userId);
+        List<StoreDTO.GetStore> result = new ArrayList<>();
+        fetchResult.stream().map(Store::toGetStore).forEach(result::add);
+        return result;
+    }
+
+    @Override
+    public Store createStore(StoreDTO.CreateStore newStore) {
         User user = userRepository.findUserByUserId(newStore.getOwnerUserId());
         Store store =
                 new Store(newStore.getStoreTitle(), newStore.getLocation(),
@@ -76,6 +84,23 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public void removeAllOrderOfStore(int storeId) {
         orderRepository.deleteAllOrderOfStore(storeId);
+    }
+
+    @Transactional
+    public void removeAllStore(List<StoreDTO.DeleteStore> targetStores) {
+        List<Store> targetList = new ArrayList<>();
+        targetStores.forEach(x -> targetList.add(new Store(x.getStoreId())));
+        storeRepository.deleteAll(targetList);
+    }
+
+    @Transactional
+    public void removeStoreByStoreId(int storeId) {
+        storeRepository.deleteById(storeId);
+    }
+
+    @Transactional
+    public void removeAllStoreOfUserByUserId(int userId) {
+        storeRepository.deleteAllStoreOfUserByUserId(userId);
     }
 }
 

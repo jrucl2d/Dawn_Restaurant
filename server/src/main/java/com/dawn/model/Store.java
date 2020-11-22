@@ -1,6 +1,7 @@
 package com.dawn.model;
 
 
+import com.dawn.dto.StoreDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,6 +32,9 @@ public class Store {
     private String description;
 
     @OneToMany
+    private List<Store> stores = new ArrayList<>();
+
+    @OneToMany
     private List<StoreCategory> storeCategories = new ArrayList<>();
 
     @OneToMany
@@ -53,5 +57,11 @@ public class Store {
         this.businessHour = businessHour;
         this.description = description;
         this.user = user;
+    }
+
+    public static StoreDTO.GetStore toGetStore(Store store) {
+        return new StoreDTO.GetStore(
+                store.getStoreId(), store.getStoreTitle(), store.getLocation(),
+                store.getBusinessHour(), store.getDescription());
     }
 }

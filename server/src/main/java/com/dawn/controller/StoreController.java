@@ -6,7 +6,9 @@ import com.dawn.common.DawnErrorType;
 import com.dawn.dto.MenuDTO;
 import com.dawn.dto.MenuOrderDTO;
 import com.dawn.dto.OrderDTO;
+import com.dawn.dto.StoreDTO;
 import com.dawn.exception.DawnException;
+import com.dawn.model.Store;
 import com.dawn.service.MenuService;
 import com.dawn.service.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.dawn.common.DawnErrorType.INVALID_REQUEST_BODY;
@@ -24,6 +27,35 @@ public class StoreController {
 
     private final MenuService menuService;
     private final StoreService storeService;
+
+    @PostMapping("/stores")
+    public ResponseEntity<DawnCodingResult> createNewStores(@RequestBody List<StoreDTO.CreateStore> newStores) {
+        List<Store> result = new ArrayList<>();
+        newStores.parallelStream()
+                .forEach(x -> {
+                    Store newStore = storeService.createStore(x);
+                    result.add(newStore);
+                });
+        return new ResponseEntity<>(new DawnCodingResult<>(null, result), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/stores")
+    public ResponseEntity<DawnCodingResult> deleteAllStores(@RequestBody List<StoreDTO.DeleteStore> targetStores) {
+        storeService.removeAllStore(targetStores);
+        return new ResponseEntity<>(DawnCodingResult.OK(), HttpStatus.OK);
+    }
+
+    @GetMapping("/stores/users/{userId}")
+    public ResponseEntity<DawnCodingResult> getAllStoresOfUser(@PathVariable("userId") int userId) {
+        return new ResponseEntity<>(
+                new DawnCodingResult<>(null, storeService.getAllStoreOfUserByUserId(userId)), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/stores/store/{storeId}")
+    public ResponseEntity<DawnCodingResult> deleteStoreByStoreId(@PathVariable("storeId") int storeId) {
+        storeService.removeStoreByStoreId(storeId);
+        return new ResponseEntity<>(DawnCodingResult.OK(), HttpStatus.OK);
+    }
 
     @GetMapping("/stores/store/{storeId}/menus")
     public ResponseEntity<List<MenuDTO.Get>> getMenusOfStore(@PathVariable("storeId") int storeId) {

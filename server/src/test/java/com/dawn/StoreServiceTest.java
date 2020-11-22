@@ -67,7 +67,7 @@ public class StoreServiceTest {
         given(userRepository.findUserByUserId(1))
                 .willReturn(new User("loginId", "1234", "jun", true));
         when(storeRepository.save(any(Store.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
-        StoreDTO.Create newStore = new StoreDTO.Create(
+        StoreDTO.CreateStore newStore = new StoreDTO.CreateStore(
                 1, "새벽식당", "신공", "24시", "새벽에만 하는 식당"
         );
         Store store = storeService.createStore(newStore);
