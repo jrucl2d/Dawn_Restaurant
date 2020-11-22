@@ -82,7 +82,7 @@ function StoreAddModalComponent({ showAddStore, setShowAddStore }) {
             <Form.Control
               required
               type="text"
-              placeholder="점포 상호명"
+              placeholder="점포 상호명 *"
               name="storeName"
               onChange={onChangeStoreInfo}
               value={storeInfo.storeName}
@@ -92,7 +92,7 @@ function StoreAddModalComponent({ showAddStore, setShowAddStore }) {
             <Form.Control
               required
               type="text"
-              placeholder="점포 위치"
+              placeholder="점포 위치 *"
               name="storeLocation"
               onChange={onChangeStoreInfo}
               value={storeInfo.storeLocation}

@@ -100,7 +100,7 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
             <Form.Control
               required
               type="text"
-              placeholder="메뉴 이름"
+              placeholder="메뉴 이름 *"
               name="menuName"
               onChange={onChangeMenuInfo}
               value={menuInfo.menuName}
@@ -117,7 +117,7 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
                 value={menuInfo.menuPrice}
               />
               <InputGroup.Append>
-                <InputGroup.Text>원</InputGroup.Text>
+                <InputGroup.Text>원 *</InputGroup.Text>
               </InputGroup.Append>
             </InputGroup>
           </Form.Group>

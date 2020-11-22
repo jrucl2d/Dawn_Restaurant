@@ -109,7 +109,7 @@ function StaffAddModalComponent({ showModal, setShowModal, storeId }) {
             <Form.Control
               required
               type="text"
-              placeholder="직원 이름"
+              placeholder="직원 이름 *"
               name="staffName"
               onChange={onChangeStaffInfo}
               value={staffInfo.staffName}
@@ -134,7 +134,7 @@ function StaffAddModalComponent({ showModal, setShowModal, storeId }) {
             <Form.Control
               required
               type="text"
-              placeholder="직책"
+              placeholder="직책 *"
               name="staffPosition"
               onChange={onChangeStaffInfo}
               value={staffInfo.staffPosition}
@@ -142,7 +142,7 @@ function StaffAddModalComponent({ showModal, setShowModal, storeId }) {
           </Form.Group>
           <InputGroup className="mb-3">
             <FormControl
-              placeholder="시급/월급"
+              placeholder="시급/월급 *"
               aria-label="원"
               type="number"
               onChange={onChangeStaffInfo}

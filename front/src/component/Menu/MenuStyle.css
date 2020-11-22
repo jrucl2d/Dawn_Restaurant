@@ -1,10 +1,11 @@
 #menuList {
   min-height: 80vh;
-  border: 1px solid black;
+  border: 1px solid rgb(68, 84, 106);
+  border-radius: 6px;
 }
 #menuList > h2 {
   display: inline-block;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgb(68, 84, 106);
 }
 .menuGrid {
   display: grid;
@@ -24,7 +25,8 @@
 }
 .menuGridItem {
   transition: all 0.3s ease-in-out;
-  border: 1px solid black;
+  border: 1px solid rgb(68, 84, 106);
+  border-radius: 6px;
   height: 30vh;
   background-color: white;
 }
