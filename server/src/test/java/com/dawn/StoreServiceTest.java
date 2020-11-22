@@ -118,4 +118,5 @@ public class StoreServiceTest {
         OrderDTO.Create newOrder = new OrderDTO.Create(1, menuOrders);
         OrderDTO.Get result = storeService.submitNewOrder(newOrder);
     }
+
 }

@@ -11,4 +11,8 @@ public class DawnCodingResult<T> {
 
     private DawnCodingError error;
     private T result;
+
+    public static DawnCodingResult<String> OK() {
+        return new DawnCodingResult<>(null, "OK");
+    }
 }

@@ -2,6 +2,7 @@ package com.dawn.controller;
 
 import com.dawn.common.DawnCodingError;
 import com.dawn.common.DawnCodingResult;
+import com.dawn.common.DawnErrorType;
 import com.dawn.dto.MenuDTO;
 import com.dawn.dto.MenuOrderDTO;
 import com.dawn.dto.OrderDTO;
@@ -59,6 +60,18 @@ public class StoreController {
                     new DawnCodingResult<>(new DawnCodingError(e), null),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
 
+    @DeleteMapping("/stores/store/{storeId}/orders")
+    public ResponseEntity<DawnCodingResult> deleteAllOrderOfStore(@PathVariable("storeId") int storeId) {
+        if (storeId < 1) {
+            return new ResponseEntity<>(new DawnCodingResult<>(
+                    new DawnCodingError(
+                            DawnErrorType.INVALID_PATH_PARAMETER,
+                            "causation: storeId =[" + storeId + "]"),
+                    HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        }
+        storeService.removeAllOrderOfStore(storeId);
+        return new ResponseEntity<>(DawnCodingResult.OK(), HttpStatus.OK);
     }
 }

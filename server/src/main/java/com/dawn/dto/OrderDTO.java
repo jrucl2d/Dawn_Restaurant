@@ -1,5 +1,6 @@
 package com.dawn.dto;
 
+import com.dawn.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,4 +26,11 @@ public class OrderDTO {
         private List<MenuOrderDTO.Get> menusOrders;
     }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class OrderStateUpdate {
+        private int orderId;
+        private OrderStatus orderStatus;
+    }
 }

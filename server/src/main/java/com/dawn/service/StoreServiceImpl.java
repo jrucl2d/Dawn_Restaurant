@@ -72,5 +72,10 @@ public class StoreServiceImpl implements StoreService {
         orderRepository.save(order);
         return new OrderDTO.Get(order.getOrderId(), totalPrice, menuOrderResult);
     }
+
+    @Override
+    public void removeAllOrderOfStore(int storeId) {
+        orderRepository.deleteAllOrderOfStore(storeId);
+    }
 }
 

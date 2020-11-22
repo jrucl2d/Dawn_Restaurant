@@ -11,4 +11,5 @@ public interface StoreService {
 
     public Store createStore(StoreDTO.Create newStore);
     public OrderDTO.Get submitNewOrder(OrderDTO.Create newOrder) throws DawnException;
+    public void removeAllOrderOfStore(int storeId);
 }
