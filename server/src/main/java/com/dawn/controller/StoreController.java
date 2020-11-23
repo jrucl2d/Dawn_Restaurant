@@ -11,11 +11,20 @@ import com.dawn.exception.DawnException;
 import com.dawn.model.Store;
 import com.dawn.service.MenuService;
 import com.dawn.service.StoreService;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.fasterxml.jackson.databind.util.Converter;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,14 +37,49 @@ public class StoreController {
     private final MenuService menuService;
     private final StoreService storeService;
 
-    @PostMapping("/stores")
-    public ResponseEntity<DawnCodingResult> createNewStores(@RequestBody List<StoreDTO.CreateStore> newStores) {
+    @Component
+    public static class StringToUserConverter implements Converter<String, StoreDTO.CreateStore> {
+
+        @Autowired
+        private ObjectMapper objectMapper;
+
+        @Override
+        @SneakyThrows
+        public StoreDTO.CreateStore convert(String source) {
+            return objectMapper.readValue(source, StoreDTO.CreateStore.class);
+        }
+
+        @Override
+        public JavaType getInputType(TypeFactory typeFactory) {
+            return null;
+        }
+
+        @Override
+        public JavaType getOutputType(TypeFactory typeFactory) {
+            return null;
+        }
+    }
+
+    @PostMapping(value = "/stores")
+    //public ResponseEntity<DawnCodingResult> createNewStores(@RequestBody List<StoreDTO.CreateStore> newStores) {
+    public ResponseEntity<DawnCodingResult> createNewStores(
+            @RequestPart("store") String storeString,
+            @RequestPart("profileImage") MultipartFile profileImage) throws IOException {
         List<Store> result = new ArrayList<>();
+        StoreDTO.CreateStore newStores = new ObjectMapper().readValue(storeString, StoreDTO.CreateStore.class);
+        Store newStore = storeService.createStore(newStores, profileImage);
+        /*
         newStores.parallelStream()
                 .forEach(x -> {
-                    Store newStore = storeService.createStore(x);
+                    Store newStore = null;
+                    try {
+                        newStore = storeService.createStore(x);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                     result.add(newStore);
                 });
+        */
         return new ResponseEntity<>(new DawnCodingResult<>(null, result), HttpStatus.OK);
     }
 

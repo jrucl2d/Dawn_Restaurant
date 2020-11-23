@@ -11,10 +11,18 @@ import com.dawn.repository.menuorder.MenuOrderRepository;
 import com.dawn.repository.order.OrderRepository;
 import com.dawn.repository.store.StoreRepository;
 import com.dawn.repository.user.UserRepository;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +35,7 @@ public class StoreServiceImpl implements StoreService {
     private final MenuOrderRepository menuOrderRepository;
     private final OrderRepository orderRepository;
     private final MenuRepository menuRepository;
+    //private final Storage storage;
 
     @Override
     public List<StoreDTO.GetStore> getAllStoreOfUserByUserId(int userId) {
@@ -37,11 +46,20 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Store createStore(StoreDTO.CreateStore newStore) {
+    public Store createStore(StoreDTO.CreateStore newStore, MultipartFile profileImage) throws IOException {
         User user = userRepository.findUserByUserId(newStore.getOwnerUserId());
+        String jsonPath = "C:\\Users\\4whom\\Desktop\\2020-2학기\\소공\\sasuke.json";
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
+                .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+
         Store store =
                 new Store(newStore.getStoreTitle(), newStore.getLocation(),
-                          newStore.getBusinessHour(), newStore.getDescription(), user);
+                          newStore.getBusinessHour(), newStore.getDescription(), "", user);
+        BlobInfo blobInfo = storage.create(
+                BlobInfo.newBuilder("sogong", "store/"+store.getStoreId()+"-profile.jpg")
+                        .build(), profileImage.getBytes());
+        System.out.println("generated blob= " + blobInfo.getGeneratedId());
         return storeRepository.save(store);
     }
 

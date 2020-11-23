@@ -34,6 +34,6 @@ public class MenuServiceTest {
     public void getAllMenuOfStore() {
         int storeId = 1;
         User user = new User("loginId", "1234", "jun", true);
-        Store targetStore = new Store("새벽식당", "신공", "새벽에 영업해요", "영업 중..", user);
+        Store targetStore = new Store("새벽식당", "신공", "새벽에 영업해요", "영업 중..", "", user);
     }
 }

@@ -13,6 +13,7 @@ import com.dawn.repository.store.StoreRepository;
 import com.dawn.repository.user.UserRepository;
 import com.dawn.service.StoreService;
 import com.dawn.service.StoreServiceImpl;
+import com.google.cloud.storage.Storage;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,23 +55,24 @@ public class StoreServiceTest {
     @Mock
     private MenuRepository menuRepository;
 
+    @Mock
+    private Storage storage;
     public StoreService storeService;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         storeService = new StoreServiceImpl(
-                userRepository, storeRepository, menuOrderRepository, orderRepository, menuRepository);
+                userRepository, storeRepository, menuOrderRepository, orderRepository, menuRepository, storage);
     }
 
     @Test
-    public void storeCreate() {
+    public void storeCreate() throws FileNotFoundException {
         given(userRepository.findUserByUserId(1))
                 .willReturn(new User("loginId", "1234", "jun", true));
         when(storeRepository.save(any(Store.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
         StoreDTO.CreateStore newStore = new StoreDTO.CreateStore(
-                1, "새벽식당", "신공", "24시", "새벽에만 하는 식당"
-        );
+                1, "새벽식당", "신공", "24시", "새벽에만 하는 식당", null);
         Store store = storeService.createStore(newStore);
         assertThat(store, is(notNullValue()));
     }
@@ -77,7 +80,7 @@ public class StoreServiceTest {
     @Test
     public void storeAddMenu() {
         User user = new User("loginId", "1234", "jun", true);
-        Store store = new Store("새벽식당", "신공", "24시", "새벽에만 하는 식당", user);
+        Store store = new Store("새벽식당", "신공", "24시", "새벽에만 하는 식당", "", user);
         List<MenuDTO.Create> menuDTOs =
                 new ArrayList<>(Arrays.asList(new MenuDTO.Create(1, "햄버거", "맥도날드..", 6000),
                         new MenuDTO.Create(1, "샌드위치", "서브웨이..", 4000)));
@@ -106,7 +109,7 @@ public class StoreServiceTest {
     }
 
     @Test(expected = DawnException.class)
-    public void FAIL_존재하지않는_메뉴ID로_주문을_넣었을떄() throws DawnException {
+    public void FAIL_존재하지않는_메뉴ID로_주문을_넣었을때() throws DawnException {
         List<MenuOrderDTO.Create> menuOrders = new ArrayList<>();
         int orderId = 100;
         int storeId = 101;
@@ -119,4 +122,17 @@ public class StoreServiceTest {
         OrderDTO.Get result = storeService.submitNewOrder(newOrder);
     }
 
+    @Test(expected = DawnException.class)
+    public void FAIL_단품개수가_0개일때() throws DawnException {
+        List<MenuOrderDTO.Create> menuOrders = new ArrayList<>();
+        final int orderId = 100;
+        final int storeId = 101;
+        Store mockStore = new Store(storeId);
+        Order order = new Order(orderId, 0, mockStore);
+        final int MENU_ID = 1;
+        MenuOrderDTO.Create menuOrder1 = new MenuOrderDTO.Create(MENU_ID, 0);
+        menuOrders.addAll(Arrays.asList(menuOrder1));
+        OrderDTO.Create newOrder = new OrderDTO.Create(storeId, menuOrders);
+        OrderDTO.Get result = storeService.submitNewOrder(newOrder);
+    }
 }

@@ -37,3 +37,6 @@ out/
 .vscode/
 
 spring-boot-log*
+
+### secret ###
+/src/main/resources/sasuke.json

@@ -1,13 +1,13 @@
 package com.dawn.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 public class StoreDTO {
 
+    @Data
     @Getter
     @Setter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class GetStore {
         private int ownerUserId;
@@ -15,10 +15,13 @@ public class StoreDTO {
         private String location;
         private String businessHour;
         private String description;
+        private String profileImage;
     }
 
+    @Data
     @Getter
     @Setter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class CreateStore {
         private int ownerUserId;
@@ -26,6 +29,7 @@ public class StoreDTO {
         private String location;
         private String businessHour;
         private String description;
+        private byte[] profileImage;
     }
 
     @Getter

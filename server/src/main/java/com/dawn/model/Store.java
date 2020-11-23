@@ -31,6 +31,9 @@ public class Store {
     @Column
     private String description;
 
+    @Column
+    private String profileImageURL;
+
     @OneToMany
     private List<Store> stores = new ArrayList<>();
 
@@ -51,17 +54,18 @@ public class Store {
         this.storeId = storeId;
     }
 
-    public Store(String storeTitle, String location, String businessHour, String description, User user) {
+    public Store(String storeTitle, String location, String businessHour, String description, String profileImageURL, User user) {
         this.storeTitle = storeTitle;
         this.location = location;
         this.businessHour = businessHour;
         this.description = description;
+        this.profileImageURL = profileImageURL;
         this.user = user;
     }
 
     public static StoreDTO.GetStore toGetStore(Store store) {
         return new StoreDTO.GetStore(
                 store.getStoreId(), store.getStoreTitle(), store.getLocation(),
-                store.getBusinessHour(), store.getDescription());
+                store.getBusinessHour(), store.getDescription(), store.getProfileImageURL());
     }
 }
