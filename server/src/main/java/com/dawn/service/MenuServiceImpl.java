@@ -1,12 +1,21 @@
 package com.dawn.service;
 
+import com.dawn.common.CloudConstatns;
 import com.dawn.dto.MenuDTO;
 import com.dawn.model.Menu;
 import com.dawn.model.Store;
 import com.dawn.repository.menu.MenuRepository;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,46 +26,50 @@ public class MenuServiceImpl implements MenuService {
     private final MenuRepository menuRepository;
 
     @Override
-    public List<Menu> addMenus(List<MenuDTO.Create> menuDTOs) {
-        final List<Menu> creationResults = new ArrayList<>();
-        for (MenuDTO.Create menuDTO : menuDTOs) {
-            Menu newMenu = new Menu(menuDTO.getMenuTitle(), menuDTO.getMenuDescription(),
-                    menuDTO.getPrice(), "", new Store(menuDTO.getStoreId()));
-            menuRepository.save(newMenu);
-            creationResults.add(newMenu);
-        }
-        return creationResults;
+    public MenuDTO.GetMenu addMenu(MenuDTO.CreateMenu menuDTO, MultipartFile menuImageFile) throws IOException {
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(CloudConstatns.KEYFILE_PATH))
+                .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+        Menu newMenu = menuRepository.save(new Menu(menuDTO.getMenuTitle(), menuDTO.getMenuDescription(),
+                menuDTO.getPrice(), "", new Store(menuDTO.getStoreId())));
+        String menuImageName = "menu/" + newMenu.getMenuId() + "-image.jpg";
+        BlobInfo blobInfo = storage.create(
+                BlobInfo.newBuilder("sogong", menuImageName).build(), menuImageFile.getBytes());
+        System.out.println("generated blob = " + blobInfo.getName());
+        newMenu.setImageFileName(menuImageName);
+        menuRepository.save(newMenu);
+        return Menu.toMenuDTOGetMenu(newMenu);
     }
 
     @Override
-    public List<MenuDTO.Get> getAllMenusOfStore(int storeId) {
+    public List<MenuDTO.GetMenu> getAllMenusOfStore(int storeId) {
         List<Menu> menus = menuRepository.findByStoreId(storeId);
-        List<MenuDTO.Get> result = new ArrayList<>();
+        List<MenuDTO.GetMenu> result = new ArrayList<>();
         for (Menu menu : menus) {
             result.add(
-                    new MenuDTO.Get(
+                    new MenuDTO.GetMenu(
                             menu.getMenuId(), menu.getStore().getStoreId(),
                             menu.getMenuTitle(), menu.getMenuDescription(),
-                            menu.getPrice(), menu.getImageURL()));
+                            menu.getPrice(), menu.getImageFileName()));
         }
         return result;
     }
 
     @Override
-    public MenuDTO.Get getMenuByMenuId(int menuId) {
-        return MenuDTO.Get.fromMenu(menuRepository.findByMenuId(menuId));
+    public MenuDTO.GetMenu getMenuByMenuId(int menuId) {
+        return Menu.toMenuDTOGetMenu(menuRepository.findByMenuId(menuId));
     }
 
     @Override
-    public List<MenuDTO.Get> getAllMenus() {
+    public List<MenuDTO.GetMenu> getAllMenus() {
         List<Menu> menus = menuRepository.findAll();
-        List<MenuDTO.Get> result = new ArrayList<>();
+        List<MenuDTO.GetMenu> result = new ArrayList<>();
         for (Menu menu : menus) {
             result.add(
-                    new MenuDTO.Get(
+                    new MenuDTO.GetMenu(
                             menu.getMenuId(), menu.getStore().getStoreId(),
                             menu.getMenuTitle(), menu.getMenuDescription(),
-                            menu.getPrice(), menu.getImageURL()));
+                            menu.getPrice(), menu.getImageFileName()));
         }
         return result;
     }

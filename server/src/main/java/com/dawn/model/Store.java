@@ -10,6 +10,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dawn.common.CloudConstatns.CloudStorageBaseURL;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -66,6 +68,6 @@ public class Store {
     public static StoreDTO.GetStore toGetStore(Store store) {
         return new StoreDTO.GetStore(
                 store.getStoreId(), store.getStoreTitle(), store.getLocation(),
-                store.getBusinessHour(), store.getDescription(), store.getProfileImageURL());
+                store.getBusinessHour(), store.getDescription(), CloudStorageBaseURL + "/" + store.getProfileImageURL());
     }
 }

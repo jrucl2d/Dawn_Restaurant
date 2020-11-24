@@ -63,7 +63,7 @@ public class MenuControllerTest {
     public void getMenus() throws Exception {
         given(menuService.getAllMenus()).willReturn(
                 new ArrayList<>(Arrays.asList(
-                    new MenuDTO.Get(1, 2, "햄버거", "맥도날드", 6000, "")
+                    new MenuDTO.GetMenu(1, 2, "햄버거", "맥도날드", 6000, "")
                 )));
         MockHttpServletResponse response =
                 mockMvc.perform(get("/menus")

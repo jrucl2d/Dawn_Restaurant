@@ -1,5 +1,7 @@
 package com.dawn.model;
 
+import com.dawn.common.CloudConstatns;
+import com.dawn.dto.MenuDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,7 +30,7 @@ public class Menu {
     private int price;
 
     @Column
-    private String imageURL;
+    private String imageFileName;
 
     @ManyToOne
     private Store store;
@@ -40,11 +42,18 @@ public class Menu {
         this.menuId = menuId;
     }
 
-    public Menu(String menuTitle, String menuDescription, int price, String imageURL, Store store) {
+    public Menu(String menuTitle, String menuDescription, int price, String imageFileName, Store store) {
         this.menuTitle = menuTitle;
         this.menuDescription = menuDescription;
         this.price = price;
-        this.imageURL = imageURL;
+        this.imageFileName = imageFileName;
         this.store = store;
+    }
+
+    public static MenuDTO.GetMenu toMenuDTOGetMenu(Menu menu) {
+        return new MenuDTO.GetMenu(
+                menu.getMenuId(), menu.getStore().getStoreId(),
+                menu.getMenuTitle(), menu.getMenuDescription(),
+                menu.getPrice(), CloudConstatns.CloudStorageBaseURL + "/" + menu.getImageFileName());
     }
 }

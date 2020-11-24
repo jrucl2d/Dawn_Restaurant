@@ -1,5 +1,7 @@
 package com.dawn.model;
 
+import com.dawn.common.CloudConstatns;
+import com.dawn.dto.StaffDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,12 +37,23 @@ public class Staff {
     @Column
     private int wagePerHour;
 
-    public Staff(Store store, String name, String position, Date birthDate, Boolean sex, int wagePerHour) {
+    @Column
+    private String profileImageName;
+
+    public Staff(Store store, String name, String position, Date birthDate,
+                 Boolean sex, int wagePerHour) {
         this.store = store;
         this.name = name;
         this.position = position;
         this.birthDate = birthDate;
         this.sex = sex;
         this.wagePerHour = wagePerHour;
+    }
+
+    public static StaffDTO.GetStaff toGetStaff(Staff staff) {
+        return new StaffDTO.GetStaff(
+                staff.getStore().getStoreId(), staff.getName(), staff.getPosition(),
+                staff.getBirthDate().toString(), staff.getSex(), staff.getWagePerHour(),
+                CloudConstatns.CloudStorageBaseURL + "/" + staff.getProfileImageName());
     }
 }

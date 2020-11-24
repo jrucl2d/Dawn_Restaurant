@@ -1,5 +1,6 @@
 package com.dawn.service;
 
+import com.dawn.common.CloudConstatns;
 import com.dawn.dto.MenuDTO;
 import com.dawn.dto.MenuOrderDTO;
 import com.dawn.dto.OrderDTO;
@@ -48,8 +49,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public Store createStore(StoreDTO.CreateStore newStore, MultipartFile profileImage) throws IOException {
         User user = userRepository.findUserByUserId(newStore.getOwnerUserId());
-        String jsonPath = "C:\\Users\\4whom\\Desktop\\2020-2학기\\소공\\sasuke.json";
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(CloudConstatns.KEYFILE_PATH))
                 .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
 
@@ -59,7 +59,8 @@ public class StoreServiceImpl implements StoreService {
         BlobInfo blobInfo = storage.create(
                 BlobInfo.newBuilder("sogong", "store/"+store.getStoreId()+"-profile.jpg")
                         .build(), profileImage.getBytes());
-        System.out.println("generated blob= " + blobInfo.getGeneratedId());
+        System.out.println("generated blob = " + blobInfo.getName());
+        store.setProfileImageURL(blobInfo.getName());
         return storeRepository.save(store);
     }
 
@@ -91,7 +92,7 @@ public class StoreServiceImpl implements StoreService {
                                     currMenu.getMenuId(),
                                     currMenu.getMenuTitle(),
                                     currMenu.getPrice(),
-                                    currMenu.getImageURL())));
+                                    currMenu.getImageFileName())));
         }
         order.setMenuOrders(menuOrders);
         order.setTotalPrice(totalPrice);

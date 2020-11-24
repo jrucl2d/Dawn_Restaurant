@@ -102,7 +102,7 @@ public class StoreController {
     }
 
     @GetMapping("/stores/store/{storeId}/menus")
-    public ResponseEntity<List<MenuDTO.Get>> getMenusOfStore(@PathVariable("storeId") int storeId) {
+    public ResponseEntity<List<MenuDTO.GetMenu>> getMenusOfStore(@PathVariable("storeId") int storeId) {
         return new ResponseEntity<>(menuService.getAllMenusOfStore(storeId), HttpStatus.OK);
     }
 

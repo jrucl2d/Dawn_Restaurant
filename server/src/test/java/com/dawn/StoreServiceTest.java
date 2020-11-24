@@ -81,9 +81,9 @@ public class StoreServiceTest {
     public void storeAddMenu() {
         User user = new User("loginId", "1234", "jun", true);
         Store store = new Store("새벽식당", "신공", "24시", "새벽에만 하는 식당", "", user);
-        List<MenuDTO.Create> menuDTOs =
-                new ArrayList<>(Arrays.asList(new MenuDTO.Create(1, "햄버거", "맥도날드..", 6000),
-                        new MenuDTO.Create(1, "샌드위치", "서브웨이..", 4000)));
+        List<MenuDTO.CreateMenu> menuDTOs =
+                new ArrayList<>(Arrays.asList(new MenuDTO.CreateMenu(1, "햄버거", "맥도날드..", 6000),
+                        new MenuDTO.CreateMenu(1, "샌드위치", "서브웨이..", 4000)));
     }
 
     @Test
