@@ -141,3 +141,38 @@ main {
 #storeRightSide {
   flex: 1;
 }
+
+/* 매출통계 */
+#statisticsContainer {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#statisticsContainer #infos {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  width: 30vw;
+}
+#statisticsContainer #infos #orders {
+  border: 1px solid rgb(68, 84, 106);
+  border-radius: 6px;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  overflow-y: auto;
+}
+#statisticsContainer #infos #orders .order {
+  border: 1px solid rgb(68, 84, 106);
+  width: 90%;
+  height: 5rem;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+}

@@ -45,6 +45,12 @@ const initialState = [
         menuPrice: 3100,
         menuNum: 2,
       },
+      {
+        menuId: "!235132525325",
+        menuName: "음식1",
+        menuPrice: 3100,
+        menuNum: 3,
+      },
     ],
   },
   {
