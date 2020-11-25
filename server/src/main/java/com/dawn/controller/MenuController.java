@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -30,6 +31,8 @@ public class MenuController {
     @PostMapping("/menu")
     public ResponseEntity<DawnCodingResult<MenuDTO.GetMenu>> addMenu(@RequestPart("menu") String newMenuString,
                                                    @RequestPart("menuImage") MultipartFile menuImage) throws IOException {
+        newMenuString = new String(newMenuString.getBytes("8859_1"), StandardCharsets.UTF_8);
+
         MenuDTO.CreateMenu newMenu = new ObjectMapper().readValue(newMenuString, MenuDTO.CreateMenu.class);
         return new ResponseEntity<>(
                 new DawnCodingResult<>(null, menuService.addMenu(newMenu, menuImage)), HttpStatus.OK);

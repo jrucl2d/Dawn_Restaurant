@@ -35,13 +35,13 @@ public class Staff {
     private Boolean sex;
 
     @Column
-    private int wagePerHour;
+    private String wagePerHour;
 
     @Column
     private String profileImageName;
 
     public Staff(Store store, String name, String position, Date birthDate,
-                 Boolean sex, int wagePerHour) {
+                 Boolean sex, String wagePerHour) {
         this.store = store;
         this.name = name;
         this.position = position;

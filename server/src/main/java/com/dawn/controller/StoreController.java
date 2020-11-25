@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,7 @@ public class StoreController {
     public ResponseEntity<DawnCodingResult> createNewStores(
             @RequestPart("store") String storeString,
             @RequestPart("profileImage") MultipartFile profileImage) throws IOException {
+        storeString = new String(storeString.getBytes("8859_1"), StandardCharsets.UTF_8);
         List<Store> result = new ArrayList<>();
         StoreDTO.CreateStore newStores = new ObjectMapper().readValue(storeString, StoreDTO.CreateStore.class);
         Store newStore = storeService.createStore(newStores, profileImage);

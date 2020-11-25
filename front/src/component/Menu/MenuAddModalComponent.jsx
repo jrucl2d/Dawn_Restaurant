@@ -16,7 +16,6 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
     menuPrice: 0,
     menuIntroduce: "",
   });
-
   const onChangeFile = (e) => {
     e.preventDefault();
     let reader = new FileReader();
@@ -57,7 +56,7 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
       const result = await axios.post("/menu", formData, {
         headers: {
           Authorization: "token",
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data; charset=UTF-8",
         },
       });
 

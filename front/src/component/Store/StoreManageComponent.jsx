@@ -36,7 +36,7 @@ function StoreManageComponent({ location }) {
           <StaffListComponent storeId={storeId.current} />
         </div>
         <div id="storeMiddleSide">
-          <MenuGridComponent storeId={storeId.current} />
+          <MenuGridComponent storeId={storeId.current} location />
         </div>
         <div id="storeRightSide">
           <OrderListComponent />
