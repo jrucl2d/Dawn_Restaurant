@@ -81,4 +81,10 @@ public class MenuServiceImpl implements MenuService {
         }
     }
 
+    @Override
+    public void removeMenu(int menuId){
+        menuRepository.deleteById(menuId);
+    }
+
+
 }

@@ -17,7 +17,7 @@ function MenuComponent({
   const deMenuEditMode = () => {
     setEditMode(false);
     setSelectedMenu(null);
-    menuRef.current.classList.remove("menuEditMode");
+    menuRef.current && menuRef.current.classList.remove("menuEditMode");
   };
   return (
     <button

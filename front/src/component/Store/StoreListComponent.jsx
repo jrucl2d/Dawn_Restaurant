@@ -3,9 +3,12 @@ import StoreRankGraphComponent from "./StoreRankGraphComponent";
 import StoreComponent from "./StoreComponent";
 import StoreAddModalComponent from "./StoreAddModalComponent";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteStore } from "../../modules/storeReducer";
+import { initialStore, deleteStore } from "../../modules/storeReducer";
+import axios from "axios";
 
 import "./StoreStyle.css";
+
+const userID = 1;
 
 function StoreListComponent() {
   const dispatch = useDispatch();
@@ -16,6 +19,29 @@ function StoreListComponent() {
 
   const addBtnRef = useRef(null);
   const deleteBtnRef = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get("/stores/users/" + userID);
+        const initialData = [];
+        data.result.forEach((store, index) => {
+          initialData.push({
+            storeId: store.storeId,
+            storeName: store.storeTitle ? store.storeTitle : "",
+            storeLocation: store.location ? store.location : "",
+            storeTime: store.businessHour ? store.businessHour : "",
+            storeIntroduce: store.description ? store.description : "",
+            storeImage: store.profileImage ? store.profileImage : "",
+          });
+        });
+        dispatch(initialStore(initialData));
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (stores.length === 0) {
@@ -42,9 +68,13 @@ function StoreListComponent() {
       if (!answer) {
         return;
       }
-      dispatch(deleteStore(deleteSelected));
 
-      deleteBtnRef.current.className = "btn btn-warning notDeleting";
+      Promise.all(deleteSelected.map((v) => axios.delete("/stores/store/" + v)))
+        .then((result) => {
+          dispatch(deleteStore(deleteSelected));
+          deleteBtnRef.current.className = "btn btn-warning notDeleting";
+        })
+        .catch((err) => console.error(err));
     }
     setDeleteMode(!deleteMode);
     setDeleteSelected([]);

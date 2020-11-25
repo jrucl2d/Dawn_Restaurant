@@ -10,7 +10,7 @@ public class StoreDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class GetStore {
-        private int ownerUserId;
+        private int storeId;
         private String storeTitle;
         private String location;
         private String businessHour;

@@ -80,7 +80,7 @@ public class StoreController {
                     result.add(newStore);
                 });
         */
-        return new ResponseEntity<>(new DawnCodingResult<>(null, result), HttpStatus.OK);
+        return new ResponseEntity<>(new DawnCodingResult<>(null, newStore.getStoreId()), HttpStatus.OK); // 여기 임시로 생성한 storeId 리턴하게 바꿔놨어~
     }
 
     @DeleteMapping("/stores")
