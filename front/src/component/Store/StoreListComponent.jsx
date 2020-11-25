@@ -26,9 +26,9 @@ function StoreListComponent() {
       try {
         const { data } = await axios.get("/stores/users/" + userID);
         const initialData = [];
-        data.result.forEach((store) => {
+        data.result.forEach((store, index) => {
           initialData.push({
-            storeId: 1, //////////////////// 이 부분 교체 필요
+            storeId: index + 1, //////////////////// 이 부분 교체 필요
             storeName: store.storeTitle ? store.storeTitle : "",
             storeLocation: store.location ? store.location : "",
             storeTime: store.businessHour ? store.businessHour : "",
@@ -36,6 +36,7 @@ function StoreListComponent() {
             storeImage: store.profileImage ? store.profileImage : "",
           });
         });
+        console.log(data.result);
         dispatch(initialStore(initialData));
       } catch (err) {
         console.error(err);

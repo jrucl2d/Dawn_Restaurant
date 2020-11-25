@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./MenuStyle.css";
 import MenuComponent from "./MenuComponent";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { initailMenu } from "../../modules/menuReducer";
 
 import axios from "axios";
 
 function MenuGridComponent({ storeId }) {
+  const dispatch = useDispatch();
   const gridRef = useRef();
   const menus = useSelector((state) => state.menuReducer);
   const [editMode, setEditMode] = useState(false);
@@ -15,7 +17,18 @@ function MenuGridComponent({ storeId }) {
     (async () => {
       const menusResponse = await axios.get(`/stores/store/${storeId}/menus`);
       const menus = menusResponse.data;
-      console.log(menus);
+      const theMenus = menus.map((menu) => {
+        return {
+          storeId: menu.storeId,
+          menuId: menu.menuId,
+          menuName: menu.menuTitle,
+          menuPrice: menu.price,
+          menuOrigin: "한국산",
+          menuIntroduce: menu.menuDescription ? menu.menuDescription : "",
+          menuImage: menu.imageURL ? menu.imageURL : "",
+        };
+      });
+      dispatch(initailMenu(theMenus));
     })();
   }, []);
 

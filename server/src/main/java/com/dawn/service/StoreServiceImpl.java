@@ -48,7 +48,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public Store createStore(StoreDTO.CreateStore newStore, MultipartFile profileImage) throws IOException {
         User user = userRepository.findUserByUserId(newStore.getOwnerUserId());
-        String jsonPath = "C:\\Users\\4whom\\Desktop\\2020-2학기\\소공\\sasuke.json";
+        String jsonPath = "C:\\Users\\ysk78\\src\\sogong\\server\\sasuke.json";
         GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
                 .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
