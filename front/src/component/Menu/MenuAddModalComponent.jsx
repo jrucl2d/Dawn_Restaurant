@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import "./MenuStyle.css";
-import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { addMenu } from "../../modules/menuReducer";
+import axios from "axios";
 
 const noResize = { resize: "none" };
 
@@ -14,7 +14,6 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
   const [menuInfo, setMenuInfo] = useState({
     menuName: "",
     menuPrice: 0,
-    menuOrigin: "",
     menuIntroduce: "",
   });
 
@@ -45,11 +44,8 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
     // try catch, const result = await axios.post..... 해서
     // 사용자 정보와 가게 정보 보내야 할 수도
     const sendingData = {
-      storeId,
-      menuId: uuid(),
       menuName: menuInfo.menuName,
       menuPrice: menuInfo.menuPrice,
-      menuOrigin: menuInfo.menuOrigin,
       menuIntroduce: menuInfo.menuIntroduce,
       menuImage: menuImage
         ? menuImage.name.split(".")[0] +
@@ -59,19 +55,29 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
           menuImage.name.split(".")[1]
         : "",
     };
-
-    const result = true;
-    if (!result) {
-      alert("오류가 발생했습니다. 다시 시도해주세요.");
-      return;
-    }
-    // 데이터베이스 저장에 성공했을 때 받은 result 값으로 설정하는 코드로 변경 필요
-    dispatch(addMenu(sendingData));
+    (async () => {
+      const result = await axios.post("/menus", {
+        storeId: +storeId,
+        menuTitle: sendingData.menuName,
+        menuDescription: sendingData.menuIntroduce,
+        price: +sendingData.menuPrice,
+      });
+      if (result.status !== 200) {
+        alert("오류가 발생했습니다. 다시 시도해주세요.");
+        return;
+      }
+      dispatch(
+        addMenu({
+          ...sendingData,
+          menuId: result.data.menuId,
+          storeId: +storeId,
+        })
+      );
+    })();
 
     setMenuInfo({
       menuName: "",
       menuPrice: 0,
-      menuOrigin: "",
       menuIntroduce: "",
     });
     setImageURL("");
@@ -120,16 +126,6 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
                 <InputGroup.Text>원 *</InputGroup.Text>
               </InputGroup.Append>
             </InputGroup>
-          </Form.Group>
-          <Form.Group>
-            <Form.Control
-              required
-              type="text"
-              placeholder="원산지 정보"
-              name="menuOrigin"
-              onChange={onChangeMenuInfo}
-              value={menuInfo.menuOrigin}
-            />
           </Form.Group>
           <Form.Group>
             <Form.Control

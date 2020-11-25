@@ -3,6 +3,7 @@ import { Form, InputGroup, FormControl } from "react-bootstrap";
 import "./MenuStyle.css";
 import { useDispatch } from "react-redux";
 import { deleteMenu, updateMenu } from "../../modules/menuReducer";
+import axios from "axios";
 
 function MenuModifyComponent({ deMenuEditMode, menu, storeId }) {
   const dispatch = useDispatch();
@@ -11,7 +12,6 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId }) {
   const [menuInfo, setMenuInfo] = useState({
     menuName: menu.menuName,
     menuPrice: menu.menuPrice,
-    menuOrigin: menu.menuOrigin,
     menuIntroduce: menu.menuIntroduce,
   });
 
@@ -45,7 +45,6 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId }) {
       menuId: menu.menuId,
       menuName: menuInfo.menuName,
       menuPrice: menuInfo.menuPrice,
-      menuOrigin: menuInfo.menuOrigin,
       menuIntroduce: menuInfo.menuIntroduce,
       menuImage: menuImage
         ? menuImage.name.split(".")[0] +
@@ -66,8 +65,13 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId }) {
     alert("메뉴 정보를 수정했습니다.");
     deMenuEditMode();
   };
-  const onClickDelete = () => {
+  const onClickDelete = async () => {
     if (window.confirm("정말 해당 메뉴를 삭제하시겠습니까?")) {
+      const result = await axios.delete(`/menu/${menu.menuId}`);
+      if (result.status !== 200) {
+        alert("오류 발생!");
+        return;
+      }
       dispatch(deleteMenu(menu.menuId));
       deMenuEditMode();
     }
@@ -109,16 +113,6 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId }) {
               <InputGroup.Text>원</InputGroup.Text>
             </InputGroup.Append>
           </InputGroup>
-        </Form.Group>
-        <Form.Group>
-          <Form.Control
-            required
-            type="text"
-            placeholder="원산지 정보"
-            name="menuOrigin"
-            onChange={onChangeMenuInfo}
-            value={menuInfo.menuOrigin}
-          />
         </Form.Group>
         <Form.Group>
           <Form.Control

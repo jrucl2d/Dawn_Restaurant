@@ -23,30 +23,11 @@ const initialState = [
   //   menuIntroduce: "엄청나게 맛난 음식",
   //   menuImage: "",
   // },
-  // {
-  //   storeId: "oweijfweojfewoijf124214",
-  //   menuId: "we;glkwgkgwgkw;;wegwgkwjlkwjg",
-  //   menuName: "안 엄청난 음식",
-  //   menuPrice: 12023400,
-  //   menuOrigin: "북한산",
-  //   menuIntroduce: "엄청나게 맛 없는 음식",
-  //   menuImage: "",
-  // },
-  // {
-  //   storeId: "oweijfweojfewoijf124214",
-  //   menuId: "we;wgwe;;wegwgkwjlkwjg",
-  //   menuName: "열라 엄청난 음식",
-  //   menuPrice: 123400,
-  //   menuOrigin: "태국산",
-  //   menuIntroduce: "열나게 맛 없는 음식",
-  //   menuImage: "",
-  // },
 ];
 
 export default function storeReducer(state = initialState, action) {
   switch (action.type) {
     case "INITIAL_MENU":
-      console.log(action.menus);
       return action.menus;
     case "ADD_MENU":
       return [...state, action.newMenu];

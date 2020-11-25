@@ -19,14 +19,6 @@ const initialState = [
   //   storeIntroduce: "엄청 맛있어요",
   //   storeImage: "",
   // },
-  // {
-  //   storeId: "wegegwegweghqwh34hewgwqf",
-  //   storeName: "참신한치킨 아이티점",
-  //   storeLocation: "아이티",
-  //   storeTime: "01:00~02:00(평일)",
-  //   storeIntroduce: "엄청 맛있었으면 좋겠네요",
-  //   storeImage: "",
-  // },
 ];
 
 export default function storeReducer(state = initialState, action) {

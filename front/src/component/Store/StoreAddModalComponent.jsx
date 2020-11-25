@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { addStore } from "../../modules/storeReducer";
 import axios from "axios";

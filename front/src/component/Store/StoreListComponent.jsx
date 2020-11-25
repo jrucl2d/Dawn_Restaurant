@@ -75,12 +75,6 @@ function StoreListComponent() {
           deleteBtnRef.current.className = "btn btn-warning notDeleting";
         })
         .catch((err) => console.error(err));
-      // (async () => {
-      //   const forSend = deleteSelected.map((v) => +v);
-      //   console.log(forSend);
-      //   const result = await axios.delete("/stores", forSend);
-      //   console.log(result);
-      // })();
     }
     setDeleteMode(!deleteMode);
     setDeleteSelected([]);

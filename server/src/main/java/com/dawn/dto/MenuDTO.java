@@ -1,15 +1,15 @@
 package com.dawn.dto;
 
 import com.dawn.model.Menu;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 public class MenuDTO {
 
     @Getter
     @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
+    @ToString
     public static class Create {
         private int storeId;
         private String menuTitle;

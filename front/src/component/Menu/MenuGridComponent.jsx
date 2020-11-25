@@ -23,13 +23,13 @@ function MenuGridComponent({ storeId }) {
           menuId: menu.menuId,
           menuName: menu.menuTitle,
           menuPrice: menu.price,
-          menuOrigin: "한국산",
           menuIntroduce: menu.menuDescription ? menu.menuDescription : "",
           menuImage: menu.imageURL ? menu.imageURL : "",
         };
       });
       dispatch(initailMenu(theMenus));
     })();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {

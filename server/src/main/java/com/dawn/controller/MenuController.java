@@ -24,13 +24,18 @@ public class MenuController {
     }
 
     @PostMapping("/menus")
-    public ResponseEntity<List<Menu>> addMenus(@RequestBody List<MenuDTO.Create> newMenus) {
+    public ResponseEntity<Menu> addMenu(@RequestBody MenuDTO.Create newMenus) {
         return new ResponseEntity<>(menuService.addMenus(newMenus), HttpStatus.OK);
     }
 
     @DeleteMapping("/menus")
     public ResponseEntity deleteMenus(@RequestBody List<MenuDTO.Remove> menus) {
         menuService.removeMenus(menus);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @DeleteMapping("/menu/{menuId}")
+    public ResponseEntity deleteMenus(@PathVariable int menuId) {
+        menuService.removeMenu(menuId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
