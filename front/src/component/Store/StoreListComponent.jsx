@@ -4,7 +4,6 @@ import StoreComponent from "./StoreComponent";
 import StoreAddModalComponent from "./StoreAddModalComponent";
 import { useSelector, useDispatch } from "react-redux";
 import { initialStore, deleteStore } from "../../modules/storeReducer";
-import { v4 as uuid } from "uuid";
 import axios from "axios";
 
 import "./StoreStyle.css";
@@ -28,7 +27,7 @@ function StoreListComponent() {
         const initialData = [];
         data.result.forEach((store, index) => {
           initialData.push({
-            storeId: index + 1, //////////////////// 이 부분 교체 필요
+            storeId: store.storeId,
             storeName: store.storeTitle ? store.storeTitle : "",
             storeLocation: store.location ? store.location : "",
             storeTime: store.businessHour ? store.businessHour : "",
@@ -36,7 +35,6 @@ function StoreListComponent() {
             storeImage: store.profileImage ? store.profileImage : "",
           });
         });
-        console.log(data.result);
         dispatch(initialStore(initialData));
       } catch (err) {
         console.error(err);
@@ -70,9 +68,19 @@ function StoreListComponent() {
       if (!answer) {
         return;
       }
-      dispatch(deleteStore(deleteSelected));
 
-      deleteBtnRef.current.className = "btn btn-warning notDeleting";
+      Promise.all(deleteSelected.map((v) => axios.delete("/stores/store/" + v)))
+        .then((result) => {
+          dispatch(deleteStore(deleteSelected));
+          deleteBtnRef.current.className = "btn btn-warning notDeleting";
+        })
+        .catch((err) => console.error(err));
+      // (async () => {
+      //   const forSend = deleteSelected.map((v) => +v);
+      //   console.log(forSend);
+      //   const result = await axios.delete("/stores", forSend);
+      //   console.log(result);
+      // })();
     }
     setDeleteMode(!deleteMode);
     setDeleteSelected([]);

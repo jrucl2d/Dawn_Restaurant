@@ -63,19 +63,18 @@ function StoreAddModalComponent({ showAddStore, setShowAddStore }) {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log(result);
+
+        if (result.status !== 200) {
+          alert("오류가 발생했습니다. 다시 시도해주세요.");
+          return;
+        }
+        dispatch(
+          addStore({ ...storeInfo, storeImage, storeId: result.data.result })
+        );
       } catch (err) {
         console.error(err);
       }
     })();
-
-    // const result = true;
-    // if (!result) {
-    //   alert("오류가 발생했습니다. 다시 시도해주세요.");
-    //   return;
-    // }
-
-    // dispatch(addStore({ ...storeInfo, storeImage, storeId: uuid() }));
 
     setStoreInfo({
       storeName: "",

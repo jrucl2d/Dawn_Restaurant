@@ -38,7 +38,7 @@ export default function storeReducer(state = initialState, action) {
     case "DELETE_STORE":
       // eslint-disable-next-line array-callback-return
       return state.filter((store) => {
-        if (action.storeId.findIndex((v) => v === store.storeId) === -1) {
+        if (action.storeId.findIndex((v) => +v === +store.storeId) === -1) {
           return store;
         }
       });

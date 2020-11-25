@@ -5,6 +5,7 @@ import com.dawn.dto.StoreDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
+@ToString
 public class Store {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
