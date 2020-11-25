@@ -12,9 +12,8 @@ function StaffListComponent({ storeId }) {
     (async () => {
       const staffsResponse = await axios.get(`/staffs/store/${storeId}`);
       const gotStaffs = staffsResponse.data.result;
-      console.log(gotStaffs);
       const theStaffs = [];
-      staffs.forEach((staff) => {
+      gotStaffs.forEach((staff) => {
         theStaffs.push({
           storeId: storeId,
           staffId: staff.staffId,

@@ -33,7 +33,16 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
       [e.target.name]: e.target.value,
     });
   };
-  const onClickClose = () => setShowModal(false);
+  const onClickClose = () => {
+    setMenuInfo({
+      menuName: "",
+      menuPrice: 0,
+      menuIntroduce: "",
+    });
+    setImageURL("");
+    setMenuImage("");
+    setShowModal(false);
+  };
   const onClickSave = () => {
     if (menuInfo.menuName === "" || menuInfo.storePrice === "") {
       alert("필요한 정보를 모두 입력해야 합니다.");
@@ -76,13 +85,6 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
       );
     })();
 
-    setMenuInfo({
-      menuName: "",
-      menuPrice: 0,
-      menuIntroduce: "",
-    });
-    setImageURL("");
-    setMenuImage("");
     alert("새로운 메뉴를 생성했습니다.");
     onClickClose();
   };

@@ -6,13 +6,13 @@ import { updateStaff, deleteStaff } from "../../modules/staffReducer";
 
 function StaffModifyModalComponent({ showModal, setShowModal, staff }) {
   const dispatch = useDispatch();
-  const [imageURL, setImageURL] = useState(""); // base64 정보
+  const [imageURL, setImageURL] = useState(staff.staffImage); // base64 정보
   const [staffImage, setStaffImage] = useState(""); // 단순 파일 정보
   const [staffInfo, setStaffInfo] = useState({
     staffName: staff.staffName,
     staffBirth: staff.staffBirth,
     staffPosition: staff.staffPosition,
-    staffPay: +staff.staffPay.split("원")[0],
+    staffPay: staff.staffPay.split("원")[0],
   });
   const [payRadio, setPayRadio] = useState(
     staff.staffPay.split("/")[1] === "월" ? "month" : "hour"
@@ -36,7 +36,18 @@ function StaffModifyModalComponent({ showModal, setShowModal, staff }) {
       [e.target.name]: e.target.value,
     });
   };
-  const onClickClose = () => setShowModal(false);
+  const onClickClose = () => {
+    setStaffInfo({
+      staffName: "",
+      staffBirth: "",
+      staffPosition: "",
+      staffPay: "",
+      staffSex: "",
+    });
+    setImageURL("");
+    setStaffImage("");
+    setShowModal(false);
+  };
   const onClickSave = () => {
     if (
       staffInfo.staffName === "" ||

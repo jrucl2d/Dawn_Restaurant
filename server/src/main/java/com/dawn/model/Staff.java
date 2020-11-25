@@ -52,7 +52,7 @@ public class Staff {
 
     public static StaffDTO.GetStaff toGetStaff(Staff staff) {
         return new StaffDTO.GetStaff(
-                staff.getStore().getStoreId(), staff.getName(), staff.getPosition(),
+                staff.getStaffId(), staff.getStore().getStoreId(), staff.getName(), staff.getPosition(),
                 staff.getBirthDate().toString(), staff.getSex(), staff.getWagePerHour(),
                 CloudConstants.CloudStorageBaseURL + "/" + staff.getProfileImageName());
     }

@@ -19,8 +19,6 @@ public class StaffDTO {
         private String wagePerHour;
         private String profileImageURL;
 
-        public GetStaff(int storeId, String name, String position, String toString, Boolean sex, String wagePerHour, String s) {
-        }
     }
 
     @Data
