@@ -3,11 +3,21 @@ import "./MenuStyle.css";
 import MenuComponent from "./MenuComponent";
 import { useSelector } from "react-redux";
 
-function MenuGridComponent() {
+import axios from "axios";
+
+function MenuGridComponent({ storeId }) {
   const gridRef = useRef();
   const menus = useSelector((state) => state.menuReducer);
   const [editMode, setEditMode] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const menusResponse = await axios.get(`/stores/store/${storeId}/menus`);
+      const menus = menusResponse.data;
+      console.log(menus);
+    })();
+  }, []);
 
   useEffect(() => {
     if (editMode) {

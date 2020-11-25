@@ -3,9 +3,13 @@ import StoreRankGraphComponent from "./StoreRankGraphComponent";
 import StoreComponent from "./StoreComponent";
 import StoreAddModalComponent from "./StoreAddModalComponent";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteStore } from "../../modules/storeReducer";
+import { initialStore, deleteStore } from "../../modules/storeReducer";
+import { v4 as uuid } from "uuid";
+import axios from "axios";
 
 import "./StoreStyle.css";
+
+const userID = 1;
 
 function StoreListComponent() {
   const dispatch = useDispatch();
@@ -16,6 +20,29 @@ function StoreListComponent() {
 
   const addBtnRef = useRef(null);
   const deleteBtnRef = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get("/stores/users/" + userID);
+        const initialData = [];
+        data.result.forEach((store) => {
+          initialData.push({
+            storeId: 1, //////////////////// 이 부분 교체 필요
+            storeName: store.storeTitle ? store.storeTitle : "",
+            storeLocation: store.location ? store.location : "",
+            storeTime: store.businessHour ? store.businessHour : "",
+            storeIntroduce: store.description ? store.description : "",
+            storeImage: store.profileImage ? store.profileImage : "",
+          });
+        });
+        dispatch(initialStore(initialData));
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (stores.length === 0) {

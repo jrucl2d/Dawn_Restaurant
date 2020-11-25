@@ -3,8 +3,11 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { addStore } from "../../modules/storeReducer";
+import axios from "axios";
 
 const noResize = { resize: "none" };
+
+const userID = 1;
 
 function StoreAddModalComponent({ showAddStore, setShowAddStore }) {
   const dispatch = useDispatch();
@@ -42,13 +45,37 @@ function StoreAddModalComponent({ showAddStore, setShowAddStore }) {
     }
     // 여기서 데이터베이스에 저장하는 과정 필요
     // try catch, const result = await axios.post..... 해서
-    const result = true;
-    if (!result) {
-      alert("오류가 발생했습니다. 다시 시도해주세요.");
-      return;
-    }
+    (async () => {
+      try {
+        const formData = new FormData();
+        const forSend = {
+          ownerUserId: userID,
+          storeTitle: storeInfo.storeName,
+          location: storeInfo.storeLocation,
+          businessHour: storeInfo.storeTime,
+          description: storeInfo.storeIntroduce,
+        };
+        formData.append("store", JSON.stringify(forSend));
+        formData.append("profileImage", storeImage);
+        const result = await axios.post("/stores", formData, {
+          headers: {
+            Authorization: "token",
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log(result);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
 
-    dispatch(addStore({ ...storeInfo, storeImage, storeId: uuid() }));
+    // const result = true;
+    // if (!result) {
+    //   alert("오류가 발생했습니다. 다시 시도해주세요.");
+    //   return;
+    // }
+
+    // dispatch(addStore({ ...storeInfo, storeImage, storeId: uuid() }));
 
     setStoreInfo({
       storeName: "",
