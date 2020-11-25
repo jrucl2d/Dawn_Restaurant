@@ -28,7 +28,13 @@ function MenuComponent({
     >
       {editMode && menu.menuId === selectedMenu && (
         <div>
-          <MenuModifyComponent menu={menu} deMenuEditMode={deMenuEditMode} />
+          <MenuModifyComponent
+            imageURLFirst={
+              "https://storage.googleapis.com/sogong/" + menu.menuImage
+            }
+            menu={menu}
+            deMenuEditMode={deMenuEditMode}
+          />
         </div>
       )}
       {menu.menuId !== selectedMenu && (
@@ -36,7 +42,10 @@ function MenuComponent({
           {menu.menuImage === "" ? (
             <div id="menuNoImage">메뉴 이미지가 없습니다</div>
           ) : (
-            <img src="#" alt="음식사진" />
+            <img
+              src={"https://storage.googleapis.com/sogong/" + menu.menuImage}
+              alt="음식사진"
+            />
           )}
           <h5>{menu.menuName}</h5>
         </>

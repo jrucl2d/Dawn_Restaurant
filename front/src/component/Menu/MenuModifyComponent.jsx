@@ -5,9 +5,9 @@ import { useDispatch } from "react-redux";
 import { deleteMenu, updateMenu } from "../../modules/menuReducer";
 import axios from "axios";
 
-function MenuModifyComponent({ deMenuEditMode, menu, storeId }) {
+function MenuModifyComponent({ deMenuEditMode, menu, storeId, imageURLFirst }) {
   const dispatch = useDispatch();
-  const [imageURL, setImageURL] = useState(""); // base64 정보
+  const [imageURL, setImageURL] = useState(imageURLFirst); // base64 정보
   const [menuImage, setMenuImage] = useState(""); // 단순 파일 정보
   const [menuInfo, setMenuInfo] = useState({
     menuName: menu.menuName,
@@ -37,33 +37,43 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId }) {
       alert("필요한 정보를 모두 입력해야 합니다.");
       return;
     }
-    // 데이터베이스에 저장하는 과정 필요
-    // try catch, const result = await axios.post..... 해서
-    // 사용자 정보와 가게 정보 보내야 할 수도
-    const sendingData = {
-      storeId,
-      menuId: menu.menuId,
-      menuName: menuInfo.menuName,
-      menuPrice: menuInfo.menuPrice,
-      menuIntroduce: menuInfo.menuIntroduce,
-      menuImage: menuImage
-        ? menuImage.name.split(".")[0] +
-          "_" +
-          Date.now() +
-          "." +
-          menuImage.name.split(".")[1]
-        : "",
-    };
 
-    const result = true;
-    if (!result) {
-      alert("오류가 발생했습니다. 다시 시도해주세요.");
-      return;
-    }
-    // 데이터베이스 저장에 성공했을 때 받은 result 값으로 설정하는 코드로 변경 필요
-    dispatch(updateMenu(sendingData));
-    alert("메뉴 정보를 수정했습니다.");
-    deMenuEditMode();
+    (async () => {
+      const formData = new FormData();
+      const forSend = {
+        storeId: +storeId,
+        menuTitle: menuInfo.menuName,
+        menuDescription: menuInfo.menuIntroduce,
+        price: +menuInfo.menuPrice,
+      };
+      formData.append("menu", JSON.stringify(forSend));
+      formData.append("menuImage", menuImage);
+      const result = await axios.post("/menu", formData, {
+        /// 수정 필요
+        headers: {
+          Authorization: "token",
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (result.status !== 200) {
+        alert("오류가 발생했습니다. 다시 시도해주세요.");
+        return;
+      }
+      dispatch(
+        updateMenu({
+          storeId,
+          menuId: result.data.result.menuId,
+          menuName: result.data.result.menuTitle,
+          menuPrice: result.data.result.menuPrice,
+          menuIntroduce: result.data.result.menuDescription,
+          menuImage: result.data.result.imageURL,
+        })
+      );
+      // 데이터베이스 저장에 성공했을 때 받은 result 값으로 설정하는 코드로 변경 필요
+      alert("메뉴 정보를 수정했습니다.");
+      deMenuEditMode();
+    })();
   };
   const onClickDelete = async () => {
     if (window.confirm("정말 해당 메뉴를 삭제하시겠습니까?")) {

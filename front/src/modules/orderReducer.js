@@ -30,7 +30,7 @@ const initialState = [
     ],
   },
   {
-    orderId: "185jdfhgkje98u344kjngkj",
+    orderId: "185jdfhgkjere98u344kjngkj",
     orderStatus: "조리 중",
     menus: [
       {
@@ -46,8 +46,8 @@ const initialState = [
         menuNum: 2,
       },
       {
-        menuId: "!235132525325",
-        menuName: "음식1",
+        menuId: "!235132233525325",
+        menuName: "음식4",
         menuPrice: 3100,
         menuNum: 3,
       },
@@ -72,7 +72,7 @@ const initialState = [
     ],
   },
   {
-    orderId: "lwekgjel33wg03o1ilkregoiqwe",
+    orderId: "lwekgjel33wewg03o1ilkregoiqwe",
     orderStatus: "음식 수령",
     menus: [
       {
