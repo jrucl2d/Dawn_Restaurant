@@ -35,6 +35,17 @@ public class MenuDTO {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
+    public static class UpdateMenu {
+        private int menuId;
+        private String menuTitle;
+        private String menuDescription;
+        private int price;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Remove {
         private int menuId;
     }

@@ -1,10 +1,7 @@
 package com.dawn.service;
 
-import com.dawn.common.CloudConstatns;
-import com.dawn.dto.MenuDTO;
-import com.dawn.dto.MenuOrderDTO;
-import com.dawn.dto.OrderDTO;
-import com.dawn.dto.StoreDTO;
+import com.dawn.common.CloudConstants;
+import com.dawn.dto.*;
 import com.dawn.exception.DawnException;
 import com.dawn.model.*;
 import com.dawn.repository.menu.MenuRepository;
@@ -26,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,24 +47,25 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public Store createStore(StoreDTO.CreateStore newStore, MultipartFile profileImage) throws IOException {
         User user = userRepository.findUserByUserId(newStore.getOwnerUserId());
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(CloudConstatns.KEYFILE_PATH))
-                .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-
         Store store =
                 new Store(newStore.getStoreTitle(), newStore.getLocation(),
-                          newStore.getBusinessHour(), newStore.getDescription(), "", user);
-        BlobInfo blobInfo = storage.create(
-                BlobInfo.newBuilder("sogong", "store/"+store.getStoreId()+"-profile.jpg")
-                        .build(), profileImage.getBytes());
-        System.out.println("generated blob = " + blobInfo.getName());
-        store.setProfileImageURL(blobInfo.getName());
+                        newStore.getBusinessHour(), newStore.getDescription(), "", user);
+        if (profileImage != null) {
+            GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(CloudConstants.KEYFILE_PATH))
+                    .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
+            Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+            BlobInfo blobInfo = storage.create(
+                    BlobInfo.newBuilder("sogong", "store/"+store.getStoreId()+"-profile.jpg")
+                            .build(), profileImage.getBytes());
+            System.out.println("generated blob = " + blobInfo.getName());
+            store.setProfileImageURL(blobInfo.getName());
+        }
         return storeRepository.save(store);
     }
 
     @Override
     @Transactional
-    public OrderDTO.Get submitNewOrder(OrderDTO.Create newOrder) throws DawnException {
+    public OrderDTO.GetOrder submitNewOrder(OrderDTO.CreateOrder newOrder) throws DawnException {
         List<MenuOrder> menuOrders = new ArrayList<>();
         List<MenuOrderDTO.Get> menuOrderResult = new ArrayList<>();
         List<MenuOrderDTO.Create> newMenuOrders = newOrder.getMenusOrders();
@@ -97,7 +96,7 @@ public class StoreServiceImpl implements StoreService {
         order.setMenuOrders(menuOrders);
         order.setTotalPrice(totalPrice);
         orderRepository.save(order);
-        return new OrderDTO.Get(order.getOrderId(), totalPrice, menuOrderResult);
+        return new OrderDTO.GetOrder(order.getOrderId(), totalPrice, menuOrderResult);
     }
 
     @Override
@@ -120,6 +119,13 @@ public class StoreServiceImpl implements StoreService {
     @Transactional
     public void removeAllStoreOfUserByUserId(int userId) {
         storeRepository.deleteAllStoreOfUserByUserId(userId);
+    }
+
+    @Transactional
+    public SalesDTO.GetSales getSalesOfStore(int storeId) {
+        List<Order> orders = orderRepository.findByStoreId(storeId);
+        List<OrderDTO.GetOrder> orderDTOs = orders.stream().map(Order::toOrderDTOGet).collect(Collectors.toList());
+        return new SalesDTO.GetSales(storeId, orderDTOs);
     }
 }
 

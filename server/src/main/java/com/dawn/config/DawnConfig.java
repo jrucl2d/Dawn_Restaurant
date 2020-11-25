@@ -34,5 +34,5 @@ public class DawnConfig {
         characterEncodingFilter.setForceEncoding(true);
         return characterEncodingFilter;
     }
-
 }
+

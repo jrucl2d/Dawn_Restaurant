@@ -1,6 +1,6 @@
 package com.dawn.service;
 
-import com.dawn.common.CloudConstatns;
+import com.dawn.common.CloudConstants;
 import com.dawn.dto.MenuDTO;
 import com.dawn.model.Menu;
 import com.dawn.model.Store;
@@ -27,16 +27,19 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuDTO.GetMenu addMenu(MenuDTO.CreateMenu menuDTO, MultipartFile menuImageFile) throws IOException {
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(CloudConstatns.KEYFILE_PATH))
-                .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         Menu newMenu = menuRepository.save(new Menu(menuDTO.getMenuTitle(), menuDTO.getMenuDescription(),
                 menuDTO.getPrice(), "", new Store(menuDTO.getStoreId())));
-        String menuImageName = "menu/" + newMenu.getMenuId() + "-image.jpg";
-        BlobInfo blobInfo = storage.create(
-                BlobInfo.newBuilder("sogong", menuImageName).build(), menuImageFile.getBytes());
-        System.out.println("generated blob = " + blobInfo.getName());
-        newMenu.setImageFileName(menuImageName);
+        if (menuImageFile != null) {
+            GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(CloudConstants.KEYFILE_PATH))
+                    .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
+            Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+
+            String menuImageName = "menu/" + newMenu.getMenuId() + "-image.jpg";
+            BlobInfo blobInfo = storage.create(
+                    BlobInfo.newBuilder("sogong", menuImageName).build(), menuImageFile.getBytes());
+            System.out.println("generated blob = " + blobInfo.getName());
+            newMenu.setImageFileName(menuImageName);
+        }
         menuRepository.save(newMenu);
         return Menu.toMenuDTOGetMenu(newMenu);
     }
@@ -72,6 +75,15 @@ public class MenuServiceImpl implements MenuService {
                             menu.getPrice(), menu.getImageFileName()));
         }
         return result;
+    }
+
+    @Override
+    public MenuDTO.GetMenu updateMenu(MenuDTO.UpdateMenu menu) {
+        Menu targetMenu = menuRepository.findByMenuId(menu.getMenuId());
+        targetMenu.setMenuTitle(menu.getMenuTitle());
+        targetMenu.setMenuDescription(menu.getMenuDescription());
+        targetMenu.setPrice(menu.getPrice());
+        return Menu.toMenuDTOGetMenu(menuRepository.save(targetMenu));
     }
 
     @Override

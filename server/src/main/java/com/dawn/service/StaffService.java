@@ -1,6 +1,6 @@
 package com.dawn.service;
 
-import com.dawn.common.CloudConstatns;
+import com.dawn.common.CloudConstants;
 import com.dawn.dto.StaffDTO;
 import com.dawn.model.Staff;
 import com.dawn.model.Store;
@@ -36,7 +36,7 @@ public class StaffService {
                 new Store(newStaff.getStoreId()), newStaff.getName(), newStaff.getPosition(),
                           birthDate, newStaff.isSex(), newStaff.getWagePerHour()));
         String staffImageName = "staff/" + staff.getStaffId() + "-image.jpg";
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(CloudConstatns.KEYFILE_PATH))
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(CloudConstants.KEYFILE_PATH))
                 .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         BlobInfo blobInfo = storage.create(

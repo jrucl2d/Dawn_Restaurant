@@ -38,6 +38,13 @@ public class MenuController {
                 new DawnCodingResult<>(null, menuService.addMenu(newMenu, menuImage)), HttpStatus.OK);
     }
 
+    @PutMapping("/menu")
+    public ResponseEntity<DawnCodingResult<MenuDTO.GetMenu>> updateMenu(@RequestBody MenuDTO.UpdateMenu menu) throws IOException {
+        MenuDTO.GetMenu updatedMenu = menuService.updateMenu(menu);
+        return new ResponseEntity<>(
+                new DawnCodingResult<>(null, updatedMenu), HttpStatus.OK);
+    }
+
     @DeleteMapping("/menus")
     public ResponseEntity deleteMenus(@RequestBody List<MenuDTO.Remove> menus) {
         menuService.removeMenus(menus);

@@ -12,7 +12,6 @@ import com.dawn.service.OrderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -45,7 +44,7 @@ public class OrderServiceIntegrationTest {
     public void PASS_OrderStatus업데이트() {
         User user = new User("loginId", "1234", "jun", true);
         user = userRepository.save(user);
-        Store store = new Store("새벽식당", "신공", "24시", "새벽에만 하는 식당", user);
+        Store store = new Store("새벽식당", "신공", "24시", "새벽에만 하는 식당", "", user);
         store = storeRepository.save(store);
         Order order = new Order(10000, store);
         order = orderRepository.save(order);

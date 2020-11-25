@@ -1,9 +1,6 @@
 package com.dawn;
 
-import com.dawn.dto.MenuDTO;
-import com.dawn.dto.MenuOrderDTO;
-import com.dawn.dto.OrderDTO;
-import com.dawn.dto.StoreDTO;
+import com.dawn.dto.*;
 import com.dawn.exception.DawnException;
 import com.dawn.model.*;
 import com.dawn.repository.menu.MenuRepository;
@@ -24,7 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -63,17 +60,17 @@ public class StoreServiceTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         storeService = new StoreServiceImpl(
-                userRepository, storeRepository, menuOrderRepository, orderRepository, menuRepository, storage);
+                userRepository, storeRepository, menuOrderRepository, orderRepository, menuRepository);
     }
 
     @Test
-    public void storeCreate() throws FileNotFoundException {
+    public void storeCreate() throws IOException {
         given(userRepository.findUserByUserId(1))
                 .willReturn(new User("loginId", "1234", "jun", true));
         when(storeRepository.save(any(Store.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
         StoreDTO.CreateStore newStore = new StoreDTO.CreateStore(
                 1, "새벽식당", "신공", "24시", "새벽에만 하는 식당", null);
-        Store store = storeService.createStore(newStore);
+        Store store = storeService.createStore(newStore, null);
         assertThat(store, is(notNullValue()));
     }
 
@@ -103,8 +100,8 @@ public class StoreServiceTest {
         MenuOrderDTO.Create menuOrder1 = new MenuOrderDTO.Create(1, 2);
         MenuOrderDTO.Create menuOrder2 = new MenuOrderDTO.Create(2, 5);
         menuOrders.addAll(Arrays.asList(menuOrder1, menuOrder2));
-        OrderDTO.Create newOrder = new OrderDTO.Create(1, menuOrders);
-        OrderDTO.Get result = storeService.submitNewOrder(newOrder);
+        OrderDTO.CreateOrder newOrder = new OrderDTO.CreateOrder(1, menuOrders);
+        OrderDTO.GetOrder result = storeService.submitNewOrder(newOrder);
         assertThat(result.getTotalPrice(), is(2 * 6000 + 5 * 5000));
     }
 
@@ -118,8 +115,8 @@ public class StoreServiceTest {
         final int INVALID_MENUID = -1;
         MenuOrderDTO.Create menuOrder1 = new MenuOrderDTO.Create(INVALID_MENUID, 2);
         menuOrders.addAll(Arrays.asList(menuOrder1));
-        OrderDTO.Create newOrder = new OrderDTO.Create(1, menuOrders);
-        OrderDTO.Get result = storeService.submitNewOrder(newOrder);
+        OrderDTO.CreateOrder newOrder = new OrderDTO.CreateOrder(1, menuOrders);
+        OrderDTO.GetOrder result = storeService.submitNewOrder(newOrder);
     }
 
     @Test(expected = DawnException.class)
@@ -132,7 +129,19 @@ public class StoreServiceTest {
         final int MENU_ID = 1;
         MenuOrderDTO.Create menuOrder1 = new MenuOrderDTO.Create(MENU_ID, 0);
         menuOrders.addAll(Arrays.asList(menuOrder1));
-        OrderDTO.Create newOrder = new OrderDTO.Create(storeId, menuOrders);
-        OrderDTO.Get result = storeService.submitNewOrder(newOrder);
+        OrderDTO.CreateOrder newOrder = new OrderDTO.CreateOrder(storeId, menuOrders);
+        OrderDTO.GetOrder result = storeService.submitNewOrder(newOrder);
+    }
+
+    @Test
+    public void SUCCESS_getSalesOfStore() {
+        int storeId = 1;
+        Store mockStore = new Store(storeId);
+        given(orderRepository.findByStoreId(storeId)).willReturn(
+                Arrays.asList(new Order(1, 10000, mockStore),
+                              new Order(2, 5000, mockStore)));
+        SalesDTO.GetSales sales = storeService.getSalesOfStore(1);
+        assertThat(sales.getStoreId(), is(storeId));
+        assertThat(sales.getOrders().size(), is(2));
     }
 }

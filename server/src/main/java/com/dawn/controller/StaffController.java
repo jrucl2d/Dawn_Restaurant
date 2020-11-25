@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class StaffController {
     private final StaffService staffService;
 
     @PostMapping("/staff")
-    public ResponseEntity<DawnCodingResult> createNewStaff(@RequestPart("staff") String newStaffString,
+    public ResponseEntity<DawnCodingResult<StaffDTO.GetStaff>> createNewStaff(@RequestPart("staff") String newStaffString,
                                                            @RequestPart("staffImage") MultipartFile staffImage) throws IOException, ParseException {
         newStaffString = new String(newStaffString.getBytes("8859_1"), StandardCharsets.UTF_8);
 
@@ -36,7 +37,7 @@ public class StaffController {
     }
 
     @GetMapping("/staffs/store/{storeId}")
-    public ResponseEntity<DawnCodingResult> getStaffOfStoreByStoreId(@PathVariable("storeId") int storeId) {
+    public ResponseEntity<DawnCodingResult<List<StaffDTO.GetStaff>>> getStaffOfStoreByStoreId(@PathVariable("storeId") int storeId) {
         return new ResponseEntity<>(
                 new DawnCodingResult<>(null,
                         staffService.getAllStaffOfStore(storeId)),HttpStatus.OK);
