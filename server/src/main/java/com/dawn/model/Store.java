@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dawn.common.CloudConstatns.CloudStorageBaseURL;
+import static com.dawn.common.CloudConstants.CloudStorageBaseURL;
 
 @Getter
 @Setter

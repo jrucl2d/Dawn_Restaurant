@@ -12,7 +12,7 @@ public class OrderDTO {
     @Getter
     @Setter
     @AllArgsConstructor
-    public static class Create {
+    public static class CreateOrder {
         private int storeId;
         private List<MenuOrderDTO.Create> menusOrders;
     }
@@ -20,7 +20,7 @@ public class OrderDTO {
     @Getter
     @Setter
     @AllArgsConstructor
-    public static class Get {
+    public static class GetOrder {
         private int orderId;
         private int totalPrice;
         private List<MenuOrderDTO.Get> menusOrders;

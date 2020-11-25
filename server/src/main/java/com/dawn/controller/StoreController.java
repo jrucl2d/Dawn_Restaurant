@@ -3,10 +3,7 @@ package com.dawn.controller;
 import com.dawn.common.DawnCodingError;
 import com.dawn.common.DawnCodingResult;
 import com.dawn.common.DawnErrorType;
-import com.dawn.dto.MenuDTO;
-import com.dawn.dto.MenuOrderDTO;
-import com.dawn.dto.OrderDTO;
-import com.dawn.dto.StoreDTO;
+import com.dawn.dto.*;
 import com.dawn.exception.DawnException;
 import com.dawn.model.Store;
 import com.dawn.service.MenuService;
@@ -25,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,26 +58,15 @@ public class StoreController {
         }
     }
 
-    @PostMapping(value = "/stores")
+    @PostMapping(value = "/stores",  consumes = { "multipart/form-data;charset=utf-8" })
     //public ResponseEntity<DawnCodingResult> createNewStores(@RequestBody List<StoreDTO.CreateStore> newStores) {
     public ResponseEntity<DawnCodingResult> createNewStores(
             @RequestPart("store") String storeString,
             @RequestPart("profileImage") MultipartFile profileImage) throws IOException {
+        storeString = new String(storeString.getBytes("8859_1"), StandardCharsets.UTF_8);
         List<Store> result = new ArrayList<>();
         StoreDTO.CreateStore newStores = new ObjectMapper().readValue(storeString, StoreDTO.CreateStore.class);
         Store newStore = storeService.createStore(newStores, profileImage);
-        /*
-        newStores.parallelStream()
-                .forEach(x -> {
-                    Store newStore = null;
-                    try {
-                        newStore = storeService.createStore(x);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    result.add(newStore);
-                });
-        */
         return new ResponseEntity<>(new DawnCodingResult<>(null, newStore.getStoreId()), HttpStatus.OK); // 여기 임시로 생성한 storeId 리턴하게 바꿔놨어~
     }
 
@@ -107,7 +94,7 @@ public class StoreController {
     }
 
     @PostMapping("/stores/orders")
-    public ResponseEntity<DawnCodingResult> createOrdersOfStore(@RequestBody OrderDTO.Create newOrder) {
+    public ResponseEntity<DawnCodingResult> createOrdersOfStore(@RequestBody OrderDTO.CreateOrder newOrder) {
         if (newOrder.getMenusOrders() == null || newOrder.getMenusOrders().size() == 0) {
             return new ResponseEntity<>(
                     new DawnCodingResult<>(
@@ -128,7 +115,7 @@ public class StoreController {
         }
 
         try {
-            OrderDTO.Get result = storeService.submitNewOrder(newOrder);
+            OrderDTO.GetOrder result = storeService.submitNewOrder(newOrder);
             return new ResponseEntity<>(
                     new DawnCodingResult<>(null, result), HttpStatus.OK);
         } catch (DawnException e) {
@@ -149,5 +136,12 @@ public class StoreController {
         }
         storeService.removeAllOrderOfStore(storeId);
         return new ResponseEntity<>(DawnCodingResult.OK(), HttpStatus.OK);
+    }
+
+    // 매장의 매출 통계를 반환하는 컨트롤러
+    @GetMapping("/stores/store/{storeId}/sales")
+    public ResponseEntity<DawnCodingResult<SalesDTO.GetSales>> getSalesOfStoreByStoreId(@PathVariable("storeId") int storeId) {
+        return new ResponseEntity<>(
+                new DawnCodingResult<>(null, storeService.getSalesOfStore(storeId)), HttpStatus.OK);
     }
 }

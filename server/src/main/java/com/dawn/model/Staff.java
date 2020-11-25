@@ -1,6 +1,6 @@
 package com.dawn.model;
 
-import com.dawn.common.CloudConstatns;
+import com.dawn.common.CloudConstants;
 import com.dawn.dto.StaffDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,6 +54,6 @@ public class Staff {
         return new StaffDTO.GetStaff(
                 staff.getStore().getStoreId(), staff.getName(), staff.getPosition(),
                 staff.getBirthDate().toString(), staff.getSex(), staff.getWagePerHour(),
-                CloudConstatns.CloudStorageBaseURL + "/" + staff.getProfileImageName());
+                CloudConstants.CloudStorageBaseURL + "/" + staff.getProfileImageName());
     }
 }
