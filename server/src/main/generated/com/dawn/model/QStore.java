@@ -30,7 +30,7 @@ public class QStore extends EntityPathBase<Store> {
 
     public final ListPath<Menu, QMenu> menus = this.<Menu, QMenu>createList("menus", Menu.class, QMenu.class, PathInits.DIRECT2);
 
-    public final ListPath<Order, QOrder> orders = this.<Order, QOrder>createList("orders", Order.class, QOrder.class, PathInits.DIRECT2);
+    public final ListPath<DawnOrder, QDawnOrder> orders = this.<DawnOrder, QDawnOrder>createList("orders", DawnOrder.class, QDawnOrder.class, PathInits.DIRECT2);
 
     public final StringPath profileImageURL = createString("profileImageURL");
 

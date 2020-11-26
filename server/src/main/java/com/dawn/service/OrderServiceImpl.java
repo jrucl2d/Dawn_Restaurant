@@ -1,7 +1,7 @@
 package com.dawn.service;
 
 import com.dawn.dto.OrderDTO;
-import com.dawn.repository.order.OrderRepository;
+import com.dawn.repository.order.DawnOrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private final OrderRepository orderRepository;
+    private final DawnOrderRepository orderRepository;
 
     public void updateStateOfOrder(OrderDTO.OrderStateUpdate order) {
         orderRepository.updateStateOfOrder(order);

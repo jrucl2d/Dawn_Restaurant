@@ -5,7 +5,7 @@ import com.dawn.exception.DawnException;
 import com.dawn.model.*;
 import com.dawn.repository.menu.MenuRepository;
 import com.dawn.repository.menuorder.MenuOrderRepository;
-import com.dawn.repository.order.OrderRepository;
+import com.dawn.repository.order.DawnOrderRepository;
 import com.dawn.repository.store.StoreRepository;
 import com.dawn.repository.user.UserRepository;
 import com.dawn.service.StoreService;
@@ -47,7 +47,7 @@ public class StoreServiceTest {
     private MenuOrderRepository menuOrderRepository;
 
     @Mock
-    private OrderRepository orderRepository;
+    private DawnOrderRepository orderRepository;
 
     @Mock
     private MenuRepository menuRepository;
@@ -89,14 +89,14 @@ public class StoreServiceTest {
         int orderId = 100;
         int storeId = 101;
         Store mockStore = new Store(storeId);
-        Order order = new Order(orderId, 0, mockStore);
+        DawnOrder order = new DawnOrder(orderId, 0, mockStore);
         given(menuRepository.findByMenuId(1)).willReturn(new Menu("햄버거", "맛있는", 6000, "", new Store(1)));
         given(menuRepository.findByMenuId(2)).willReturn(new Menu("서브웨이", "샌드위치", 5000, "", new Store(1)));
         when(menuOrderRepository.saveAll(any())).thenAnswer((Answer<List<MenuOrder>>) invocation -> {
             Object[] args = invocation.getArguments();
             return (List<MenuOrder>) args[0];
         });
-        when(orderRepository.save(any(Order.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
+        when(orderRepository.save(any(DawnOrder.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
         MenuOrderDTO.Create menuOrder1 = new MenuOrderDTO.Create(1, 2);
         MenuOrderDTO.Create menuOrder2 = new MenuOrderDTO.Create(2, 5);
         menuOrders.addAll(Arrays.asList(menuOrder1, menuOrder2));
@@ -111,7 +111,7 @@ public class StoreServiceTest {
         int orderId = 100;
         int storeId = 101;
         Store mockStore = new Store(storeId);
-        Order order = new Order(orderId, 0, mockStore);
+        DawnOrder order = new DawnOrder(orderId, 0, mockStore);
         final int INVALID_MENUID = -1;
         MenuOrderDTO.Create menuOrder1 = new MenuOrderDTO.Create(INVALID_MENUID, 2);
         menuOrders.addAll(Arrays.asList(menuOrder1));
@@ -125,7 +125,7 @@ public class StoreServiceTest {
         final int orderId = 100;
         final int storeId = 101;
         Store mockStore = new Store(storeId);
-        Order order = new Order(orderId, 0, mockStore);
+        DawnOrder order = new DawnOrder(orderId, 0, mockStore);
         final int MENU_ID = 1;
         MenuOrderDTO.Create menuOrder1 = new MenuOrderDTO.Create(MENU_ID, 0);
         menuOrders.addAll(Arrays.asList(menuOrder1));
@@ -138,8 +138,8 @@ public class StoreServiceTest {
         int storeId = 1;
         Store mockStore = new Store(storeId);
         given(orderRepository.findByStoreId(storeId)).willReturn(
-                Arrays.asList(new Order(1, 10000, mockStore),
-                              new Order(2, 5000, mockStore)));
+                Arrays.asList(new DawnOrder(1, 10000, mockStore),
+                              new DawnOrder(2, 5000, mockStore)));
         SalesDTO.GetSales sales = storeService.getSalesOfStore(1);
         assertThat(sales.getStoreId(), is(storeId));
         assertThat(sales.getOrders().size(), is(2));

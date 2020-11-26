@@ -28,6 +28,8 @@ public class QStaff extends EntityPathBase<Staff> {
 
     public final StringPath position = createString("position");
 
+    public final StringPath profileImageName = createString("profileImageName");
+
     public final BooleanPath sex = createBoolean("sex");
 
     public final NumberPath<Integer> staffId = createNumber("staffId", Integer.class);

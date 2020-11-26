@@ -1,11 +1,11 @@
 package com.dawn;
 
 import com.dawn.dto.OrderDTO;
-import com.dawn.model.Order;
+import com.dawn.model.DawnOrder;
 import com.dawn.model.OrderStatus;
 import com.dawn.model.Store;
 import com.dawn.model.User;
-import com.dawn.repository.order.OrderRepository;
+import com.dawn.repository.order.DawnOrderRepository;
 import com.dawn.repository.store.StoreRepository;
 import com.dawn.repository.user.UserRepository;
 import com.dawn.service.OrderService;
@@ -35,7 +35,7 @@ public class OrderServiceIntegrationTest {
     StoreRepository storeRepository;
 
     @Autowired
-    OrderRepository orderRepository;
+    DawnOrderRepository orderRepository;
 
     @Autowired
     OrderService orderService;
@@ -46,7 +46,7 @@ public class OrderServiceIntegrationTest {
         user = userRepository.save(user);
         Store store = new Store("새벽식당", "신공", "24시", "새벽에만 하는 식당", "", user);
         store = storeRepository.save(store);
-        Order order = new Order(10000, store);
+        DawnOrder order = new DawnOrder(10000, store);
         order = orderRepository.save(order);
         orderService.updateStateOfOrder(
                 new OrderDTO.OrderStateUpdate(order.getOrderId(), OrderStatus.COOKING));

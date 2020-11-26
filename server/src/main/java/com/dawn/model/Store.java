@@ -45,7 +45,7 @@ public class Store {
     private List<StoreCategory> storeCategories = new ArrayList<>();
 
     @OneToMany
-    private List<Order> orders = new ArrayList<>();
+    private List<DawnOrder> orders = new ArrayList<>();
 
     @OneToMany
     private List<Menu> menus = new ArrayList<>();

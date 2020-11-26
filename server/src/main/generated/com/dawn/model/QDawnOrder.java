@@ -11,22 +11,22 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QOrder is a Querydsl query type for Order
+ * QDawnOrder is a Querydsl query type for DawnOrder
  */
 @Generated("com.querydsl.codegen.EntitySerializer")
-public class QOrder extends EntityPathBase<Order> {
+public class QDawnOrder extends EntityPathBase<DawnOrder> {
 
-    private static final long serialVersionUID = -763274724L;
+    private static final long serialVersionUID = 1436831592L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QOrder order = new QOrder("order1");
+    public static final QDawnOrder dawnOrder = new QDawnOrder("dawnOrder");
+
+    public final NumberPath<Integer> dawnOrderId = createNumber("dawnOrderId", Integer.class);
 
     public final BooleanPath isPayed = createBoolean("isPayed");
 
     public final ListPath<MenuOrder, QMenuOrder> menuOrders = this.<MenuOrder, QMenuOrder>createList("menuOrders", MenuOrder.class, QMenuOrder.class, PathInits.DIRECT2);
-
-    public final NumberPath<Integer> orderId = createNumber("orderId", Integer.class);
 
     public final EnumPath<OrderStatus> orderStatus = createEnum("orderStatus", OrderStatus.class);
 
@@ -34,23 +34,23 @@ public class QOrder extends EntityPathBase<Order> {
 
     public final NumberPath<Integer> totalPrice = createNumber("totalPrice", Integer.class);
 
-    public QOrder(String variable) {
-        this(Order.class, forVariable(variable), INITS);
+    public QDawnOrder(String variable) {
+        this(DawnOrder.class, forVariable(variable), INITS);
     }
 
-    public QOrder(Path<? extends Order> path) {
+    public QDawnOrder(Path<? extends DawnOrder> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QOrder(PathMetadata metadata) {
+    public QDawnOrder(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QOrder(PathMetadata metadata, PathInits inits) {
-        this(Order.class, metadata, inits);
+    public QDawnOrder(PathMetadata metadata, PathInits inits) {
+        this(DawnOrder.class, metadata, inits);
     }
 
-    public QOrder(Class<? extends Order> type, PathMetadata metadata, PathInits inits) {
+    public QDawnOrder(Class<? extends DawnOrder> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.store = inits.isInitialized("store") ? new QStore(forProperty("store"), inits.get("store")) : null;
     }

@@ -19,12 +19,12 @@ public class MenuOrder {
     private int quantity;
 
     @ManyToOne
-    private Order order;
+    private DawnOrder order;
 
     @ManyToOne
     private Menu menu;
 
-    public MenuOrder(int quantity, Order order, Menu menu) {
+    public MenuOrder(int quantity, DawnOrder order, Menu menu) {
         this.quantity = quantity;
         this.order = order;
         this.menu = menu;

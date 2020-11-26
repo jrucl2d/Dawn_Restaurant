@@ -9,6 +9,20 @@ public class StaffDTO {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
+    public static class CreateStaff {
+        private int storeId;
+        private String name;
+        private String position;
+        private String birthDate;
+        private boolean sex;
+        private int wagePerHour;
+    }
+
+    @Data
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class GetStaff {
         private int storeId;
         private String name;
@@ -24,12 +38,13 @@ public class StaffDTO {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class CreateStaff {
-        private int storeId;
+    public static class UpdateStaff {
+        private int staffId;
         private String name;
         private String position;
         private String birthDate;
         private boolean sex;
         private int wagePerHour;
     }
+
 }

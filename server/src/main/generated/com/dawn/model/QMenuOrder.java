@@ -26,7 +26,7 @@ public class QMenuOrder extends EntityPathBase<MenuOrder> {
 
     public final NumberPath<Integer> menuOrderId = createNumber("menuOrderId", Integer.class);
 
-    public final QOrder order;
+    public final QDawnOrder order;
 
     public final NumberPath<Integer> quantity = createNumber("quantity", Integer.class);
 
@@ -49,7 +49,7 @@ public class QMenuOrder extends EntityPathBase<MenuOrder> {
     public QMenuOrder(Class<? extends MenuOrder> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.menu = inits.isInitialized("menu") ? new QMenu(forProperty("menu"), inits.get("menu")) : null;
-        this.order = inits.isInitialized("order") ? new QOrder(forProperty("order"), inits.get("order")) : null;
+        this.order = inits.isInitialized("order") ? new QDawnOrder(forProperty("order"), inits.get("order")) : null;
     }
 
 }

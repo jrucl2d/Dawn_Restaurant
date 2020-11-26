@@ -1,17 +1,16 @@
 package com.dawn.controller;
 
+import com.dawn.common.DawnCodingError;
 import com.dawn.common.DawnCodingResult;
 import com.dawn.dto.StaffDTO;
+import com.dawn.exception.DawnException;
 import com.dawn.service.StaffService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -31,6 +30,20 @@ public class StaffController {
         return new ResponseEntity<>(
                 new DawnCodingResult<>(null,
                         staffService.createStaff(newStaff, staffImage)),HttpStatus.OK);
+    }
+
+    @PutMapping("/staff")
+    public ResponseEntity<DawnCodingResult<StaffDTO.GetStaff>> updateNewStaff(@RequestBody StaffDTO.UpdateStaff updateStaff) {
+        StaffDTO.GetStaff updatedStaff;
+        try {
+            updatedStaff = staffService.updateStaff(updateStaff);
+        } catch (DawnException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(
+                    new DawnCodingResult<>(new DawnCodingError(e), null), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(
+                new DawnCodingResult<>(null, updatedStaff), HttpStatus.OK);
     }
 
     @GetMapping("/staffs/store/{storeId}")

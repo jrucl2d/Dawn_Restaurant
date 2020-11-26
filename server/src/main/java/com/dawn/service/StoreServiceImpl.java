@@ -6,7 +6,7 @@ import com.dawn.exception.DawnException;
 import com.dawn.model.*;
 import com.dawn.repository.menu.MenuRepository;
 import com.dawn.repository.menuorder.MenuOrderRepository;
-import com.dawn.repository.order.OrderRepository;
+import com.dawn.repository.order.DawnOrderRepository;
 import com.dawn.repository.store.StoreRepository;
 import com.dawn.repository.user.UserRepository;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -32,7 +32,7 @@ public class StoreServiceImpl implements StoreService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final MenuOrderRepository menuOrderRepository;
-    private final OrderRepository orderRepository;
+    private final DawnOrderRepository orderRepository;
     private final MenuRepository menuRepository;
     //private final Storage storage;
 
@@ -69,7 +69,7 @@ public class StoreServiceImpl implements StoreService {
         List<MenuOrder> menuOrders = new ArrayList<>();
         List<MenuOrderDTO.Get> menuOrderResult = new ArrayList<>();
         List<MenuOrderDTO.Create> newMenuOrders = newOrder.getMenusOrders();
-        Order order = new Order(0, new Store(newOrder.getStoreId()));
+        DawnOrder order = new DawnOrder(0, new Store(newOrder.getStoreId()));
         order = orderRepository.save(order);
         int totalPrice = 0;
         for (MenuOrderDTO.Create menuOrder : newMenuOrders) {
@@ -96,7 +96,7 @@ public class StoreServiceImpl implements StoreService {
         order.setMenuOrders(menuOrders);
         order.setTotalPrice(totalPrice);
         orderRepository.save(order);
-        return new OrderDTO.GetOrder(order.getOrderId(), totalPrice, menuOrderResult);
+        return new OrderDTO.GetOrder(order.getDawnOrderId(), totalPrice, menuOrderResult);
     }
 
     @Override
@@ -123,8 +123,8 @@ public class StoreServiceImpl implements StoreService {
 
     @Transactional
     public SalesDTO.GetSales getSalesOfStore(int storeId) {
-        List<Order> orders = orderRepository.findByStoreId(storeId);
-        List<OrderDTO.GetOrder> orderDTOs = orders.stream().map(Order::toOrderDTOGet).collect(Collectors.toList());
+        List<DawnOrder> orders = orderRepository.findByStoreId(storeId);
+        List<OrderDTO.GetOrder> orderDTOs = orders.stream().map(DawnOrder::toOrderDTOGet).collect(Collectors.toList());
         return new SalesDTO.GetSales(storeId, orderDTOs);
     }
 }

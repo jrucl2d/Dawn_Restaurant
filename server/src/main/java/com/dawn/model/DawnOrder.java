@@ -15,15 +15,11 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Order {
+public class DawnOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int orderId;
-
-    @Column
-    @Enumerated(EnumType.ORDINAL)
-    private OrderStatus orderStatus = OrderStatus.NEW;
+    private int dawnOrderId;
 
     @Column
     private int totalPrice;
@@ -31,28 +27,31 @@ public class Order {
     @Column
     private boolean isPayed = false;
 
+    @Enumerated(EnumType.ORDINAL)
+    private OrderStatus orderStatus;
+
     @OneToMany
     private List<MenuOrder> menuOrders = new ArrayList<>();
 
     @ManyToOne
     private Store store;
 
-    public Order(int orderId, int totalPrice, Store store) {
-        this.orderId = orderId;
+    public DawnOrder(int orderId, int totalPrice, Store store) {
+        this.dawnOrderId = orderId;
         this.totalPrice = totalPrice;
         this.store = store;
 
     }
 
-    public Order(int totalPrice, Store store) {
+    public DawnOrder(int totalPrice, Store store) {
         this.totalPrice = totalPrice;
         this.store = store;
 
     }
 
-    public static OrderDTO.GetOrder toOrderDTOGet(Order order) {
+    public static OrderDTO.GetOrder toOrderDTOGet(DawnOrder order) {
         return new OrderDTO.GetOrder(
-                order.getOrderId(),
+                order.getDawnOrderId(),
                 order.getTotalPrice(),
                 order.getMenuOrders().stream()
                         .map(x -> new MenuOrderDTO.Get(

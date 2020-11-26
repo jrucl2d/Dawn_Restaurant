@@ -22,7 +22,7 @@ public class QMenu extends EntityPathBase<Menu> {
 
     public static final QMenu menu = new QMenu("menu");
 
-    public final StringPath imageURL = createString("imageURL");
+    public final StringPath imageFileName = createString("imageFileName");
 
     public final StringPath menuDescription = createString("menuDescription");
 

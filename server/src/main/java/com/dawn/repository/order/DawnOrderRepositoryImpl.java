@@ -1,8 +1,8 @@
 package com.dawn.repository.order;
 
 import com.dawn.dto.OrderDTO;
-import com.dawn.model.Order;
-import com.dawn.model.QOrder;
+import com.dawn.model.DawnOrder;
+import com.dawn.model.QDawnOrder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
@@ -10,18 +10,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-public class OrderRepositoryImpl extends QuerydslRepositorySupport implements CustomOrderRepository {
+public class DawnOrderRepositoryImpl extends QuerydslRepositorySupport implements CustomDawnOrderRepository {
 
     @PersistenceContext
     EntityManager em;
 
-    public OrderRepositoryImpl() {
-        super(OrderRepositoryImpl.class);
+    public DawnOrderRepositoryImpl() {
+        super(DawnOrderRepositoryImpl.class);
     }
 
     public void deleteAllOrderOfStore(int storeId) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        QOrder qOrder = new QOrder("qOrder");
+        QDawnOrder qOrder = new QDawnOrder("qOrder");
         queryFactory
                 .delete(qOrder)
                 .where(qOrder.store.storeId.eq(storeId))
@@ -31,17 +31,17 @@ public class OrderRepositoryImpl extends QuerydslRepositorySupport implements Cu
     @Override
     public void updateStateOfOrder(OrderDTO.OrderStateUpdate order) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        QOrder qOrder = new QOrder("qOrder");
+        QDawnOrder qOrder = new QDawnOrder("qOrder");
         queryFactory
                 .update(qOrder)
-                .where(qOrder.orderId.eq(order.getOrderId()))
+                .where(qOrder.dawnOrderId.eq(order.getOrderId()))
                 .set(qOrder.orderStatus, order.getOrderStatus());
     }
 
     @Override
-    public List<Order> findByStoreId(int storeId) {
+    public List<DawnOrder> findByStoreId(int storeId) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        QOrder qOrder = new QOrder("qOrder");
+        QDawnOrder qOrder = new QDawnOrder("qOrder");
         return queryFactory.selectFrom(qOrder)
                 .where(qOrder.store.storeId.eq(storeId))
                 .fetch();
