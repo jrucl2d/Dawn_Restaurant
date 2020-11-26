@@ -24,13 +24,15 @@ public class StaffDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class GetStaff {
+        private int staffId;
         private int storeId;
         private String name;
         private String position;
         private String birthDate;
         private boolean sex;
-        private int wagePerHour;
+        private String wagePerHour;
         private String profileImageURL;
+
     }
 
     @Data
@@ -44,7 +46,7 @@ public class StaffDTO {
         private String position;
         private String birthDate;
         private boolean sex;
-        private int wagePerHour;
+        private String wagePerHour;
     }
 
 }

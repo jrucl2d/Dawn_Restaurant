@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import "./StaffStyle.css";
-import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { addStaff } from "../../modules/staffReducer";
+
+import axios from "axios";
 
 function StaffAddModalComponent({ showModal, setShowModal, storeId }) {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ function StaffAddModalComponent({ showModal, setShowModal, storeId }) {
     staffName: "",
     staffBirth: "",
     staffPosition: "",
-    staffPay: "",
+    staffPay: 0,
   });
   const [payRadio, setPayRadio] = useState("hour");
   const [sexRadio, setSexRadio] = useState("male");
@@ -35,56 +36,67 @@ function StaffAddModalComponent({ showModal, setShowModal, storeId }) {
       [e.target.name]: e.target.value,
     });
   };
-  const onClickClose = () => setShowModal(false);
-  const onClickSave = () => {
-    if (
-      staffInfo.staffName === "" ||
-      staffInfo.staffPosition === "" ||
-      staffInfo.staffPay === ""
-    ) {
-      alert("필요한 정보를 모두 입력해야 합니다.");
-      return;
-    }
-    // 여기서 데이터베이스에 저장하는 과정 필요
-    console.log(staffInfo);
-    console.log(payRadio);
-    console.log(sexRadio);
-    console.log(staffImage);
-
-    const sendingData = {
-      storeId,
-      staffId: uuid(),
-      staffName: staffInfo.staffName,
-      staffBirth: staffInfo.staffBirth,
-      staffPosition: staffInfo.staffPosition,
-      staffPay: staffInfo.staffPay + "원/" + payRadio === "hour" ? "시" : "월",
-      staffSex: sexRadio,
-      staffImage: staffImage
-        ? staffImage.name.split(".")[0] +
-          "_" +
-          Date.now() +
-          "." +
-          staffImage.name.split(".")[1]
-        : "",
-    };
-
-    // try catch, const result = await axios.post..... 해서
-    const result = true;
-    if (!result) {
-      alert("오류가 발생했습니다. 다시 시도해주세요.");
-      return;
-    }
-    dispatch(addStaff(sendingData));
-
+  const onClickClose = () => {
     setStaffInfo({
       staffName: "",
       staffBirth: "",
       staffPosition: "",
-      staffPay: "",
-      staffSex: "",
+      staffPay: 0,
     });
     setImageURL("");
     setStaffImage("");
+    setShowModal(false);
+  };
+  const onClickSave = () => {
+    if (
+      staffInfo.staffName === "" ||
+      staffInfo.staffPosition === "" ||
+      staffInfo.staffPay === 0
+    ) {
+      alert("필요한 정보를 모두 입력해야 합니다.");
+      return;
+    }
+
+    (async () => {
+      const formData = new FormData();
+      const forSend = {
+        storeId: +storeId,
+        name: staffInfo.staffName,
+        position: staffInfo.staffPosition,
+        birthDate: staffInfo.staffBirth,
+        sex: sexRadio === "male" ? true : false,
+        wagePerHour: `${staffInfo.staffPay}원/${
+          payRadio === "hour" ? "시" : "월"
+        }`,
+      };
+      formData.append("staff", JSON.stringify(forSend));
+      formData.append("staffImage", staffImage);
+      const result = await axios.post("/staff", formData, {
+        headers: {
+          Authorization: "token",
+          "Content-Type": "multipart/form-data; charset=UTF-8",
+        },
+      });
+
+      if (result.status !== 200) {
+        alert("오류가 발생했습니다. 다시 시도해주세요.");
+        return;
+      }
+      console.log(result);
+      dispatch(
+        addStaff({
+          storeId,
+          staffId: result.data.result.staffId,
+          staffName: result.data.result.name,
+          staffBirth: result.data.result.birthDate,
+          staffPosition: result.data.result.position,
+          staffPay: result.data.result.wagePerHour,
+          staffSex: result.data.result.sex ? "male" : "female",
+          staffImage: result.data.result.profileImageURL,
+        })
+      );
+    })();
+
     alert("새로운 직원 정보를 등록했습니다.");
     onClickClose();
   };

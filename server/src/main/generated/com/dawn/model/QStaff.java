@@ -36,7 +36,7 @@ public class QStaff extends EntityPathBase<Staff> {
 
     public final QStore store;
 
-    public final NumberPath<Integer> wagePerHour = createNumber("wagePerHour", Integer.class);
+    public final StringPath wagePerHour = createString("wagePerHour");
 
     public QStaff(String variable) {
         this(Staff.class, forVariable(variable), INITS);

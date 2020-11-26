@@ -38,13 +38,13 @@ public class Staff {
     private Boolean sex;
 
     @Column
-    private int wagePerHour;
+    private String wagePerHour;
 
     @Column
     private String profileImageName;
 
     public Staff(Store store, String name, String position, Date birthDate,
-                 Boolean sex, int wagePerHour) {
+                 Boolean sex, String wagePerHour) {
         this.store = store;
         this.name = name;
         this.position = position;
@@ -55,7 +55,7 @@ public class Staff {
 
     public static StaffDTO.GetStaff toGetStaff(Staff staff) {
         return new StaffDTO.GetStaff(
-                staff.getStore().getStoreId(), staff.getName(), staff.getPosition(),
+                staff.getStaffId(), staff.getStore().getStoreId(), staff.getName(), staff.getPosition(),
                 staff.getBirthDate().toString(), staff.getSex(), staff.getWagePerHour(),
                 CloudConstants.CloudStorageBaseURL + "/" + staff.getProfileImageName());
     }

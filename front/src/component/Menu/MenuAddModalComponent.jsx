@@ -16,7 +16,6 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
     menuPrice: 0,
     menuIntroduce: "",
   });
-
   const onChangeFile = (e) => {
     e.preventDefault();
     let reader = new FileReader();
@@ -34,7 +33,16 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
       [e.target.name]: e.target.value,
     });
   };
-  const onClickClose = () => setShowModal(false);
+  const onClickClose = () => {
+    setMenuInfo({
+      menuName: "",
+      menuPrice: 0,
+      menuIntroduce: "",
+    });
+    setImageURL("");
+    setMenuImage("");
+    setShowModal(false);
+  };
   const onClickSave = () => {
     if (menuInfo.menuName === "" || menuInfo.storePrice === "") {
       alert("필요한 정보를 모두 입력해야 합니다.");
@@ -43,45 +51,40 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
     // 데이터베이스에 저장하는 과정 필요
     // try catch, const result = await axios.post..... 해서
     // 사용자 정보와 가게 정보 보내야 할 수도
-    const sendingData = {
-      menuName: menuInfo.menuName,
-      menuPrice: menuInfo.menuPrice,
-      menuIntroduce: menuInfo.menuIntroduce,
-      menuImage: menuImage
-        ? menuImage.name.split(".")[0] +
-          "_" +
-          Date.now() +
-          "." +
-          menuImage.name.split(".")[1]
-        : "",
-    };
+
     (async () => {
-      const result = await axios.post("/menus", {
+      const formData = new FormData();
+      const forSend = {
         storeId: +storeId,
-        menuTitle: sendingData.menuName,
-        menuDescription: sendingData.menuIntroduce,
-        price: +sendingData.menuPrice,
+        menuTitle: menuInfo.menuName,
+        menuDescription: menuInfo.menuIntroduce,
+        price: +menuInfo.menuPrice,
+      };
+      formData.append("menu", JSON.stringify(forSend));
+      formData.append("menuImage", menuImage);
+      const result = await axios.post("/menu", formData, {
+        headers: {
+          Authorization: "token",
+          "Content-Type": "multipart/form-data; charset=UTF-8",
+        },
       });
+
       if (result.status !== 200) {
         alert("오류가 발생했습니다. 다시 시도해주세요.");
         return;
       }
       dispatch(
         addMenu({
-          ...sendingData,
-          menuId: result.data.menuId,
-          storeId: +storeId,
+          storeId,
+          menuId: result.data.result.menuId,
+          menuName: result.data.result.menuTitle,
+          menuPrice: result.data.result.menuPrice,
+          menuIntroduce: result.data.result.menuDescription,
+          menuImage: result.data.result.imageURL,
         })
       );
     })();
 
-    setMenuInfo({
-      menuName: "",
-      menuPrice: 0,
-      menuIntroduce: "",
-    });
-    setImageURL("");
-    setMenuImage("");
     alert("새로운 메뉴를 생성했습니다.");
     onClickClose();
   };

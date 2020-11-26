@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class StaffController {
     @PostMapping("/staff")
     public ResponseEntity<DawnCodingResult<StaffDTO.GetStaff>> createNewStaff(@RequestPart("staff") String newStaffString,
                                                            @RequestPart("staffImage") MultipartFile staffImage) throws IOException, ParseException {
+        newStaffString = new String(newStaffString.getBytes("8859_1"), StandardCharsets.UTF_8);
+
         StaffDTO.CreateStaff newStaff = new ObjectMapper().readValue(newStaffString, StaffDTO.CreateStaff.class);
         return new ResponseEntity<>(
                 new DawnCodingResult<>(null,

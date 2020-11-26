@@ -14,7 +14,7 @@ function StaffComponent({ staffInfo, storeId }) {
     <>
       <Button className="card" id="staffComponentCard" onClick={onClickStaff}>
         <div id="staffComponentContent">
-          <img src="#" alt="사진" />
+          <img src={staffInfo.staffImage} alt="사진" />
           <div id="staffComponentInfo">
             <span>이름 : {staffInfo.staffName}</span>
             <span>직급 : {staffInfo.staffPosition}</span>
