@@ -39,7 +39,7 @@ function StoreManageComponent({ location }) {
           <MenuGridComponent storeId={storeId.current} location />
         </div>
         <div id="storeRightSide">
-          <OrderListComponent />
+          <OrderListComponent storeId={storeId.current} />
         </div>
         <MenuAddModalComponent
           showModal={showAddMenu}

@@ -9,12 +9,11 @@ function StoreStatisticsComponent() {
   useEffect(() => {
     let theTotal = 0;
     orders.map((order) => {
-      order.menus.forEach((v) => {
-        theTotal += v.menuPrice * v.menuNum;
-      });
+      // eslint-disable-next-line
+      theTotal += order.total;
     });
     setTotalMoney(theTotal);
-  }, [orders, totalMoney]);
+  }, [orders, totalMoney]); // 상태가 '음식 수령'인 것만 여기에 표시
 
   return (
     <>
@@ -25,16 +24,12 @@ function StoreStatisticsComponent() {
           <h2>금일 판매 건수 : {orders.length}건</h2>
           <div id="orders">
             {orders.map((order) => {
-              let theTotal = 0;
-              order.menus.forEach((v) => {
-                theTotal += v.menuPrice * v.menuNum;
-              });
               return (
-                <div className="order">
+                <div className="order" key={order.orderId}>
                   <span>
                     {order.menus[0].menuName} 외 {order.menus.length - 1}
                   </span>
-                  <span>총 {theTotal} 원</span>
+                  <span>총 {order.total} 원</span>
                 </div>
               );
             })}
