@@ -46,10 +46,10 @@ public class OrderServiceIntegrationTest {
         user = userRepository.save(user);
         Store store = new Store("새벽식당", "신공", "24시", "새벽에만 하는 식당", "", user);
         store = storeRepository.save(store);
-        DawnOrder order = new DawnOrder(10000, store);
+        DawnOrder order = new DawnOrder(10000, store, user);
         order = orderRepository.save(order);
         orderService.updateStateOfOrder(
-                new OrderDTO.OrderStateUpdate(order.getOrderId(), OrderStatus.COOKING));
+                new OrderDTO.OrderStateUpdate(order.getDawnOrderId(), OrderStatus.COOKING));
         order = orderRepository.save(order);
         assertThat(order.getOrderStatus().getStatusCode(), is(OrderStatus.COOKING.getStatusCode()));
     }

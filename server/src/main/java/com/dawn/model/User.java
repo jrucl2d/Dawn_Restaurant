@@ -28,6 +28,8 @@ public class User extends BaseAuditorEntity {
 
     private String name;
 
+    private int balance;
+
     @Column(nullable = true)
     private UserType userType = UserType.USER;
 
@@ -39,10 +41,19 @@ public class User extends BaseAuditorEntity {
     @OneToMany
     private List<Store> stores = new ArrayList<>();
 
+    @OneToMany
+    private List<DawnOrder> orders = new ArrayList<>();
+
     public User(String loginId, String password, String name, boolean isBusiness) {
         this.isBusiness = isBusiness;
         this.loginId = loginId;
         this.password = password;
         this.name = name;
+        this.balance = 100000;
+    }
+
+    public User(String loginId, String password, String name, boolean isBusiness, int balance) {
+        this(loginId, password, name, isBusiness);
+        this.balance = balance;
     }
 }

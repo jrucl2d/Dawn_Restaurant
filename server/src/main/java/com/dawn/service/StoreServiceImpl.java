@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,6 +30,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
+
+    @PersistenceContext
+    EntityManager em;
 
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
@@ -55,7 +60,7 @@ public class StoreServiceImpl implements StoreService {
                     .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
             Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
             BlobInfo blobInfo = storage.create(
-                    BlobInfo.newBuilder("sogong", "store/"+store.getStoreId()+"-profile.jpg")
+                    BlobInfo.newBuilder("sogong", "store/" + store.getStoreId() + "-profile.jpg")
                             .build(), profileImage.getBytes());
             System.out.println("generated blob = " + blobInfo.getName());
             store.setProfileImageURL(blobInfo.getName());
@@ -69,17 +74,32 @@ public class StoreServiceImpl implements StoreService {
         List<MenuOrder> menuOrders = new ArrayList<>();
         List<MenuOrderDTO.Get> menuOrderResult = new ArrayList<>();
         List<MenuOrderDTO.Create> newMenuOrders = newOrder.getMenusOrders();
-        DawnOrder order = new DawnOrder(0, new Store(newOrder.getStoreId()));
+        User consumer = userRepository.findUserByUserId(newOrder.getUserId());
+        if (consumer == null) {
+            throw new DawnException("주문요청을 한 고객이 존재하지 않습니다",
+                    String.format("userId = [%s] 는 존재하지 않습니다", newOrder.getUserId()));
+        }
+        Store store = storeRepository.getOne(newOrder.getStoreId());
+        DawnOrder order =
+                new DawnOrder(0, store, consumer);
         order = orderRepository.save(order);
         int totalPrice = 0;
         for (MenuOrderDTO.Create menuOrder : newMenuOrders) {
             Menu menu = menuRepository.findByMenuId(menuOrder.getMenuId());
             if (menu == null) {
-                throw new DawnException("주문하려는 메뉴가 존재하지 않습니다", "causation: menuId = ["+menuOrder.getMenuId()+"]");
+                throw new DawnException("주문하려는 메뉴가 존재하지 않습니다", "causation: menuId = [" + menuOrder.getMenuId() + "]");
             }
             totalPrice += (menu.getPrice() * menuOrder.getQuantity());
             menuOrders.add(new MenuOrder(menuOrder.getQuantity(), order, menu));
         }
+
+        if (consumer.getBalance() < totalPrice) {
+            throw new DawnException(
+                    "결제에 실패했습니다",
+                    String.format("잔액이 부족합니다 balance = [%s], 결제필요금액 = [%s]",
+                            consumer.getBalance(), totalPrice));
+        }
+
         menuOrders = menuOrderRepository.saveAll(menuOrders);
         for (MenuOrder menuOrder : menuOrders) {
             Menu currMenu = menuOrder.getMenu();
@@ -95,8 +115,10 @@ public class StoreServiceImpl implements StoreService {
         }
         order.setMenuOrders(menuOrders);
         order.setTotalPrice(totalPrice);
+        consumer.setBalance(consumer.getBalance() - totalPrice);
         orderRepository.save(order);
-        return new OrderDTO.GetOrder(order.getDawnOrderId(), totalPrice, menuOrderResult);
+        return new OrderDTO.GetOrder(order.getDawnOrderId(), totalPrice, newOrder.getUserId(),
+                order.getCreatedAt(), order.getOrderStatus().getStatusTitle(), menuOrderResult);
     }
 
     @Override

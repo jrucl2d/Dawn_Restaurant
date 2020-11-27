@@ -33,5 +33,4 @@ public class RootController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
 }

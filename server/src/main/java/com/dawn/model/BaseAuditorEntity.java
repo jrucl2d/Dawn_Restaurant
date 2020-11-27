@@ -29,5 +29,5 @@ public abstract class BaseAuditorEntity {
     @JsonIgnore
     @Column(name = "modified_at", nullable =  false, updatable = true)
     @LastModifiedDate
-    private LocalDateTime lastModifiedAt;
+    private LocalDateTime modifiedAt;
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderDTO {
@@ -14,6 +15,7 @@ public class OrderDTO {
     @AllArgsConstructor
     public static class CreateOrder {
         private int storeId;
+        private int userId;
         private List<MenuOrderDTO.Create> menusOrders;
     }
 
@@ -23,6 +25,9 @@ public class OrderDTO {
     public static class GetOrder {
         private int orderId;
         private int totalPrice;
+        private int userId;
+        private LocalDateTime createdAt;
+        private String orderStatus;
         private List<MenuOrderDTO.Get> menusOrders;
     }
 

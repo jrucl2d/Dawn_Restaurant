@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @Entity
-public class DawnOrder {
+public class DawnOrder extends BaseAuditorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +28,7 @@ public class DawnOrder {
     private boolean isPayed = false;
 
     @Enumerated(EnumType.ORDINAL)
-    private OrderStatus orderStatus;
+    private OrderStatus orderStatus = OrderStatus.NEW;
 
     @OneToMany
     private List<MenuOrder> menuOrders = new ArrayList<>();
@@ -36,23 +36,29 @@ public class DawnOrder {
     @ManyToOne
     private Store store;
 
-    public DawnOrder(int orderId, int totalPrice, Store store) {
+    @ManyToOne
+    private User user;
+
+    public DawnOrder(int orderId, int totalPrice, Store store, User user) {
         this.dawnOrderId = orderId;
         this.totalPrice = totalPrice;
         this.store = store;
-
+        this.user = user;
     }
 
-    public DawnOrder(int totalPrice, Store store) {
+    public DawnOrder(int totalPrice, Store store, User user) {
         this.totalPrice = totalPrice;
         this.store = store;
-
+        this.user = user;
     }
 
     public static OrderDTO.GetOrder toOrderDTOGet(DawnOrder order) {
         return new OrderDTO.GetOrder(
                 order.getDawnOrderId(),
                 order.getTotalPrice(),
+                order.getUser().getUserId(),
+                order.getCreatedAt(),
+                order.getOrderStatus().getStatusTitle(),
                 order.getMenuOrders().stream()
                         .map(x -> new MenuOrderDTO.Get(
                                 x.getMenuOrderId(), x.getQuantity(),
