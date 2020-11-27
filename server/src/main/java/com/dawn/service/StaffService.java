@@ -60,6 +60,6 @@ public class StaffService {
                         .orElseThrow(() ->
                                 new DawnException("staff가 존재하지 않습니다",
                                         String.format("causation: staffId=[%s]", updateStaff.getStaffId())));
-        return Staff.toGetStaff(staff.updateStaffByUpdateDTO(updateStaff));
+        return Staff.toGetStaff(staffRepository.save(staff.updateStaffByUpdateDTO(updateStaff)));
     }
 }

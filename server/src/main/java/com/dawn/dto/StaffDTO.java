@@ -15,7 +15,7 @@ public class StaffDTO {
         private String position;
         private String birthDate;
         private boolean sex;
-        private int wagePerHour;
+        private String wagePerHour;
     }
 
     @Data
