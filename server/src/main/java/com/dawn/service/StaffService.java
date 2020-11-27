@@ -12,7 +12,11 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
@@ -60,6 +64,9 @@ public class StaffService {
                         .orElseThrow(() ->
                                 new DawnException("staff가 존재하지 않습니다",
                                         String.format("causation: staffId=[%s]", updateStaff.getStaffId())));
-        return Staff.toGetStaff(staff.updateStaffByUpdateDTO(updateStaff));
+        return Staff.toGetStaff(staffRepository.save(staff.updateStaffByUpdateDTO(updateStaff)));
+    }
+    public void removeStaff(int staffId){
+        staffRepository.deleteById(staffId);
     }
 }
