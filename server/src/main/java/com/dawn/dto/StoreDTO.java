@@ -24,7 +24,7 @@ public class StoreDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class CreateStore {
-        private int ownerUserId;
+        private int userId;
         private String storeTitle;
         private String location;
         private String businessHour;

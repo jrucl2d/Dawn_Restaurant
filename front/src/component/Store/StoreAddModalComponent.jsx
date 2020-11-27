@@ -48,7 +48,7 @@ function StoreAddModalComponent({ showAddStore, setShowAddStore }) {
       try {
         const formData = new FormData();
         const forSend = {
-          ownerUserId: userID,
+          userId: userID,
           storeTitle: storeInfo.storeName,
           location: storeInfo.storeLocation,
           businessHour: storeInfo.storeTime,
