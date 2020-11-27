@@ -13,12 +13,13 @@ function StaffListComponent({ storeId }) {
       const staffsResponse = await axios.get(`/staffs/store/${storeId}`);
       const gotStaffs = staffsResponse.data.result;
       const theStaffs = [];
+      gotStaffs.sort((a, b) => a.staffId - b.staffId);
       gotStaffs.forEach((staff) => {
         theStaffs.push({
           storeId: storeId,
           staffId: staff.staffId,
           staffName: staff.name,
-          staffBirth: staff.birthDate,
+          staffBirth: staff.birthDate.split(" ")[0],
           staffPosition: staff.position,
           staffPay: staff.wagePerHour,
           staffSex: staff.sex ? "male" : "female",

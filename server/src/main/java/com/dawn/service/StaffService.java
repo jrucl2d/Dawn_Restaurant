@@ -62,4 +62,8 @@ public class StaffService {
                                         String.format("causation: staffId=[%s]", updateStaff.getStaffId())));
         return Staff.toGetStaff(staffRepository.save(staff.updateStaffByUpdateDTO(updateStaff)));
     }
+
+    public void removeStaff(int staffId) {
+        staffRepository.deleteById(staffId);
+    }
 }

@@ -51,7 +51,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public Store createStore(StoreDTO.CreateStore newStore, MultipartFile profileImage) throws IOException {
-        User user = userRepository.findUserByUserId(newStore.getOwnerUserId());
+        User user = userRepository.findUserByUserId(newStore.getUserId());
         Store store =
                 new Store(newStore.getStoreTitle(), newStore.getLocation(),
                         newStore.getBusinessHour(), newStore.getDescription(), "", user);

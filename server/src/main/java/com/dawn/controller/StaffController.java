@@ -55,5 +55,9 @@ public class StaffController {
                 new DawnCodingResult<>(null,
                         staffService.getAllStaffOfStore(storeId)),HttpStatus.OK);
     }
-
+    @DeleteMapping("/staff/{staffId}")
+    public ResponseEntity deleteStaff(@PathVariable int staffId) {
+        staffService.removeStaff(staffId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

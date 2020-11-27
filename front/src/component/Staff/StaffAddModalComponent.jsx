@@ -82,7 +82,6 @@ function StaffAddModalComponent({ showModal, setShowModal, storeId }) {
         alert("오류가 발생했습니다. 다시 시도해주세요.");
         return;
       }
-      console.log(result);
       dispatch(
         addStaff({
           storeId,

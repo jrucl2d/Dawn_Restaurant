@@ -3,8 +3,14 @@ import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import "./StaffStyle.css";
 import { useDispatch } from "react-redux";
 import { updateStaff, deleteStaff } from "../../modules/staffReducer";
+import axios from "axios";
 
-function StaffModifyModalComponent({ showModal, setShowModal, staff }) {
+function StaffModifyModalComponent({
+  showModal,
+  setShowModal,
+  staff,
+  storeId,
+}) {
   const dispatch = useDispatch();
   const [imageURL, setImageURL] = useState(staff.staffImage); // base64 정보
   const [staffImage, setStaffImage] = useState(""); // 단순 파일 정보
@@ -37,15 +43,6 @@ function StaffModifyModalComponent({ showModal, setShowModal, staff }) {
     });
   };
   const onClickClose = () => {
-    setStaffInfo({
-      staffName: "",
-      staffBirth: "",
-      staffPosition: "",
-      staffPay: "",
-      staffSex: "",
-    });
-    setImageURL("");
-    setStaffImage("");
     setShowModal(false);
   };
   const onClickSave = () => {
@@ -58,35 +55,51 @@ function StaffModifyModalComponent({ showModal, setShowModal, staff }) {
       return;
     }
     // 여기서 데이터베이스에 저장하는 과정 필요
-    const sendingData = {
-      staffId: staff.staffId,
-      staffName: staffInfo.staffName,
-      staffBirth: staffInfo.staffBirth,
-      staffPosition: staffInfo.staffPosition,
-      staffPay: staffInfo.staffPay + "원/" + payRadio === "hour" ? "시" : "월",
-      staffSex: sexRadio,
-      staffImage: staffImage
-        ? staffImage.name.split(".")[0] +
-          "_" +
-          Date.now() +
-          "." +
-          staffImage.name.split(".")[1]
-        : "",
-    };
+    (async () => {
+      const forSend = {
+        staffId: +staff.staffId,
+        name: staffInfo.staffName,
+        position: staffInfo.staffPosition,
+        birthDate: staffInfo.staffBirth,
+        sex: sexRadio === "male" ? true : false,
+        wagePerHour: `${staffInfo.staffPay}원/${
+          payRadio === "hour" ? "시" : "월"
+        }`,
+      };
+      const result = await axios.put("/staff", forSend);
 
-    // try catch, const result = await axios.post..... 해서
-    const result = true;
-    if (!result) {
-      alert("오류가 발생했습니다. 다시 시도해주세요.");
-      return;
-    }
-    dispatch(updateStaff(sendingData));
+      if (result.status !== 200) {
+        alert("오류가 발생했습니다. 다시 시도해주세요.");
+        return;
+      }
+      dispatch(
+        updateStaff({
+          storeId,
+          staffId: result.data.result.staffId,
+          staffName: result.data.result.name,
+          staffBirth: result.data.result.birthDate,
+          staffPosition: result.data.result.position,
+          staffPay: result.data.result.wagePerHour,
+          staffSex: result.data.result.sex ? "male" : "female",
+          staffImage: result.data.result.profileImageURL,
+        })
+      );
+    })();
+
     alert("직원 정보를 수정했습니다.");
     onClickClose();
   };
   const onClickDelete = () => {
     if (window.confirm("정말 직원 정보를 삭제하시겠습니까?")) {
-      dispatch(deleteStaff(staff.staffId));
+      (async () => {
+        const result = await axios.delete("/staff/" + staff.staffId);
+        if (result.status !== 200) {
+          alert("오류가 발생했습니다. 다시 시도해주세요.");
+          return;
+        }
+        dispatch(deleteStaff(staff.staffId));
+      })();
+
       onClickClose();
     }
   };

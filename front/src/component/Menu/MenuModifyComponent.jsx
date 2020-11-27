@@ -39,22 +39,13 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId, imageURLFirst }) {
     }
 
     (async () => {
-      const formData = new FormData();
       const forSend = {
-        storeId: +storeId,
+        menuId: menu.menuId,
         menuTitle: menuInfo.menuName,
         menuDescription: menuInfo.menuIntroduce,
         price: +menuInfo.menuPrice,
       };
-      formData.append("menu", JSON.stringify(forSend));
-      formData.append("menuImage", menuImage);
-      const result = await axios.post("/menu", formData, {
-        /// 수정 필요
-        headers: {
-          Authorization: "token",
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const result = await axios.put("/menu", forSend);
 
       if (result.status !== 200) {
         alert("오류가 발생했습니다. 다시 시도해주세요.");
@@ -67,10 +58,9 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId, imageURLFirst }) {
           menuName: result.data.result.menuTitle,
           menuPrice: result.data.result.menuPrice,
           menuIntroduce: result.data.result.menuDescription,
-          menuImage: result.data.result.imageURL,
+          menuImage: menu.imageURL,
         })
       );
-      // 데이터베이스 저장에 성공했을 때 받은 result 값으로 설정하는 코드로 변경 필요
       alert("메뉴 정보를 수정했습니다.");
       deMenuEditMode();
     })();
