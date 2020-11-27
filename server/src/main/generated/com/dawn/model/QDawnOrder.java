@@ -22,17 +22,27 @@ public class QDawnOrder extends EntityPathBase<DawnOrder> {
 
     public static final QDawnOrder dawnOrder = new QDawnOrder("dawnOrder");
 
+    public final QBaseAuditorEntity _super = new QBaseAuditorEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
     public final NumberPath<Integer> dawnOrderId = createNumber("dawnOrderId", Integer.class);
 
     public final BooleanPath isPayed = createBoolean("isPayed");
 
     public final ListPath<MenuOrder, QMenuOrder> menuOrders = this.<MenuOrder, QMenuOrder>createList("menuOrders", MenuOrder.class, QMenuOrder.class, PathInits.DIRECT2);
 
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+
     public final EnumPath<OrderStatus> orderStatus = createEnum("orderStatus", OrderStatus.class);
 
     public final QStore store;
 
     public final NumberPath<Integer> totalPrice = createNumber("totalPrice", Integer.class);
+
+    public final QUser user;
 
     public QDawnOrder(String variable) {
         this(DawnOrder.class, forVariable(variable), INITS);
@@ -53,6 +63,7 @@ public class QDawnOrder extends EntityPathBase<DawnOrder> {
     public QDawnOrder(Class<? extends DawnOrder> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.store = inits.isInitialized("store") ? new QStore(forProperty("store"), inits.get("store")) : null;
+        this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
     }
 
 }

@@ -17,8 +17,13 @@ function OrderListComponent({ storeId }) {
       theOrders.forEach((order) => {
         forSet.push({
           orderId: order.orderId,
-          orderStatus: "새 주문", // 상태가 '음식 수령'인 것들은 제외하고 넣어라...!!!!!!!!!!!!
+          orderStatus: order.orderStatus,
           total: order.totalPrice,
+          timestamp: `${order.createdAt[0]}-${order.createdAt[1]}-${
+            +order.createdAt[3] + 9 >= 24
+              ? +order.createdAt[2] + 1
+              : order.createdAt[2]
+          }`,
           menus: order.menusOrders.map((v) => {
             return {
               menuId: v.menu.menuId,
@@ -29,6 +34,7 @@ function OrderListComponent({ storeId }) {
           }),
         });
       });
+      console.log(forSet);
       dispatch(initialOrder(forSet));
     })();
   }, []);
@@ -36,9 +42,12 @@ function OrderListComponent({ storeId }) {
   return (
     <div id="orderList">
       <h2>주문 현황</h2>
-      {orders.map((order) => (
-        <OrderComponent key={order.orderId} order={order} />
-      ))}
+      {orders.map(
+        (order) =>
+          order.orderStatus !== "판매 완료" && (
+            <OrderComponent key={order.orderId} order={order} />
+          )
+      )}
     </div>
   );
 }
