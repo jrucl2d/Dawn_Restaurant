@@ -35,7 +35,8 @@ public class DawnOrderRepositoryImpl extends QuerydslRepositorySupport implement
         queryFactory
                 .update(qOrder)
                 .where(qOrder.dawnOrderId.eq(order.getOrderId()))
-                .set(qOrder.orderStatus, order.getOrderStatus());
+                .set(qOrder.orderStatus, order.getOrderStatus())
+                .execute();
     }
 
     @Override
