@@ -8,7 +8,7 @@ import axios from "axios";
 
 import "./StoreStyle.css";
 
-const userID = 1;
+const userID = 2;
 
 function StoreListComponent() {
   const dispatch = useDispatch();

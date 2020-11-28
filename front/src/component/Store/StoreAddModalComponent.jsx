@@ -6,7 +6,7 @@ import axios from "axios";
 
 const noResize = { resize: "none" };
 
-const userID = 1;
+const userID = 2;
 
 function StoreAddModalComponent({ showAddStore, setShowAddStore }) {
   const dispatch = useDispatch();

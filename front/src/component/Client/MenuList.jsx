@@ -1,11 +1,30 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom'; 
+import axios from 'axios';
 
+const storeID = 1;
+
+// 메뉴 컴포넌트를 버튼으로 만들어서 누를 때마다 각자 아이디로 카운트
 const MenuList = ()=>{
+    const [menus, setMenus] = useState([]);
+    const [menuNum, setMenuNum] = useState({});
+    // setMenuNum({...menuNum, menuId : menuNum.menuId + 1})
+    
+    useEffect(()=> {
+      ( async () => { 
+        const result = await axios.get(`/stores/store/${storeID}/menus`);
+        console.log(result);
+        setMenus(result.data);
+      }
+      )();
+    }, []);
+    
     return (
       <div className="auth-wrapper">
       <div className="auth-inner"> 
       <div>Menu List</div>
+          {menus.map(menu => <div>{menu.menuTitle}</div>)}
+
           <Link to='/order-list'>
             <button type="submit" className="btn btn-primary btn-block" varient="secondary">
               주문하기
