@@ -24,12 +24,8 @@ function OrderComponent({ order }) {
     const selectedStatus = e.target.innerHTML;
     (async () => {
       const result = await axios.put("/order", {
-        orders: [
-          {
-            orderId: order.orderId,
-            orderStatus: selectedStatus,
-          },
-        ],
+        orderId: order.orderId,
+        orderStatus: orderStatusList.findIndex((v) => v === selectedStatus),
       });
       console.log(result);
 
