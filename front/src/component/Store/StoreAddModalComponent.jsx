@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addStore } from "../../modules/storeReducer";
 import axios from "axios";
 
 const noResize = { resize: "none" };
 
-const userID = 2;
-
 function StoreAddModalComponent({ showAddStore, setShowAddStore }) {
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.useReducer);
   const [imageURL, setImageURL] = useState(""); // base64 정보
   const [storeImage, setStoreImage] = useState(""); // 단순 파일 정보
   const [storeInfo, setStoreInfo] = useState({
@@ -48,7 +47,7 @@ function StoreAddModalComponent({ showAddStore, setShowAddStore }) {
       try {
         const formData = new FormData();
         const forSend = {
-          userId: userID,
+          userId: userInfo.userId,
           storeTitle: storeInfo.storeName,
           location: storeInfo.storeLocation,
           businessHour: storeInfo.storeTime,

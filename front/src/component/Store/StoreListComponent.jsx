@@ -8,10 +8,9 @@ import axios from "axios";
 
 import "./StoreStyle.css";
 
-const userID = 2;
-
 function StoreListComponent() {
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.userReducer);
   const stores = useSelector((state) => state.storeReducer);
   const [deleteMode, setDeleteMode] = useState(false);
   const [deleteSelected, setDeleteSelected] = useState([]);
@@ -23,7 +22,7 @@ function StoreListComponent() {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get("/stores/users/" + userID);
+        const { data } = await axios.get("/stores/users/" + userInfo.userId);
         const initialData = [];
         data.result.forEach((store, index) => {
           initialData.push({
