@@ -21,7 +21,7 @@ public class QBaseAuditorEntity extends EntityPathBase<BaseAuditorEntity> {
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
-    public final DateTimePath<java.time.LocalDateTime> lastModifiedAt = createDateTime("lastModifiedAt", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = createDateTime("modifiedAt", java.time.LocalDateTime.class);
 
     public QBaseAuditorEntity(String variable) {
         super(BaseAuditorEntity.class, forVariable(variable));

@@ -22,17 +22,21 @@ public class QUser extends EntityPathBase<User> {
 
     public final QBaseAuditorEntity _super = new QBaseAuditorEntity(this);
 
+    public final NumberPath<Integer> balance = createNumber("balance", Integer.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final BooleanPath isBusiness = createBoolean("isBusiness");
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> lastModifiedAt = _super.lastModifiedAt;
-
     public final StringPath loginId = createString("loginId");
 
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+
     public final StringPath name = createString("name");
+
+    public final ListPath<DawnOrder, QDawnOrder> orders = this.<DawnOrder, QDawnOrder>createList("orders", DawnOrder.class, QDawnOrder.class, PathInits.DIRECT2);
 
     public final StringPath password = createString("password");
 
