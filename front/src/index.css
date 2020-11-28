@@ -111,3 +111,43 @@ html,
 .auth-wrapper {
   background: #1c8ef9 !important;
 }
+
+hr {
+  color: #1c8ef9;
+}
+
+.menu {
+  font-size: 30px;
+  text-align: center;
+}
+
+.menuBox {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.Menu {
+  width: 150px;
+  height: 170px;
+  margin: 5px;
+  background-color: lightblue;
+  border-radius: 10px;
+}
+
+.imageURL {
+  width: 120px;
+  height: 120px;
+}
+
+.Menu {
+    
+}
+
+.finishImage {
+  width: 250px;
+  height: 250px;
+}

@@ -8,7 +8,7 @@ const Finish = ()=>{
             <div className="finishInfo">
                 <div>
                     <div>주문이 정상적으로 완료되었습니다.</div>
-                        <img src ="https://static.thenounproject.com/png/35367-200.png"></img>
+                        <img src ="https://static.thenounproject.com/png/35367-200.png" className="finishImage"></img>
                     <div>내 주문 번호: 1</div>
                     <div>예상 소요시간: 15분</div>
                 </div>

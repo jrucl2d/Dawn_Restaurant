@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom'; 
 import axios from 'axios';
+import Menu from './Menu';
 
 const storeID = 1;
 
@@ -22,16 +23,27 @@ const MenuList = ()=>{
     return (
       <div className="auth-wrapper">
       <div className="auth-inner"> 
-      <div>Menu List</div>
-          {menus.map(menu => <div>{menu.menuTitle}</div>)}
+      <div className="menu">Menu List</div>
+          {/* {menus.map(menu => <div>{menu.menuTitle}</div>)} */}
+        <div className="MenuBox">
+          <button className="Menu"><Menu /></button>
+          <button className="Menu"><Menu /></button>
+          <button className="Menu"><Menu /></button>
 
+          <button className="Menu"><Menu /></button>
+          <button className="Menu"><Menu /></button>
+          <button className="Menu"><Menu /></button>
+
+        </div>
+        &nbsp;
           <Link to='/order-list'>
             <button type="submit" className="btn btn-primary btn-block" varient="secondary">
               주문하기
             </button>
           </Link>
+          &nbsp;
           <Link to='menu-list'>
-            <button type="submit" className="btn btn-primary btn-block" varient="secondary" onClick={() => alert("선택이 취소되었습니다!")}>
+            <button type="submit" className="btn btn-danger btn-block" varient="secondary" onClick={() => alert("선택이 취소되었습니다!")}>
               선택 취소
             </button>
           </Link>

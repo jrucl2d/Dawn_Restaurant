@@ -31,9 +31,9 @@ const Payment = ()=>{
                 결제하기
                 </button>
             </Link>
-
+            &nbsp;
             <Link to='/order-list'>
-                <button type="submit" className="btn btn-primary btn-block" varient="secondary" onClick={() => alert("결제를 취소하시겠습니까?")}>
+                <button type="submit" className="btn btn-danger btn-block" varient="secondary" onClick={() => alert("결제를 취소하시겠습니까?")}>
                 주문취소
                 </button>
             </Link>
