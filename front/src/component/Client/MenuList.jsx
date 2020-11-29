@@ -40,6 +40,7 @@ const MenuList = ({ history }) => {
   const onClickGo = (e) => {
     e.preventDefault();
     quantity["totalMoney"] = total;
+    quantity["storeId"] = storeID;
     dispatch(clientOrder(quantity));
     history.push("/order-list");
   };

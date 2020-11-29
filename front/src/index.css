@@ -166,3 +166,11 @@ hr {
 .price {
   pointer-events: none;
 }
+.orderCalcListUL {
+  list-style: none;
+  padding: 0;
+}
+.orderCalcList {
+  display: flex;
+  justify-content: space-between;
+}
