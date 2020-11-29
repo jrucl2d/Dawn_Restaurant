@@ -11,6 +11,9 @@ export const deleteOrder = (orderId) => {
 export const changeOrderStatus = ({ orderId, orderStatus }) => {
   return { type: "CHANGE_ORDER_STATUS", orderId, orderStatus };
 };
+export const clientOrder = (order) => {
+  return { type: "CLIENT_ORDER", order };
+};
 
 // Initial State
 const initialState = [
@@ -115,6 +118,8 @@ export default function orderReducer(state = initialState, action) {
           return order;
         }
       });
+    case "CLIENT_ORDER":
+      return [...state, action.order];
     default:
       return state;
   }

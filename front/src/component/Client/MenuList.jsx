@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Menu from "./Menu";
+import { useDispatch } from "react-redux";
+import { clientOrder } from "../../modules/orderReducer";
 
 const storeID = 2;
 
 // 메뉴 컴포넌트를 버튼으로 만들어서 누를 때마다 각자 아이디로 카운트
 const MenuList = ({ history }) => {
+  const dispatch = useDispatch();
   const [menus, setMenus] = useState([]);
   const [quantity, setQuantity] = useState({});
-  // setMenuNum({...menuNum, menuId : menuNum.menuId + 1})
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -22,6 +24,7 @@ const MenuList = ({ history }) => {
     if (e.target.name === undefined) {
       return;
     }
+    setTotal(total + +e.target.name.split("-")[2]);
     setQuantity({
       ...quantity,
       [e.target.name]:
@@ -36,6 +39,9 @@ const MenuList = ({ history }) => {
   };
   const onClickGo = (e) => {
     e.preventDefault();
+    quantity["totalMoney"] = total;
+    dispatch(clientOrder(quantity));
+    history.push("/order-list");
   };
 
   return (
@@ -49,7 +55,7 @@ const MenuList = ({ history }) => {
                 className="Menu"
                 key={menu.menuId}
                 onClick={onClickMenu}
-                name={`${menu.menuId}-${menu.menuTitle}`}
+                name={`${menu.menuId}-${menu.menuTitle}-${menu.price}`}
               >
                 <Menu menu={menu} />
               </button>
@@ -63,26 +69,22 @@ const MenuList = ({ history }) => {
             </span>
           ))}
         </div>
-        <Link to="/order-list">
-          <button
-            className="btn btn-primary btn-block"
-            varient="secondary"
-            onClick={onClickGo}
-          >
-            주문하기
-          </button>
-        </Link>
+        <button
+          className="btn btn-primary btn-block"
+          varient="secondary"
+          onClick={onClickGo}
+        >
+          {total !== 0 && `총 ${total}원`} 주문하기
+        </button>
         &nbsp;
-        <Link to="menu-list">
-          <button
-            type="submit"
-            className="btn btn-danger btn-block"
-            varient="secondary"
-            onClick={onClickCancel}
-          >
-            선택 취소
-          </button>
-        </Link>
+        <button
+          type="submit"
+          className="btn btn-danger btn-block"
+          varient="secondary"
+          onClick={onClickCancel}
+        >
+          선택 취소
+        </button>
       </div>
     </div>
   );
