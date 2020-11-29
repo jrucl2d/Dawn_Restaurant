@@ -111,3 +111,58 @@ html,
 .auth-wrapper {
   background: #1c8ef9 !important;
 }
+
+hr {
+  color: #1c8ef9;
+}
+
+.menu {
+  font-size: 30px;
+  text-align: center;
+}
+
+.menuBox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.Menu {
+  width: 150px;
+  height: 170px;
+  margin: 5px;
+  background-color: lightblue;
+  border-radius: 10px;
+}
+
+.imageURL {
+  width: 120px;
+  height: 120px;
+}
+
+.finishImage {
+  width: 250px;
+  height: 250px;
+}
+.outerBox {
+  border: 1px solid black;
+  height: 28rem;
+  overflow-y: auto;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+.selectedFoods {
+  border: 1px solid black;
+  border-radius: 6px;
+  padding: 4px;
+  margin-bottom: 4px;
+  height: 60px;
+  overflow: auto;
+}
+.foodImageForClient,
+.menuTitle,
+.price {
+  pointer-events: none;
+}

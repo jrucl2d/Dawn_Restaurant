@@ -1,46 +1,84 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Menu from "./Menu";
 
 const storeID = 2;
 
 // 메뉴 컴포넌트를 버튼으로 만들어서 누를 때마다 각자 아이디로 카운트
-const MenuList = () => {
+const MenuList = ({ history }) => {
   const [menus, setMenus] = useState([]);
-  const [menuNum, setMenuNum] = useState({});
+  const [quantity, setQuantity] = useState({});
   // setMenuNum({...menuNum, menuId : menuNum.menuId + 1})
 
   useEffect(() => {
     (async () => {
       const result = await axios.get(`/stores/store/${storeID}/menus`);
-      console.log(result);
       setMenus(result.data);
     })();
   }, []);
 
+  const onClickMenu = (e) => {
+    if (e.target.name === undefined) {
+      return;
+    }
+    setQuantity({
+      ...quantity,
+      [e.target.name]:
+        typeof quantity[e.target.name] === "number"
+          ? quantity[e.target.name] + 1
+          : 1,
+    });
+  };
+  const onClickCancel = () => {
+    alert("선택이 취소되었습니다!");
+    setQuantity({});
+  };
+  const onClickGo = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="auth-wrapper">
       <div className="auth-inner">
-        <div>Menu List</div>
-        {menus.map((menu) => (
-          <div>{menu.menuTitle}</div>
-        ))}
-
+        <div className="menu">Menu List</div>
+        <div className="outerBox">
+          <div className="MenuBox">
+            {menus.map((menu) => (
+              <button
+                className="Menu"
+                key={menu.menuId}
+                onClick={onClickMenu}
+                name={`${menu.menuId}-${menu.menuTitle}`}
+              >
+                <Menu menu={menu} />
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="selectedFoods">
+          {Object.entries(quantity).map((theMenu) => (
+            <span key={theMenu[0]}>
+              {theMenu[0].split("-")[1]}:{theMenu[1]}개/
+            </span>
+          ))}
+        </div>
         <Link to="/order-list">
           <button
-            type="submit"
             className="btn btn-primary btn-block"
             varient="secondary"
+            onClick={onClickGo}
           >
             주문하기
           </button>
         </Link>
+        &nbsp;
         <Link to="menu-list">
           <button
             type="submit"
-            className="btn btn-primary btn-block"
+            className="btn btn-danger btn-block"
             varient="secondary"
-            onClick={() => alert("선택이 취소되었습니다!")}
+            onClick={onClickCancel}
           >
             선택 취소
           </button>

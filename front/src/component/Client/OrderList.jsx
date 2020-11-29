@@ -16,8 +16,9 @@ const OrderList = ()=>{
                 결제하기
                 </button>
             </Link>
+            &nbsp;
             <Link to='menu-list'>
-                <button type="submit" className="btn btn-primary btn-block" varient="secondary" onClick={() => alert("메뉴창으로 돌아갑니다.")}>
+                <button type="submit" className="btn btn-danger btn-block" varient="secondary" onClick={() => alert("메뉴창으로 돌아갑니다.")}>
                 주문 취소
                 </button>
             </Link>
