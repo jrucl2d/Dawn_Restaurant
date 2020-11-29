@@ -161,7 +161,7 @@ main {
   border-radius: 6px;
   height: 70vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
   margin-top: 1rem;
   overflow-y: auto;

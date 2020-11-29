@@ -38,3 +38,7 @@
   display: inline-block;
   width: 2rem;
 }
+#orderListShow {
+  display: flex;
+  flex-direction: column-reverse;
+}

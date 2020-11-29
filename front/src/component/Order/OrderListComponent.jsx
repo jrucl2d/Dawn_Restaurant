@@ -42,12 +42,14 @@ function OrderListComponent({ storeId }) {
   return (
     <div id="orderList">
       <h2>주문 현황</h2>
-      {orders.map(
-        (order) =>
-          order.orderStatus !== "판매 완료" && (
-            <OrderComponent key={order.orderId} order={order} />
-          )
-      )}
+      <div id="orderListShow">
+        {orders.map(
+          (order) =>
+            order.orderStatus !== "판매 완료" && (
+              <OrderComponent key={order.orderId} order={order} />
+            )
+        )}
+      </div>
     </div>
   );
 }
