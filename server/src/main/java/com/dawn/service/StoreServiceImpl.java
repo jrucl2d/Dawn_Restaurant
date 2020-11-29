@@ -82,7 +82,6 @@ public class StoreServiceImpl implements StoreService {
         Store store = storeRepository.getOne(newOrder.getStoreId());
         DawnOrder order =
                 new DawnOrder(0, store, consumer);
-        order = orderRepository.save(order);
         int totalPrice = 0;
         for (MenuOrderDTO.Create menuOrder : newMenuOrders) {
             Menu menu = menuRepository.findByMenuId(menuOrder.getMenuId());
@@ -92,13 +91,14 @@ public class StoreServiceImpl implements StoreService {
             totalPrice += (menu.getPrice() * menuOrder.getQuantity());
             menuOrders.add(new MenuOrder(menuOrder.getQuantity(), order, menu));
         }
-
-        if (consumer.getBalance() < totalPrice) {
-            throw new DawnException(
-                    "결제에 실패했습니다",
-                    String.format("잔액이 부족합니다 balance = [%s], 결제필요금액 = [%s]",
-                            consumer.getBalance(), totalPrice));
-        }
+//
+//        if (consumer.getBalance() < totalPrice) {
+//            throw new DawnException(
+//                    "결제에 실패했습니다",
+//                    String.format("잔액이 부족합니다 balance = [%s], 결제필요금액 = [%s]",
+//                            consumer.getBalance(), totalPrice));
+//        }
+        order = orderRepository.save(order);
 
         menuOrders = menuOrderRepository.saveAll(menuOrders);
         for (MenuOrder menuOrder : menuOrders) {
