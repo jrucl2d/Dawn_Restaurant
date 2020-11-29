@@ -9,6 +9,9 @@ public interface OrderService {
 
     public void updateStateOfOrder(OrderDTO.OrderStateUpdate order);
 
-    public List<Object[]> getAllTotal();
+    public void updateState(OrderDTO.OrderStateUpdate order);
+
+
+    public List<Object[]> getAllTotal(int userId);
 
 }

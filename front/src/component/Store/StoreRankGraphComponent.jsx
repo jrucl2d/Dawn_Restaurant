@@ -15,7 +15,9 @@ function StoreRankGraphComponent() {
   useEffect(() => {
     (async () => {
       try {
-        const result = await axios.get("/orderTotal");
+        const result = await axios.get(
+          `/orderTotal/${localStorage.getItem("userId")}`
+        );
         const forShow = result.data.map((v) => {
           return {
             name: v[0],

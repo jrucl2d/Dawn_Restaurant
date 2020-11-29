@@ -27,7 +27,6 @@ function OrderComponent({ order }) {
         orderId: order.orderId,
         orderStatus: orderStatusList.findIndex((v) => v === selectedStatus),
       });
-      console.log(result);
 
       dispatch(
         changeOrderStatus({
@@ -41,7 +40,13 @@ function OrderComponent({ order }) {
   };
 
   const onClickDeleteOrder = () => {
-    dispatch(deleteOrder(order.orderId));
+    (async () => {
+      const result = await axios.put("/order", {
+        orderId: order.orderId,
+        orderStatus: 4,
+      });
+      dispatch(deleteOrder(order.orderId));
+    })();
   };
 
   return (

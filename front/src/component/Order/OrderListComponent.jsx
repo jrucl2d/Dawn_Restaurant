@@ -34,7 +34,6 @@ function OrderListComponent({ storeId }) {
           }),
         });
       });
-      console.log(forSet);
       dispatch(initialOrder(forSet));
     })();
     // eslint-disable-next-line
