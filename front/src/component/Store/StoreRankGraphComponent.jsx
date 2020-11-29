@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import axios from "axios";
 
 const data = [
   {
@@ -25,11 +26,28 @@ const data = [
 ];
 
 function StoreRankGraphComponent() {
+  const [theData, setTheData] = useState([]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await axios.get("/orderTotal");
+        const forShow = result.data.map((v) => {
+          return {
+            name: v[0],
+            매출: v[1],
+          };
+        });
+        setTheData(forShow);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, []);
   return (
     <BarChart
       width={600}
       height={600}
-      data={data}
+      data={theData}
       margin={{
         top: 5,
         right: 30,
@@ -42,9 +60,7 @@ function StoreRankGraphComponent() {
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="pv" fill="#8884d8" />
-      <Bar dataKey="uv" fill="#82ca9d" />
-      <Bar dataKey="tt" fill="#12532" />
+      <Bar dataKey="매출" fill="#82ca9d" />
     </BarChart>
   );
 }

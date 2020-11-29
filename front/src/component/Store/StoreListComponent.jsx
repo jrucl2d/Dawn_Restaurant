@@ -24,7 +24,7 @@ function StoreListComponent() {
       try {
         const { data } = await axios.get("/stores/users/" + userInfo.userId);
         const initialData = [];
-        data.result.forEach((store, index) => {
+        data.result.forEach((store) => {
           initialData.push({
             storeId: store.storeId,
             storeName: store.storeTitle ? store.storeTitle : "",
@@ -69,7 +69,7 @@ function StoreListComponent() {
       }
 
       Promise.all(deleteSelected.map((v) => axios.delete("/stores/store/" + v)))
-        .then((result) => {
+        .then(() => {
           dispatch(deleteStore(deleteSelected));
           deleteBtnRef.current.className = "btn btn-warning notDeleting";
         })

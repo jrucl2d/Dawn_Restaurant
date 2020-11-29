@@ -8,7 +8,7 @@ const noResize = { resize: "none" };
 
 function StoreAddModalComponent({ showAddStore, setShowAddStore }) {
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.useReducer);
+  const userInfo = useSelector((state) => state.userReducer);
   const [imageURL, setImageURL] = useState(""); // base64 정보
   const [storeImage, setStoreImage] = useState(""); // 단순 파일 정보
   const [storeInfo, setStoreInfo] = useState({

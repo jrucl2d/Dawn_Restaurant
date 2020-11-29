@@ -174,3 +174,10 @@ hr {
   display: flex;
   justify-content: space-between;
 }
+.isCard {
+  display: flex;
+  justify-content: space-between;
+}
+.selectIsCard label {
+  margin-left: 5px;
+}
