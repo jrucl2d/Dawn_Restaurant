@@ -13,6 +13,7 @@ function StaffModifyModalComponent({
 }) {
   const dispatch = useDispatch();
   const [imageURL, setImageURL] = useState(staff.staffImage); // base64 정보
+  // eslint-disable-next-line
   const [staffImage, setStaffImage] = useState(""); // 단순 파일 정보
   const [staffInfo, setStaffInfo] = useState({
     staffName: staff.staffName,

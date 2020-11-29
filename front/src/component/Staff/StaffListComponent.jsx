@@ -28,6 +28,7 @@ function StaffListComponent({ storeId }) {
       });
       dispatch(initalStaff(theStaffs));
     })();
+    // eslint-disable-next-line
   }, []);
 
   return (

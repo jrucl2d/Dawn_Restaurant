@@ -8,6 +8,7 @@ import axios from "axios";
 function MenuModifyComponent({ deMenuEditMode, menu, storeId, imageURLFirst }) {
   const dispatch = useDispatch();
   const [imageURL, setImageURL] = useState(imageURLFirst); // base64 정보
+  // eslint-disable-next-line
   const [menuImage, setMenuImage] = useState(""); // 단순 파일 정보
   const [menuInfo, setMenuInfo] = useState({
     menuName: menu.menuName,

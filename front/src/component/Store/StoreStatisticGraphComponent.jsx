@@ -85,7 +85,7 @@ function StoreStatisticGraphComponent({ orders }) {
       }
     });
     setData(calData);
-  }, []);
+  }, [orders]);
 
   return (
     <LineChart

@@ -21,7 +21,7 @@ const Login = ({ history }) => {
     }
     (async () => {
       try {
-        const jwt = await axios.post("/login", {
+        await axios.post("/login", {
           username: info.email,
           password: info.password,
         });

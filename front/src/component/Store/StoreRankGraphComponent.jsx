@@ -10,21 +10,6 @@ import {
 } from "recharts";
 import axios from "axios";
 
-const data = [
-  {
-    name: "바보 파..",
-    uv: 1890,
-    pv: 4800,
-    tt: 4000,
-  },
-  {
-    name: "멍청이..",
-    uv: 2390,
-    pv: 3800,
-    tt: 3400,
-  },
-];
-
 function StoreRankGraphComponent() {
   const [theData, setTheData] = useState([]);
   useEffect(() => {
