@@ -23,7 +23,7 @@ function OrderComponent({ order }) {
   const onClickStatus = (e) => {
     const selectedStatus = e.target.innerHTML;
     (async () => {
-      const result = await axios.put("/order", {
+      await axios.put("/order", {
         orderId: order.orderId,
         orderStatus: orderStatusList.findIndex((v) => v === selectedStatus),
       });
@@ -41,7 +41,7 @@ function OrderComponent({ order }) {
 
   const onClickDeleteOrder = () => {
     (async () => {
-      const result = await axios.put("/order", {
+      await axios.put("/order", {
         orderId: order.orderId,
         orderStatus: 4,
       });
