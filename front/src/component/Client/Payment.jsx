@@ -7,7 +7,6 @@ import { setOrderId } from "../../modules/orderReducer";
 const Payment = ({ history }) => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderReducer);
-  const userInfo = useSelector((state) => state.userReducer);
   const [isCard, setIsCard] = useState(false);
   const [info, setInfo] = useState({
     num: 0,
@@ -30,7 +29,7 @@ const Payment = ({ history }) => {
     });
     const sendingData = {
       storeId: orders[0].storeId,
-      userId: userInfo.userId,
+      userId: localStorage.getItem("userId"),
       menusOrders: menuData,
     };
     (async () => {
@@ -72,7 +71,7 @@ const Payment = ({ history }) => {
                 id="noCard"
                 checked={!isCard && true}
                 name="isCard"
-                onClick={() => setIsCard(false)}
+                onChange={() => setIsCard(false)}
               />
               <label htmlFor="Card">카드</label>
               <input
@@ -80,7 +79,7 @@ const Payment = ({ history }) => {
                 id="Card"
                 name="isCard"
                 checked={isCard && true}
-                onClick={() => setIsCard(true)}
+                onChange={() => setIsCard(true)}
               />
             </span>
           </div>

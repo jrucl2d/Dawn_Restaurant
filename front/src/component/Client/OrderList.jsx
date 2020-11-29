@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 const OrderList = () => {
   const orders = useSelector((state) => state.orderReducer);
 
-  console.log(orders);
   return (
     <div className="auth-wrapper">
       <div className="auth-inner">
