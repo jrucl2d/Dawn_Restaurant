@@ -89,10 +89,10 @@ function StaffModifyModalComponent({
           staffImage: result.data.result.profileImageURL,
         })
       );
+      alert("직원 정보를 수정했습니다.");
+      onClickClose();
+      window.location.reload();
     })();
-
-    alert("직원 정보를 수정했습니다.");
-    onClickClose();
   };
   const onClickDelete = () => {
     if (window.confirm("정말 직원 정보를 삭제하시겠습니까?")) {
@@ -145,6 +145,7 @@ function StaffModifyModalComponent({
                   placeholder="생년월일"
                   name="staffBirth"
                   onChange={onChangeStaffInfo}
+                  value={staffInfo.staffBirth}
                 />
               </InputGroup.Append>
             </InputGroup>

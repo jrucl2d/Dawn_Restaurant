@@ -16,7 +16,7 @@ import java.util.List;
 public class User extends BaseAuditorEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userId")
     private int userId;
 

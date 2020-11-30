@@ -98,10 +98,10 @@ function StaffAddModalComponent({ showModal, setShowModal, storeId }) {
           staffImage: result.data.result.profileImageURL,
         })
       );
+      alert("새로운 직원 정보를 등록했습니다.");
+      onClickClose();
+      window.location.reload();
     })();
-
-    alert("새로운 직원 정보를 등록했습니다.");
-    onClickClose();
   };
 
   return (

@@ -20,7 +20,7 @@ import static com.dawn.common.CloudConstants.CloudStorageBaseURL;
 @ToString
 public class Store {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int storeId;
 
     @Column

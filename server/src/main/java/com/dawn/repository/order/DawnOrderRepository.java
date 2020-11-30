@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface DawnOrderRepository extends JpaRepository<DawnOrder, Integer>, CustomDawnOrderRepository {
 
-    @Query(value = "select store_title,  sum(total_price) from dawn_order, store where store.store_id=dawn_order.store_store_id and store.user_id=?1 group by store_store_id", nativeQuery = true)
+    @Query(value = "select store_title,  sum(total_price) from dawn_order, store where store.store_id=dawn_order.store_store_id and store.user_id=?1 and dawn_order.order_status=4 group by store_store_id", nativeQuery = true)
     List<Object[]> getAllTotal(int userId);
 
     @Modifying

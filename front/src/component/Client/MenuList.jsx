@@ -4,7 +4,7 @@ import Menu from "./Menu";
 import { useDispatch } from "react-redux";
 import { clientOrder } from "../../modules/orderReducer";
 
-const storeID = 2;
+const storeID = 1;
 
 // 메뉴 컴포넌트를 버튼으로 만들어서 누를 때마다 각자 아이디로 카운트
 const MenuList = ({ history }) => {

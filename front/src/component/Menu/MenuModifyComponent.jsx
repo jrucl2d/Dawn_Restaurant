@@ -38,7 +38,7 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId, imageURLFirst }) {
     });
   };
   const onClickSave = () => {
-    if (menuInfo.menuName === "" || menuInfo.storePrice === "") {
+    if (menuInfo.menuName === "" || menuInfo.menuPrice === 0) {
       alert("필요한 정보를 모두 입력해야 합니다.");
       return;
     }
@@ -61,14 +61,15 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId, imageURLFirst }) {
           storeId,
           menuId: result.data.result.menuId,
           menuName: result.data.result.menuTitle,
-          menuPrice: result.data.result.menuPrice,
-          menuIntroduce: result.data.result.menuDescription,
+          menuPrice: menu.menuPrice,
+          menuIntroduce: menu.menuIntroduce,
           menuImage: menu.imageURL,
           tmpURL: imageURL,
         })
       );
       alert("메뉴 정보를 수정했습니다.");
       deMenuEditMode();
+      window.location.reload();
     })();
   };
   const onClickDelete = async () => {

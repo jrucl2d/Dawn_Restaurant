@@ -32,6 +32,7 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
   };
 
   const onChangeMenuInfo = (e) => {
+    console.log(e.target.name, e.target.value);
     setMenuInfo({
       ...menuInfo,
       [e.target.name]: e.target.value,
@@ -48,7 +49,7 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
     setShowModal(false);
   };
   const onClickSave = () => {
-    if (menuInfo.menuName === "" || menuInfo.storePrice === "") {
+    if (menuInfo.menuName === "" || menuInfo.menuPrice === 0) {
       alert("필요한 정보를 모두 입력해야 합니다.");
       return;
     }
@@ -62,7 +63,7 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
         storeId: +storeId,
         menuTitle: menuInfo.menuName,
         menuDescription: menuInfo.menuIntroduce,
-        price: +menuInfo.menuPrice,
+        price: menuInfo.menuPrice,
       };
       formData.append("menu", JSON.stringify(forSend));
       formData.append("menuImage", menuImage);
@@ -82,8 +83,8 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
           storeId,
           menuId: result.data.result.menuId,
           menuName: result.data.result.menuTitle,
-          menuPrice: result.data.result.menuPrice,
-          menuIntroduce: result.data.result.menuDescription,
+          menuPrice: menuInfo.menuPrice,
+          menuIntroduce: menuInfo.menuIntroduce,
           menuImage: result.data.result.imageURL,
           tmpURL: imageURL,
         })

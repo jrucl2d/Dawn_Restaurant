@@ -19,7 +19,7 @@ import java.util.Date;
 public class Staff {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int staffId;
 
     @ManyToOne
