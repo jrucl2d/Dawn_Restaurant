@@ -145,7 +145,6 @@ function StaffModifyModalComponent({
                   placeholder="생년월일"
                   name="staffBirth"
                   onChange={onChangeStaffInfo}
-                  value={staffInfo.staffBirth}
                 />
               </InputGroup.Append>
             </InputGroup>
