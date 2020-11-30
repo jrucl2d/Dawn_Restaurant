@@ -20,11 +20,15 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId, imageURLFirst }) {
     e.preventDefault();
     let reader = new FileReader();
     const file = e.target.files[0];
-    reader.onloadend = () => {
-      setMenuImage(file);
-      setImageURL(reader.result);
-    };
-    reader.readAsDataURL(file);
+    try {
+      reader.onloadend = () => {
+        setMenuImage(file);
+        setImageURL(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const onChangeMenuInfo = (e) => {
@@ -60,6 +64,7 @@ function MenuModifyComponent({ deMenuEditMode, menu, storeId, imageURLFirst }) {
           menuPrice: result.data.result.menuPrice,
           menuIntroduce: result.data.result.menuDescription,
           menuImage: menu.imageURL,
+          tmpURL: imageURL,
         })
       );
       alert("메뉴 정보를 수정했습니다.");

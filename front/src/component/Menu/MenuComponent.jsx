@@ -30,7 +30,9 @@ function MenuComponent({
         <div>
           <MenuModifyComponent
             imageURLFirst={
-              "https://storage.googleapis.com/sogong/" + menu.menuImage
+              menu.tmpURL
+                ? menu.tmpURL
+                : `https://storage.googleapis.com/sogong/${menu.menuImage}`
             }
             menu={menu}
             deMenuEditMode={deMenuEditMode}
@@ -43,7 +45,11 @@ function MenuComponent({
             <div id="menuNoImage">메뉴 이미지가 없습니다</div>
           ) : (
             <img
-              src={"https://storage.googleapis.com/sogong/" + menu.menuImage}
+              src={
+                menu.tmpURL
+                  ? menu.tmpURL
+                  : `https://storage.googleapis.com/sogong/${menu.menuImage}`
+              }
               alt="음식사진"
             />
           )}

@@ -23,11 +23,15 @@ function StaffAddModalComponent({ showModal, setShowModal, storeId }) {
     e.preventDefault();
     let reader = new FileReader();
     const file = e.target.files[0];
-    reader.onloadend = () => {
-      setStaffImage(file);
-      setImageURL(reader.result);
-    };
-    reader.readAsDataURL(file);
+    try {
+      reader.onloadend = () => {
+        setStaffImage(file);
+        setImageURL(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const onChangeStaffInfo = (e) => {

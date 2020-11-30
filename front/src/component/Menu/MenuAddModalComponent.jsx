@@ -20,11 +20,15 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
     e.preventDefault();
     let reader = new FileReader();
     const file = e.target.files[0];
-    reader.onloadend = () => {
-      setMenuImage(file);
-      setImageURL(reader.result);
-    };
-    reader.readAsDataURL(file);
+    try {
+      reader.onloadend = () => {
+        setMenuImage(file);
+        setImageURL(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const onChangeMenuInfo = (e) => {
@@ -81,6 +85,7 @@ function MenuAddModalComponent({ showModal, setShowModal, storeId }) {
           menuPrice: result.data.result.menuPrice,
           menuIntroduce: result.data.result.menuDescription,
           menuImage: result.data.result.imageURL,
+          tmpURL: imageURL,
         })
       );
     })();

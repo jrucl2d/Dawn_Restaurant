@@ -12,6 +12,7 @@ function OrderListComponent({ storeId }) {
   useEffect(() => {
     (async () => {
       const { data } = await axios.get(`/stores/store/${storeId}/sales`);
+      console.log(data);
       const theOrders = data.result.orders;
       const forSet = [];
       theOrders.forEach((order) => {
