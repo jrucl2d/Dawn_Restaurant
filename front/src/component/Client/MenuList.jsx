@@ -36,6 +36,7 @@ const MenuList = ({ history }) => {
   const onClickCancel = () => {
     alert("선택이 취소되었습니다!");
     setQuantity({});
+    setTotal(0);
   };
   const onClickGo = (e) => {
     e.preventDefault();
